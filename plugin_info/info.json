@@ -1,0 +1,8 @@
+{
+	"id" : "geotrav",
+	"name" : "Localisation et Trajet",
+	"licence" : "AGPL",
+	"author" : "lunarok",
+	"require" : "3.0",
+	"category" : "organization"
+}
