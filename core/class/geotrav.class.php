@@ -34,57 +34,6 @@ class geotrav extends eqLogic {
 }
 
 class geotravCmd extends cmd {
-    function get_driving_information($start, $finish, $highways = true) {
-        if (strcmp($start, $finish) == 0) {
-            return array('distance' => 0, 'time' => 0);
-        }
-        $start = urlencode($start);
-        $finish = urlencode($finish);
-        $distance = __('Inconnue', __FILE__);
-        $time = __('Inconnue', __FILE__);
-        $url = 'http://maps.googleapis.com/maps/api/directions/xml?origin=' . $start . '&destination=' . $finish . '&sensor=false';
-        if (!$highways) {
-            $url .= '&avoid=highways';
-        }
-        if ($data = file_get_contents($url)) {
-            $xml = new SimpleXMLElement($data);
-            if (isset($xml->route->leg->duration->value) AND (int) $xml->route->leg->duration->value > 0) {
-                $distance = (int) $xml->route->leg->distance->value / 1000;
-                $distance = round($distance, 1);
-                $time = (int) $xml->route->leg->duration->value;
-                $time = floor($time / 60);
-            } else {
-                throw new Exception(__('Impossible de trouver une route', __FILE__));
-            }
-            return array('distance' => $distance, 'time' => $time);
-        } else {
-            throw new Exception(__('Impossible de resoudre l\'url', __FILE__));
-        }
-    }
-
-    function setDependency() {
-        $fromto = array('from' => '#' . $this->getConfiguration('from') . '#', 'to' => '#' . $this->getConfiguration('to') . '#');
-        $dependency = '';
-        foreach ($fromto as $key => $value) {
-            preg_match_all("/#([0-9]*)#/", $value, $matches);
-            foreach ($matches[1] as $cmd_id) {
-                if (is_numeric($cmd_id)) {
-                    $cmd = self::byId($cmd_id);
-                    if (is_object($cmd) && $cmd->getType() == 'info') {
-                        if (strpos($dependency, '#' . $cmd_id . '#') === false) {
-                            $dependency .= '#' . $cmd_id . '#';
-                        }
-                    }
-                }
-            }
-        }
-        if ($this->getValue() != $dependency) {
-            $this->setValue($dependency);
-            return true;
-        }
-        return false;
-
-    }
 
     function distance($lat1, $lng1, $lat2, $lng2) {
         $earth_radius = 6378.137; // Terre = sphère de 6378km de rayon
@@ -100,57 +49,11 @@ class geotravCmd extends cmd {
     }
 
     public function execute($_options = array()) {
-        switch ($this->getConfiguration('mode')) {
-            case 'fixe':
+        switch ($cmd->getEqLogic()->getConfiguration('type')) {
+            case 'location':
             $result = $this->getConfiguration('coordinate');
             return $result;
-            case 'distance':
-            $from = cmd::byId($this->getConfiguration('from'));
-            $to = cmd::byId($this->getConfiguration('to'));
-            if (!is_object($from)) {
-                throw new Exception(__('Commande point de départ introuvable : ', __FILE__) . $this->getConfiguration('from'));
-            }
-            if (!is_object($to)) {
-                throw new Exception(__('Commande point d\'arrivé introuvable : ', __FILE__) . $this->getConfiguration('to'));
-            }
-            $to = explode(',', $to->execCmd());
-            $from = explode(',', $from->execCmd());
-            if (count($to) > 2) {
-                $to[2] = implode(',', array_slice($to, 1));
-            }
-            if (count($from) > 2) {
-                $from[2] = implode(',', array_slice($from, 1));
-            }
-            if (count($to) == 2 && count($from) == 2) {
-                return self::distance($from[0], $from[1], $to[0], $to[1]);
-            }
-            return 0;
-            case 'travelTime':
-            $from = cmd::byId($this->getConfiguration('from'));
-            $to = cmd::byId($this->getConfiguration('to'));
-            try {
-                $highways = true;
-                if ($this->getConfiguration('noHighways', 0) == 1) {
-                    $highways = false;
-                }
-                $result = self::get_driving_information($from->execCmd(), $to->execCmd(), $highways);
-                return $result['time'];
-            } catch (Exception $e) {
-                return 0;
-            }
-            case 'travelDistance':
-            $from = cmd::byId($this->getConfiguration('from'));
-            $to = cmd::byId($this->getConfiguration('to'));
-            try {
-                $highways = true;
-                if ($this->getConfiguration('noHighways', 0) == 1) {
-                    $highways = false;
-                }
-                $result = self::get_driving_information($from->execCmd(), $to->execCmd(), $highways);
-                return $result['distance'];
-            } catch (Exception $e) {
-                return 0;
-            }
+
         }
     }
 

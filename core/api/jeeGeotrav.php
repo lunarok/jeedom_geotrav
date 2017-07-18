@@ -34,7 +34,7 @@ if (!is_object($cmd)) {
 if ($cmd->getEqLogic()->getEqType_name() != 'geotrav') {
     throw new Exception(__('Cette commande n\'est pas de type geotrav : ', __FILE__) . init('id'));
 }
-if ($cmd->getEqLogic()->getConfiguration('type') != 'loc') {
+if ($cmd->getEqLogic()->getConfiguration('type') != 'location') {
     throw new Exception(__('Cette commande geotrav n\'est pas une localisation : ', __FILE__) . init('id'));
 }
 $value = init('value');
