@@ -1,0 +1,129 @@
+{
+    "name": "location",
+    "commands": [
+        {
+            "name": "Mettre à jour les coordonnées",
+            "type": "action",
+            "subtype": "message",
+            "display": {
+				"generic_type": "DONT",
+                "title_disable": 1,
+                "message_placeholder" : "Longitude,Latitude"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:updateCoo"
+        },
+        {
+            "name": "Mettre à jour par adresse",
+            "type": "action",
+            "subtype": "message",
+            "display": {
+				"generic_type": "DONT",
+                "title_disable": 1,
+                "message_placeholder" : "Adresse"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:updateAdr"
+        },
+        {
+            "name": "Longitude",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:longitude"
+        },
+        {
+            "name": "Latitude",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:latitude"
+        },
+        {
+            "name": "Coordonnées",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:coordinate"
+        },
+        {
+            "name": "Adresse",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:adress"
+        },
+        {
+            "name": "Code Postal",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:zip"
+        },
+        {
+            "name": "Ville",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:city"
+        },
+        {
+            "name": "Département",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:district"
+        },
+        {
+            "name": "Pays",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:country"
+        }
+    ]
+}
