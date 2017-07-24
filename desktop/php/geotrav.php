@@ -87,15 +87,22 @@ $eqLogics = eqLogic::byType('geotrav');
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" >{{Type de localisation/trajet}}</label>
+                            <div class="col-sm-3">
+                                <select id="typeEq" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="type">
+                                    <option value="location">{{Localisation}}</option>
+                                </select>
+                            </div>
+                        </div>
+
                     </fieldset>
                 </form>
             </div>
 
             <div role="tabpanel" class="tab-pane" id="commandtab">
                 <br/>
-                <div class="alert alert-info">Exemple d’URL à appeler avec tasker : <?php echo network::getNetworkAccess('external')?>/plugins/geotrav/core/api/jeegeotrav.php?api=<?php echo  jeedom::getApiKey('geotrav');?>&id=#ID_CMD#&value=%LOCN</div>
-                <a class="btn btn-success btn-sm pull-right cmdAction" data-action="add"><i class="fa fa-plus-circle"></i> {{Commandes}}</a>
-                <a class="control-label pull-left" href="http://www.coordonnees-gps.fr/" target="_blank"><i class="icon nature-planet5"></i>{{Cliquez-ici pour retrouver vos coordonnées}}</a><br/><br/>
+                <div class="alert alert-info">Exemple d’URL à appeler avec tasker : <?php echo network::getNetworkAccess('external')?>/plugins/geotrav/core/api/jeeGeotrav.php?api=<?php echo  jeedom::getApiKey('geotrav');?>&id=#ID_CMD#&value=%LOCN</div>
                 <table id="table_cmd" class="table table-bordered table-condensed">
                     <thead>
                         <tr>

@@ -37,15 +37,9 @@ if ($cmd->getEqLogic()->getEqType_name() != 'geotrav') {
 if ($cmd->getEqLogic()->getConfiguration('type') != 'location') {
     throw new Exception(__('Cette commande geotrav n\'est pas une localisation : ', __FILE__) . init('id'));
 }
-$value = init('value');
-/*à mettre dans une fonction classe
-$cmd->event($value);
-$cmd->setConfiguration('geoloc',$value);
-$cmd->setConfiguration('long',$value);
-$cmd->setConfiguration('latitude',$value);
-$cmd->getEqLogic()->refreshWidget();
-*/
+
+//$value = init('value');
+$cmd->execute(init('value'));
 
 return true;
-
 ?>
