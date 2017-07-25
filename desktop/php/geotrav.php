@@ -25,18 +25,20 @@ $eqLogics = eqLogic::byType('geotrav');
         <legend><i class="icon nature-planet5"></i> {{Mes équipements localisation et trajets}}
         </legend>
         <div class="eqLogicThumbnailContainer">
-            <div class="cursor eqLogicAction" data-action="add" style="text-align: center; background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
-                <i class="fa fa-plus-circle" style="font-size : 7em;color:#94ca02;"></i>
-                <br>
-                <span style="font-size : 1.1em;position:relative; top : 23px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#94ca02">Ajouter</span>
+            <div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
+                <center>
+                    <i class="fa fa-plus-circle" style="font-size : 7em;color:#00979c;"></i>
+                </center>
+                <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>Ajouter</center></span>
             </div>
             <?php
             foreach ($eqLogics as $eqLogic) {
                 $opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
-                echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="text-align: center; background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
+                echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff ; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
+                echo "<center>";
                 echo '<img src="plugins/geotrav/doc/images/geotrav_icon.png" height="105" width="95" />';
-                echo "<br>";
-                echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">' . $eqLogic->getHumanName(true, true) . '</span>';
+                echo "</center>";
+                echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
                 echo '</div>';
             }
             ?>
@@ -88,7 +90,7 @@ $eqLogics = eqLogic::byType('geotrav');
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label" >{{Type de localisation/trajet}}</label>
+                            <label class="col-sm-2 control-label" >{{Type de localisation/trajet}}</label>
                             <div class="col-sm-3">
                                 <select id="typeEq" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="type">
                                     <option value="location">{{Localisation}}</option>

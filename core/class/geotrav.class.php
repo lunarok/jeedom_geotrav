@@ -21,14 +21,39 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class geotrav extends eqLogic {
 
-    public static function start() {
-        foreach (eqLogic::byType('geotrav', true) as $geotrav) {
-            if ($geotrav->getConfiguration('type') == 'geoloc') {
-                foreach ($geotrav->getCmd('info') as $geotravcmd) {
-                    $geotravcmd->event($geotravcmd->getConfiguration('coordinate'));
+    public function loadCmdFromConf($type) {
+		if (!is_file(dirname(__FILE__) . '/../config/devices/' . $type . '.json')) {
+			return;
+		}
+		$content = file_get_contents(dirname(__FILE__) . '/../config/devices/' . $type . '.json');
+		if (!is_json($content)) {
+			return;
+		}
+		$device = json_decode($content, true);
+		if (!is_array($device) || !isset($device['commands'])) {
+			return true;
+		}
+		/*$this->import($device);*/
+        foreach ($device['commands'] as $command) {
+            $cmd = null;
+            foreach ($this->getCmd() as $liste_cmd) {
+                if ((isset($command['logicalId']) && $liste_cmd->getLogicalId() == $command['logicalId'])
+                    || (isset($command['name']) && $liste_cmd->getName() == $command['name'])) {
+                    $cmd = $liste_cmd;
+                    break;
                 }
             }
+            if ($cmd == null || !is_object($cmd)) {
+                $cmd = new geotravCmd();
+                $cmd->setEqLogic_id($this->getId());
+                utils::a2o($cmd, $command);
+                $cmd->save();
+            }
         }
+	}
+
+    public function postAjax() {
+        $this->loadCmdFromConf($this->getConfiguration('type'));
     }
 
 }
