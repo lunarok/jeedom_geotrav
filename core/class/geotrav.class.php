@@ -74,11 +74,14 @@ class geotravCmd extends cmd {
     }
 
     public function execute($_options = array()) {
-        switch ($cmd->getEqLogic()->getConfiguration('type')) {
-            case 'location':
-            $result = $this->getConfiguration('coordinate');
-            return $result;
-
+        $eqLogic = $this->getEqLogic();
+        switch ($eqLogic->getConfiguration('type')) {
+            case 'location:updateCoo':
+            $geoloctab = explode(',', trim($_options['message']));
+            $eqLogic->checkAndUpdateCmd('location:latitude', trim($geoloctab[0]));
+            $eqLogic->checkAndUpdateCmd('location:longitude', trim($geoloctab[1]));
+            $eqLogic->checkAndUpdateCmd('location:coordinate', trim($_options['message']));
+            break;
         }
     }
 

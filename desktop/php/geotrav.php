@@ -111,7 +111,7 @@ $eqLogics = eqLogic::byType('geotrav');
                             <th style="width: 50px;">#</th>
                             <th style="width: 200px;">{{Nom}}</th>
                             <th style="width: 200px;">{{Type}}</th>
-                            <th>{{Options}}</th>
+                            <th>{{Valeur}}</th>
                             <th style="width: 100px;">{{Paramètres}}</th>
                             <th style="width: 150px;"></th>
                         </tr>
