@@ -56,6 +56,18 @@ class geotrav extends eqLogic {
         $this->loadCmdFromConf($this->getConfiguration('type'));
     }
 
+    public function updateGeocodingReverse($geoloc) {
+        if ($geoloc == '' || strrpos(',',$geoloc) === false) {
+            log::add('geotrav', 'error', 'Coordonnées invalides ' . $geoloc);
+        }
+        $geoloctab = explode(',', $geoloc);
+        $this->checkAndUpdateCmd('location:latitude', trim($geoloctab[0]));
+        $this->checkAndUpdateCmd('location:longitude', trim($geoloctab[1]));
+        $this->checkAndUpdateCmd('location:coordinate', $geoloc);
+    }
+
+
+
 }
 
 class geotravCmd extends cmd {
@@ -77,10 +89,7 @@ class geotravCmd extends cmd {
         $eqLogic = $this->getEqLogic();
         switch ($eqLogic->getConfiguration('type')) {
             case 'location:updateCoo':
-            $geoloctab = explode(',', trim($_options['message']));
-            $eqLogic->checkAndUpdateCmd('location:latitude', trim($geoloctab[0]));
-            $eqLogic->checkAndUpdateCmd('location:longitude', trim($geoloctab[1]));
-            $eqLogic->checkAndUpdateCmd('location:coordinate', trim($_options['message']));
+            $eqLogic->updateGeocodingReverse(trim($_options['message']));
             break;
         }
     }
