@@ -32,7 +32,7 @@ function addCmdToTable(_cmd) {
     tr += '</td>';
     tr += '<td>';
     tr += '<span class="cmdAttr form-control input-sm" data-l1key="type"></span>';
-    tr += '<span class="cmdAttr form-control input-sm" data-l1key="subtype"></span>';
+    tr += '<span class="cmdAttr form-control input-sm" data-l1key="subType"></span>';
     tr += '</td>';
     tr += '<td>';
     tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="value">';
