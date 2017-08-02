@@ -70,7 +70,7 @@ class geotrav extends eqLogic {
 
     public function updateGeocoding($address) {
         log::add('geotrav', 'debug', 'Adresse ' . $address);
-        $url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&key=' . config::byKey('keyGMG','geotrav');;
+        $url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . config::byKey('keyGMG','geotrav');;
         $data = file_get_contents($url);
         $jsondata = json_decode($data,true);
         $this->updateLocation($jsondata);
