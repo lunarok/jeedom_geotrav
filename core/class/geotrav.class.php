@@ -62,13 +62,25 @@ class geotrav extends eqLogic {
             log::add('geotrav', 'error', 'Coordonnées invalides ' . $geoloc);
         }
         $geoloctab = explode(',', $geoloc);
-        $this->checkAndUpdateCmd('location:latitude', trim($geoloctab[0]));
-        $this->checkAndUpdateCmd('location:longitude', trim($geoloctab[1]));
-        $this->checkAndUpdateCmd('location:coordinate', $geoloc);
         $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG','geotrav');;
         $data = file_get_contents($url);
         $jsondata = json_decode($data,true);
-        $this->checkAndUpdateCmd('location:adress', $jsondata['results'][0]['address_components']['formatted_address']);
+        $this->updateLocation($jsondata);
+    }
+
+    public function updateGeocoding($address) {
+        log::add('geotrav', 'debug', 'Adresse ' . $address);
+        $url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&key=' . config::byKey('keyGMG','geotrav');;
+        $data = file_get_contents($url);
+        $jsondata = json_decode($data,true);
+        $this->updateLocation($jsondata);
+    }
+
+    public function updateLocation($jsondata) {
+        $this->checkAndUpdateCmd('location:latitude', $jsondata['results'][0]['geometry']['location']['latitude']);
+        $this->checkAndUpdateCmd('location:longitude', $jsondata['results'][0]['geometry']['location']['longitude']);
+        $this->checkAndUpdateCmd('location:coordinate', $jsondata['results'][0]['geometry']['location']['latitude'] . ',' . $jsondata['results'][0]['geometry']['location']['longitude']);
+        $this->checkAndUpdateCmd('location:address', $jsondata['results'][0]['address_components']['formatted_address']);
         $this->checkAndUpdateCmd('location:street', $jsondata['results'][0]['address_components'][0]['long_name'] . ' ' . $jsondata['results'][0]['address_components'][1]['long_name']);
         $this->checkAndUpdateCmd('location:city', $jsondata['results'][0]['address_components'][2]['long_name']);
         $this->checkAndUpdateCmd('location:zip', $jsondata['results'][0]['address_components'][6]['long_name']);
@@ -76,24 +88,9 @@ class geotrav extends eqLogic {
         $this->checkAndUpdateCmd('location:district', $jsondata['results'][0]['address_components'][3]['long_name']);
     }
 
-
-
 }
 
 class geotravCmd extends cmd {
-
-    function distance($lat1, $lng1, $lat2, $lng2) {
-        $earth_radius = 6378.137; // Terre = sphère de 6378km de rayon
-        $rlo1 = deg2rad($lng1);
-        $rla1 = deg2rad($lat1);
-        $rlo2 = deg2rad($lng2);
-        $rla2 = deg2rad($lat2);
-        $dlo = ($rlo2 - $rlo1) / 2;
-        $dla = ($rla2 - $rla1) / 2;
-        $a = (sin($dla) * sin($dla)) + cos($rla1) * cos($rla2) * (sin($dlo) * sin($dlo));
-        $d = 2 * atan2(sqrt($a), sqrt(1 - $a));
-        return round(($earth_radius * $d), 2);
-    }
 
     public function execute($_options = array()) {
         $eqLogic = $this->getEqLogic();
@@ -101,6 +98,9 @@ class geotravCmd extends cmd {
         switch ($this->getLogicalId()) {
             case 'location:updateCoo':
             $eqLogic->updateGeocodingReverse(trim($_options['message']));
+            break;
+            case 'location:updateAdr':
+            $eqLogic->updateGeocoding(trim($_options['message']));
             break;
         }
     }

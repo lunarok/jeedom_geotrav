@@ -75,7 +75,7 @@
             "configuration": {
 				"type": "location"
             },
-            "logicalId": "location:adress"
+            "logicalId": "location:address"
         },
         {
             "name": "Rue",
