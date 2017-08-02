@@ -32,14 +32,7 @@ if (!isConnect()) {
             <form class="form-horizontal">
                 <div class="form-group">
                     <fieldset>
-
-                        <div class="form-group">
-                            <label class="col-lg-4 control-label"><a href='https://developers.openrouteservice.org/portal/apis/'>API OpenRouteService</a></label>
-                            <div class="col-lg-4">
-                                <input class="configKey form-control" data-l1key="keyORS" style="margin-top:5px" placeholder=""/>
-                            </div>
-                        </div>
-
+                      
                         <div class="form-group">
                             <label class="col-lg-4 control-label"><a href='https://developers.google.com/maps/documentation/geocoding/start#get-a-key'>API Google Maps Geocoding</a></label>
                             <div class="col-lg-4">

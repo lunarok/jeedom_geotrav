@@ -78,6 +78,18 @@
             "logicalId": "location:adress"
         },
         {
+            "name": "Rue",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:street"
+        },
+        {
             "name": "Code Postal",
             "type": "info",
             "subtype": "string",
