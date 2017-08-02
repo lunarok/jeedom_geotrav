@@ -65,7 +65,7 @@ class geotrav extends eqLogic {
         $this->checkAndUpdateCmd('location:latitude', trim($geoloctab[0]));
         $this->checkAndUpdateCmd('location:longitude', trim($geoloctab[1]));
         $this->checkAndUpdateCmd('location:coordinate', $geoloc);
-        $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . ;
+        $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG','geotrav');;
         $data = file_get_contents($url);
         $jsondata = json_decode($data,true);
         $this->checkAndUpdateCmd('location:adress', $jsondata['results'][0]['address_components']['formatted_address']);
