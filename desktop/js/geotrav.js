@@ -35,9 +35,6 @@ function addCmdToTable(_cmd) {
     tr += '<span class="cmdAttr form-control input-sm" data-l1key="subType"></span>';
     tr += '</td>';
     tr += '<td>';
-    tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="value">';
-    tr += '</td>';
-    tr += '<td>';
     if (init(_cmd.subType) == 'numeric' || init(_cmd.subType) == 'binary') {
         tr += '<label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isHistorized" data-size="mini" checked/>{{Historiser}}</label></span> ';
     }
