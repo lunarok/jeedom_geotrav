@@ -77,10 +77,10 @@ class geotrav extends eqLogic {
     }
 
     public function updateLocation($jsondata) {
-        $this->checkAndUpdateCmd('location:latitude', $jsondata['results'][0]['geometry']['location']['latitude']);
-        $this->checkAndUpdateCmd('location:longitude', $jsondata['results'][0]['geometry']['location']['longitude']);
-        $this->checkAndUpdateCmd('location:coordinate', $jsondata['results'][0]['geometry']['location']['latitude'] . ',' . $jsondata['results'][0]['geometry']['location']['longitude']);
-        $this->checkAndUpdateCmd('location:address', $jsondata['results'][0]['address_components']['formatted_address']);
+        $this->checkAndUpdateCmd('location:latitude', $jsondata['results'][0]['geometry']['location']['lat']);
+        $this->checkAndUpdateCmd('location:longitude', $jsondata['results'][0]['geometry']['location']['lng']);
+        $this->checkAndUpdateCmd('location:coordinate', $jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
+        $this->checkAndUpdateCmd('location:address', $jsondata['results'][0]['formatted_address']);
         $this->checkAndUpdateCmd('location:street', $jsondata['results'][0]['address_components'][0]['long_name'] . ' ' . $jsondata['results'][0]['address_components'][1]['long_name']);
         $this->checkAndUpdateCmd('location:city', $jsondata['results'][0]['address_components'][2]['long_name']);
         $this->checkAndUpdateCmd('location:zip', $jsondata['results'][0]['address_components'][6]['long_name']);
