@@ -54,6 +54,12 @@ class geotrav extends eqLogic {
 
     public function postAjax() {
         $this->loadCmdFromConf($this->getConfiguration('type'));
+        if ($this->getConfiguration('fieldcoordinate') != $this->getConfiguration('coordinate')) {
+          $this->updateGeocodingReverse($this->getConfiguration('fieldcoordinate'));
+        }
+        if ($this->getConfiguration('fieldaddress') != $this->getConfiguration('address')) {
+          $this->updateGeocoding($this->getConfiguration('fieldaddress'));
+        }
     }
 
     public function updateGeocodingReverse($geoloc) {
@@ -86,6 +92,11 @@ class geotrav extends eqLogic {
         $this->checkAndUpdateCmd('location:zip', $jsondata['results'][0]['address_components'][6]['long_name']);
         $this->checkAndUpdateCmd('location:country', $jsondata['results'][0]['address_components'][5]['long_name']);
         $this->checkAndUpdateCmd('location:district', $jsondata['results'][0]['address_components'][3]['long_name']);
+        $this->setConfiguration('coordinate',$jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
+        $this->setConfiguration('fieldcoordinate',$jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
+        $this->setConfiguration('address',$jsondata['results'][0]['formatted_address']);
+        $this->setConfiguration('fieldaddress',$jsondata['results'][0]['formatted_address']);
+        $this->save();
     }
 
 }

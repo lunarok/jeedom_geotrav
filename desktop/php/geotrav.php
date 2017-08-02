@@ -97,6 +97,18 @@ $eqLogics = eqLogic::byType('geotrav');
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">{{Coordonnées}}</label>
+                            <div class="col-sm-3">
+                                <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="fieldcoordinate" type="text" placeholder="{{saisir des coordonnées}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">{{Adresse}}</label>
+                            <div class="col-sm-3">
+                                <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="fieldaddress" type="text" placeholder="{{saisir une adresse}}">
+                            </div>
+                        </div>
 
                     </fieldset>
                 </form>
