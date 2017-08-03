@@ -102,6 +102,18 @@
             "logicalId": "location:zip"
         },
         {
+            "name": "Département",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:department"
+        },
+        {
             "name": "Ville",
             "type": "info",
             "subtype": "string",
