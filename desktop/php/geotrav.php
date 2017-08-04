@@ -92,21 +92,66 @@ $eqLogics = eqLogic::byType('geotrav');
                         <div class="form-group">
                             <label class="col-sm-2 control-label" >{{Type de localisation/trajet}}</label>
                             <div class="col-sm-3">
-                                <select id="typeEq" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="type">
+                                <select id="typeEq" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="type" id="typefield">
                                     <option value="location">{{Localisation}}</option>
+                                    <option value="zone">{{Distance/Zone}}</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">{{Coordonnées}}</label>
-                            <div class="col-sm-3">
-                                <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="fieldcoordinate" type="text" placeholder="{{saisir des coordonnées}}">
+                        <div id="location">
+                            <div class="form-group" id="coordinate">
+                                <label class="col-sm-2 control-label">{{Coordonnées}}</label>
+                                <div class="col-sm-3">
+                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="fieldcoordinate" type="text" placeholder="{{saisir des coordonnées}}">
+                                </div>
+                            </div>
+                            <div class="form-group" id="address">
+                                <label class="col-sm-2 control-label">{{Adresse}}</label>
+                                <div class="col-sm-3">
+                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="fieldaddress" type="text" placeholder="{{saisir une adresse}}">
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">{{Adresse}}</label>
-                            <div class="col-sm-3">
-                                <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="fieldaddress" type="text" placeholder="{{saisir une adresse}}">
+                        <div id="zone">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{Zone de présence}}</label>
+                                <div class="col-sm-3">
+                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="zoneConfiguration" type="text" placeholder="{{saisir une adresse}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="station">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{Station}}</label>
+                                <div class="col-sm-3">
+                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="stationPoint" type="text" placeholder="{{saisir des coordonnées}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{Options de configuration}}</label>
+                                <div class="col-sm-3">
+                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="stationOptions" type="text" placeholder="{{saisir une adresse}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="travel">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{Départ}}</label>
+                                <div class="col-sm-3">
+                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelDeparture" type="text" placeholder="{{saisir des coordonnées}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{Arrivée}}</label>
+                                <div class="col-sm-3">
+                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelArrival" type="text" placeholder="{{saisir une adresse}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{Options de voyage}}</label>
+                                <div class="col-sm-3">
+                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelOptions" type="text" placeholder="{{saisir une adresse}}">
+                                </div>
                             </div>
                         </div>
 
@@ -135,6 +180,23 @@ $eqLogics = eqLogic::byType('geotrav');
         </div>
     </div>
 </div>
+
+<script>
+$( "#typefield" ).change(function(){
+    if ($('#typefield').value() == 'location') {
+        $('#location').show();
+        $('#zone').hide();
+        $('#station').hide();
+        $('#travel').hide();
+    }
+    else if ($('#typefield').value() == 'zone') {
+        $('#location').hide();
+        $('#zone').show();
+        $('#station').hide();
+        $('#travel').hide();
+    }
+});
+</script>
 
 <?php include_file('desktop', 'geotrav', 'js', 'geotrav');?>
 <?php include_file('core', 'plugin.template', 'js');?>
