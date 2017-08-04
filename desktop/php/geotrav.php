@@ -92,9 +92,11 @@ $eqLogics = eqLogic::byType('geotrav');
                         <div class="form-group">
                             <label class="col-sm-2 control-label" >{{Type de localisation/trajet}}</label>
                             <div class="col-sm-3">
-                                <select id="typeEq" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="type" id="typefield">
+                                <select id="typeEq" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="type">
                                     <option value="location">{{Localisation}}</option>
                                     <option value="zone">{{Distance/Zone}}</option>
+                                    <option value="station">{{Arrêt Transports}}</option>
+                                    <option value="travel">{{Trajet}}</option>
                                 </select>
                             </div>
                         </div>
@@ -116,7 +118,7 @@ $eqLogics = eqLogic::byType('geotrav');
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">{{Zone de présence}}</label>
                                 <div class="col-sm-3">
-                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="zoneConfiguration" type="text" placeholder="{{saisir une adresse}}">
+                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="zoneConfiguration" type="text" placeholder="{{voir la doc}}">
                                 </div>
                             </div>
                         </div>
@@ -124,13 +126,13 @@ $eqLogics = eqLogic::byType('geotrav');
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">{{Station}}</label>
                                 <div class="col-sm-3">
-                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="stationPoint" type="text" placeholder="{{saisir des coordonnées}}">
+                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="stationPoint" type="text" placeholder="{{choisir la localisation}}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">{{Options de configuration}}</label>
                                 <div class="col-sm-3">
-                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="stationOptions" type="text" placeholder="{{saisir une adresse}}">
+                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="stationOptions" type="text" placeholder="{{voir la doc}}">
                                 </div>
                             </div>
                         </div>
@@ -138,19 +140,19 @@ $eqLogics = eqLogic::byType('geotrav');
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">{{Départ}}</label>
                                 <div class="col-sm-3">
-                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelDeparture" type="text" placeholder="{{saisir des coordonnées}}">
+                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelDeparture" type="text" placeholder="{{choisir la localisation}}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">{{Arrivée}}</label>
                                 <div class="col-sm-3">
-                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelArrival" type="text" placeholder="{{saisir une adresse}}">
+                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelArrival" type="text" placeholder="{{choisir la localisation}}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">{{Options de voyage}}</label>
                                 <div class="col-sm-3">
-                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelOptions" type="text" placeholder="{{saisir une adresse}}">
+                                    <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelOptions" type="text" placeholder="{{voir la doc}}">
                                 </div>
                             </div>
                         </div>
@@ -182,18 +184,30 @@ $eqLogics = eqLogic::byType('geotrav');
 </div>
 
 <script>
-$( "#typefield" ).change(function(){
+$( "#typeEq" ).change(function(){
     if ($('#typefield').value() == 'location') {
         $('#location').show();
         $('#zone').hide();
         $('#station').hide();
         $('#travel').hide();
     }
-    else if ($('#typefield').value() == 'zone') {
+    else if ($('#typeEq').value() == 'zone') {
         $('#location').hide();
         $('#zone').show();
         $('#station').hide();
         $('#travel').hide();
+    }
+    else if ($('#typeEq').value() == 'station') {
+        $('#location').hide();
+        $('#zone').hide();
+        $('#station').show();
+        $('#travel').hide();
+    }
+    else if ($('#typeEq').value() == 'travel') {
+        $('#location').hide();
+        $('#zone').hide();
+        $('#station').hide();
+        $('#travel').show();
     }
 });
 </script>
