@@ -32,16 +32,16 @@ if (!isConnect()) {
             <form class="form-horizontal">
                 <div class="form-group">
                     <fieldset>
-                      
+
                         <div class="form-group">
-                            <label class="col-lg-4 control-label"><a href='https://developers.google.com/maps/documentation/geocoding/start#get-a-key'>API Google Maps Geocoding</a></label>
+                            <label class="col-lg-4 control-label"><a href='https://developers.google.com/maps/documentation/geocoding/start#get-a-key' target="_blank">API Google Maps Geocoding</a></label>
                             <div class="col-lg-4">
                                 <input class="configKey form-control" data-l1key="keyGMG" style="margin-top:5px" placeholder=""/>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-4 control-label"><a href='https://developers.google.com/maps/documentation/directions/get-api-key'>API Google Maps Direction</a></label>
+                            <label class="col-lg-4 control-label"><a href='https://developers.google.com/maps/documentation/directions/get-api-key' target="_blank">API Google Maps Direction</a></label>
                             <div class="col-lg-4">
                                 <input class="configKey form-control" data-l1key="keyGMD" style="margin-top:5px" placeholder=""/>
                             </div>
