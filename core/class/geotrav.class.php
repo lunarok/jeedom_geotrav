@@ -18,7 +18,7 @@
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
-equire_once dirname(__FILE__) . '/../../vendor/autoload.php';
+require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 use Location\Coordinate;
 use Location\Distance\Vincenty;
 use Location\Polygon;
