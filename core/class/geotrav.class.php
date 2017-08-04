@@ -18,6 +18,10 @@
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+equire_once dirname(__FILE__) . '/../../vendor/autoload.php';
+use Location\Coordinate;
+use Location\Distance\Vincenty;
+use Location\Polygon;
 
 class geotrav extends eqLogic {
 
@@ -77,18 +81,6 @@ class geotrav extends eqLogic {
     $listener->setFunction('triggerGeo');
     $listener->setOption(array('geotrav' => 'global'));
     $listener->emptyEvent();
-    foreach ($zones as $zone) {
-      foreach ($zone['triggers'] as $trigger) {
-        if (isset($trigger['enable']) && $trigger['enable'] == 0) {
-          continue;
-        }
-        $cmd = cmd::byId(str_replace('#', '', $trigger['cmd']));
-        if (!is_object($cmd)) {
-          throw new Exception(__('Commande déclencheur inconnue : ' . $trigger['cmd'], __FILE__));
-        }
-        $listener->addEvent($trigger['cmd']);
-      }
-    }
     foreach (eqLogic::byType('geotrav', true) as $location) {
       if ($location->getConfiguration('type') == 'location') {
         $locationcmd = geotravCmd::byEqLogicIdAndLogicalId($location->getId(),'location:coordinate');
@@ -101,7 +93,7 @@ class geotrav extends eqLogic {
   public static function triggerGeo($_option) {
 		//$alarm = geotrav::byId($_option['geotrav']);//equal global
     log::add('geotrav', 'debug', 'Trigger ' . $_option['event_id'] . ' ' . $_option['value']);
-				//$alarm->execute($_option['event_id'], $_option['value']);
+		geotrav::updateGeofenceValues($_option['event_id'],$_option['value']);
 	}
 
   public function updateGeofencingCmd() {
@@ -134,13 +126,22 @@ class geotrav extends eqLogic {
     }
   }
 
-  public static function updateGeofenceValues($id) {
+  public static function updateGeofenceValues($id,$value) {
 		//$alarm = geotrav::byId($_option['geotrav']);//equal global
     foreach (eqLogic::byType('geotrav', true) as $geotrav) {
       if ($geotrav->getConfiguration('type') == 'geofence') {
         $zone = $geotrav->getConfiguration('zoneConfiguration');
-        $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'geofence:'.$id.'presence');
-        $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'geofence:'.$id.'distance');
+        $geofence = new Polygon();
+        $points = explode(';',$zone);
+        foreach ($points as $point) {
+          $geofence->addPoint(new Coordinate($point));
+        }
+        $position = new Coordinate($value);
+        $geotrav->checkAndUpdateCmd('geofence:'.$id.'presence', $geofence->contains($position));
+
+        $from = new Coordinate($points[0]);
+        $calculator = new Vincenty();
+        $geotrav->checkAndUpdateCmd('geofence:'.$id.'distance', $calculator->getDistance($from, $position));
       }
     }
 	}

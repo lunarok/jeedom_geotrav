@@ -94,7 +94,7 @@ $eqLogics = eqLogic::byType('geotrav');
                             <div class="col-sm-3">
                                 <select id="typeEq" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="type">
                                     <option value="location">{{Localisation}}</option>
-                                    <option value="geoence">{{Geofence}}</option>
+                                    <option value="geofence">{{Geofence}}</option>
                                     <option value="station">{{Arrêt Transports}}</option>
                                     <option value="travel">{{Trajet}}</option>
                                 </select>
@@ -114,7 +114,7 @@ $eqLogics = eqLogic::byType('geotrav');
                                 </div>
                             </div>
                         </div>
-                        <div id="geoence">
+                        <div id="geofence">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">{{Zone de présence}}</label>
                                 <div class="col-sm-3">
@@ -187,25 +187,25 @@ $eqLogics = eqLogic::byType('geotrav');
 $( "#typeEq" ).change(function(){
     if ($('#typeEq').value() == 'location') {
         $('#location').show();
-        $('#geoence').hide();
+        $('#geofence').hide();
         $('#station').hide();
         $('#travel').hide();
     }
-    else if ($('#typeEq').value() == 'geoence') {
+    else if ($('#typeEq').value() == 'geofence') {
         $('#location').hide();
-        $('#geoence').show();
+        $('#geofence').show();
         $('#station').hide();
         $('#travel').hide();
     }
     else if ($('#typeEq').value() == 'station') {
         $('#location').hide();
-        $('#geoence').hide();
+        $('#geofence').hide();
         $('#station').show();
         $('#travel').hide();
     }
     else if ($('#typeEq').value() == 'travel') {
         $('#location').hide();
-        $('#geoence').hide();
+        $('#geofence').hide();
         $('#station').hide();
         $('#travel').show();
     }
