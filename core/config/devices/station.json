@@ -1,0 +1,53 @@
+{
+    "name": "station",
+    "commands": [
+        {
+            "name": "Rafraichir",
+            "type": "action",
+            "subtype": "other",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:refresh"
+        },
+        {
+            "name": "Départ 1 direction",
+            "type": "info",
+            "subtype": "text",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:1direction"
+        },
+        {
+            "name": "Départ 1 heure",
+            "type": "info",
+            "subtype": "numeric",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:1time"
+        },
+        {
+            "name": "Départ 1 ligne",
+            "type": "info",
+            "subtype": "numeric",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:1line"
+        }
+    ]
+}
