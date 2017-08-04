@@ -107,7 +107,8 @@ class geotrav extends eqLogic {
               $geotravcmd->setName(__('Présence ' . $location->getHumanName(true), __FILE__));
               $geotravcmd->setEqLogic_id($geotrav->id);
               $geotravcmd->setLogicalId('geofence:'.$location->getId().'presence');
-              $geotravcmd->setType('binary');
+              $geotravcmd->setType('info');
+              $geotravcmd->setSubType('binary');
               $geotravcmd->save();
             }
             $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'geofence:'.$location->getId().'distance');
@@ -116,7 +117,8 @@ class geotrav extends eqLogic {
               $geotravcmd->setName(__('Distance ' . $location->getHumanName(true), __FILE__));
               $geotravcmd->setEqLogic_id($geotrav->id);
               $geotravcmd->setLogicalId('geofence:'.$location->getId().'distance');
-              $geotravcmd->setType('numeric');
+              $geotravcmd->setType('info');
+              $geotravcmd->setSubType('numeric');
               $geotravcmd->setUnite('m');
               $geotravcmd->save();
             }
