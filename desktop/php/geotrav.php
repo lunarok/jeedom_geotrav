@@ -185,7 +185,7 @@ $eqLogics = eqLogic::byType('geotrav');
 
 <script>
 $( "#typeEq" ).change(function(){
-    if ($('#typefield').value() == 'location') {
+    if ($('#typeEq').value() == 'location') {
         $('#location').show();
         $('#zone').hide();
         $('#station').hide();

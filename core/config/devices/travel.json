@@ -1,0 +1,69 @@
+{
+    "name": "travel",
+    "commands": [
+        {
+            "name": "Rafraichir",
+            "type": "action",
+            "subtype": "other",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "travel"
+            },
+            "logicalId": "travel:refresh"
+        },
+        {
+            "name": "Rafraichir avec options",
+            "type": "action",
+            "subtype": "message",
+            "display": {
+				"generic_type": "DONT",
+                "title_disable": 1,
+                "message_placeholder" : "Options"
+            },
+            "configuration": {
+				"type": "travel"
+            },
+            "logicalId": "travel:refreshOptions"
+        },
+        {
+            "name": "Durée",
+            "type": "info",
+            "subtype": "numeric",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "travel"
+            },
+            "unite": "mn",
+            "logicalId": "travel:time"
+        },
+        {
+            "name": "Distance",
+            "type": "info",
+            "subtype": "numeric",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "travel"
+            },
+            "unite": "km",
+            "logicalId": "travel:distance"
+        },
+        {
+            "name": "Etapes",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "travel"
+            },
+            "logicalId": "travel:steps"
+        }
+    ]
+}
