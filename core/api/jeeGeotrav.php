@@ -27,19 +27,19 @@ $content = file_get_contents('php://input');
 $json = json_decode($content, true);
 log::add('geotrav', 'debug', $content);
 
-$cmd = geotravCmd::byId(init('id'));
-if (!is_object($cmd)) {
+$eqlogic = geotrav::byId(init('id'));
+if (!is_object($eqlogic)) {
     throw new Exception(__('Commande ID geotrav inconnu : ', __FILE__) . init('id'));
 }
-if ($cmd->getEqLogic()->getEqType_name() != 'geotrav') {
+if ($eqlogic->getEqType_name() != 'geotrav') {
     throw new Exception(__('Cette commande n\'est pas de type geotrav : ', __FILE__) . init('id'));
 }
-if ($cmd->getEqLogic()->getConfiguration('type') != 'location') {
+if ($eqlogic->getConfiguration('type') != 'location') {
     throw new Exception(__('Cette commande geotrav n\'est pas une localisation : ', __FILE__) . init('id'));
 }
 
-//$value = init('value');
-$cmd->execute(init('value'));
+$geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'location:updateCoo');
+$geotravcmd->execute(init('value'));
 
 return true;
 ?>

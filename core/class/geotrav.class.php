@@ -25,6 +25,17 @@ use Location\Polygon;
 
 class geotrav extends eqLogic {
 
+  public function cron15() {
+    foreach (eqLogic::byType('geotrav', true) as $location) {
+      if ($location->getConfiguration('type') == 'station') {
+        //$listener->addEvent($locationcmd->getId());
+      }
+      if ($location->getConfiguration('type') == 'travel') {
+        //$listener->addEvent($locationcmd->getId());
+      }
+    }
+  }
+
   public function loadCmdFromConf($type) {
     if ($type == 'geofence') {
       return true;
@@ -59,6 +70,13 @@ class geotrav extends eqLogic {
       }
     }
   }
+
+  public function preSave() {
+    if ($this->getConfiguration('type') == 'location') {
+      $url = network::getNetworkAccess('external') . '/plugins/geotrav/core/api/jeeGeotrav.php?api=' . jeedom::getApiKey('geotrav') . '&id=' . $this->getId() . '&value=%LOCN';
+      $this->setConfiguration('url',$url);
+    }
+}
 
   public function postAjax() {
     $this->loadCmdFromConf($this->getConfiguration('type'));
