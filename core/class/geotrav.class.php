@@ -161,7 +161,7 @@ class geotrav extends eqLogic {
         }
         $position = new Coordinate($value);
         $geotrav->checkAndUpdateCmd('geofence:'.$id.'presence', $geofence->contains($position));
-        log::add('geotrav', 'debug', 'Geofence distance' . $geofence->contains($position);
+        log::add('geotrav', 'debug', 'Geofence distance' . $geofence->contains($position));
 
         $from = new Coordinate($points[0]);
         $calculator = new Vincenty();
