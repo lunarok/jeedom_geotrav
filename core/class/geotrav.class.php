@@ -163,13 +163,13 @@ class geotrav extends eqLogic {
         }
         $position = new Coordinate($value);
         $geotrav->checkAndUpdateCmd('geofence:'.$id.'presence', $geofence->contains($position));
-        log::add('geotrav', 'debug', 'Geofence distance' . $geofence->contains($position));
+        log::add('geotrav', 'debug', 'Geofence presence ' . $geofence->contains($position));
 
         $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'location:coordinate');
         $from = new Coordinate($geotravcmd->execCmd());
         $calculator = new Vincenty();
         $geotrav->checkAndUpdateCmd('geofence:'.$id.'distance', $calculator->getDistance($from, $position));
-        log::add('geotrav', 'debug', 'Geofence distance' . $calculator->getDistance($from, $position));
+        log::add('geotrav', 'debug', 'Geofence distance ' . $calculator->getDistance($from, $position));
       }
     }
 	}
@@ -202,7 +202,11 @@ class geotrav extends eqLogic {
     $this->checkAndUpdateCmd('location:address', $jsondata['results'][0]['formatted_address']);
     $this->checkAndUpdateCmd('location:street', $jsondata['results'][0]['address_components'][0]['long_name'] . ' ' . $jsondata['results'][0]['address_components'][1]['long_name']);
     $this->checkAndUpdateCmd('location:city', $jsondata['results'][0]['address_components'][2]['long_name']);
-    $zip = $jsondata['results'][0]['address_components'][6]['long_name'];
+    if ($jsondata['results'][0]['address_components'][5]['long_name'] == 'France') {
+      $zip = $jsondata['results'][0]['address_components'][6]['long_name'];
+    } else {
+      $zip = 'NA';
+    }
     $this->checkAndUpdateCmd('location:zip', $zip);
     if ($jsondata['results'][0]['address_components'][5]['long_name'] == 'France') {
       $department = substr($zip,0,2);
