@@ -173,12 +173,12 @@ class geotrav extends eqLogic {
 	}
 
   public function updateGeocodingReverse($geoloc) {
+    $geoloc = str_replace(' ','',$geoloc);
     log::add('geotrav', 'debug', 'Coordonnées ' . $geoloc);
-    if ($geoloc == '' || strrpos(',',$geoloc) === false) {
+    if ($geoloc == '' || strrpos($geoloc,',') === false) {
       log::add('geotrav', 'error', 'Coordonnées invalides ' . $geoloc);
       return true;
     }
-    $geoloctab = explode(',', $geoloc);
     $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG','geotrav');;
     $data = file_get_contents($url);
     $jsondata = json_decode($data,true);
