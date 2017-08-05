@@ -38,7 +38,7 @@ function addCmdToTable(_cmd) {
     if (init(_cmd.subType) == 'numeric' || init(_cmd.subType) == 'binary') {
         tr += '<label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isHistorized" data-size="mini" checked/>{{Historiser}}</label></span> ';
     }
-    if (init(_cmd.configuration.type)) == 'geofence') {
+    if (init(_cmd.configuration.type) == 'geofence') {
       tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isVisible" data-size="mini" checked/>{{Afficher}}</label></span> ';
     }
     tr += '</td>';
