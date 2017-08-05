@@ -130,7 +130,6 @@ class geotrav extends eqLogic {
   }
 
   public static function updateGeofenceValues($id,$value) {
-		//$alarm = geotrav::byId($_option['geotrav']);//equal global
     foreach (eqLogic::byType('geotrav', true) as $geotrav) {
       if ($geotrav->getConfiguration('type') == 'geofence') {
         $zone = $geotrav->getConfiguration('zoneConfiguration');
@@ -145,6 +144,7 @@ class geotrav extends eqLogic {
         $from = new Coordinate($points[0]);
         $calculator = new Vincenty();
         $geotrav->checkAndUpdateCmd('geofence:'.$id.'distance', $calculator->getDistance($from, $position));
+        log::add('geotrav', 'debug', 'Geofence distance' . $calculator->getDistance($from, $position));
       }
     }
 	}
