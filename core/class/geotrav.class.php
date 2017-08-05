@@ -19,9 +19,9 @@
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 require_once dirname(__FILE__) . '/../../vendor/autoload.php';
-use Location\Coordinate;
-use Location\Distance\Vincenty;
-use Location\Polygon;
+use mjaschen\phpgeo\Location\Coordinate;
+use mjaschen\phpgeo\Location\Distance\Vincenty;
+use mjaschen\phpgeo\Location\Polygon;
 
 class geotrav extends eqLogic {
 
