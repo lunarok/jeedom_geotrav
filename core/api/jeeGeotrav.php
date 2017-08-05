@@ -38,8 +38,7 @@ if ($eqlogic->getConfiguration('type') != 'location') {
     throw new Exception(__('Cette commande geotrav n\'est pas une localisation : ', __FILE__) . init('id'));
 }
 
-$geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($eqlogic->getId(),'location:updateCoo');
-$geotravcmd->execute(init('value'));
+$eqlogic->updateGeocodingReverse(trim(init('value')));
 
 return true;
 ?>

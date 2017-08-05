@@ -73,7 +73,7 @@ class geotrav extends eqLogic {
 
   public function preSave() {
     if ($this->getConfiguration('type') == 'location') {
-      $url = network::getNetworkAccess('external') . '/plugins/geotrav/core/api/jeeGeotrav.php?api=' . jeedom::getApiKey('geotrav') . '&id=' . $this->getId() . '&value=%LOCN';
+      $url = network::getNetworkAccess('external') . '/plugins/geotrav/core/api/jeeGeotrav.php?apikey=' . jeedom::getApiKey('geotrav') . '&id=' . $this->getId() . '&value=%LOCN';
       $this->setConfiguration('url',$url);
     }
 }
