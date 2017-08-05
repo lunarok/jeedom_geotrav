@@ -28,10 +28,10 @@ class geotrav extends eqLogic {
   public function cron15() {
     foreach (eqLogic::byType('geotrav', true) as $location) {
       if ($location->getConfiguration('type') == 'station') {
-        //$listener->addEvent($locationcmd->getId());
+        $location->refreshStation();
       }
       if ($location->getConfiguration('type') == 'travel') {
-        //$listener->addEvent($locationcmd->getId());
+        $location->refreshTravel();
       }
     }
   }
@@ -176,6 +176,7 @@ class geotrav extends eqLogic {
     log::add('geotrav', 'debug', 'Coordonnées ' . $geoloc);
     if ($geoloc == '' || strrpos(',',$geoloc) === false) {
       log::add('geotrav', 'error', 'Coordonnées invalides ' . $geoloc);
+      return true;
     }
     $geoloctab = explode(',', $geoloc);
     $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG','geotrav');;
@@ -223,6 +224,22 @@ class geotrav extends eqLogic {
     $this->save();
   }
 
+  public function refreshTravel() {
+    log::add('geotrav', 'debug', 'Travel ');
+    //$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . config::byKey('keyGMG','geotrav');;
+    //$data = file_get_contents($url);
+    //$jsondata = json_decode($data,true);
+    //$this->updateLocation($jsondata);
+  }
+
+  public function refreshStation() {
+    log::add('geotrav', 'debug', 'Station ');
+    //$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . config::byKey('keyGMG','geotrav');;
+    //$data = file_get_contents($url);
+    //$jsondata = json_decode($data,true);
+    //$this->updateLocation($jsondata);
+  }
+
 }
 
 class geotravCmd extends cmd {
@@ -236,6 +253,12 @@ class geotravCmd extends cmd {
       break;
       case 'location:updateAdr':
       $eqLogic->updateGeocoding(trim($_options['message']));
+      break;
+      case 'travel:refresh':
+      $eqLogic->refreshTravel();
+      break;
+      case 'station:refresh':
+      $eqLogic->refreshStation();
       break;
     }
   }

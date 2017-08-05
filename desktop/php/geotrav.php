@@ -128,7 +128,7 @@ $eqLogics = eqLogic::byType('geotrav');
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-3 control-label">{{Référence de la distance}}</label>
+                <label class="col-sm-2 control-label">{{Référence de la distance}}</label>
                 <div class="col-sm-3">
                   <select class="form-control eqLogicAttr configuration" data-l1key="configuration" data-l2key="zoneDistance">
                     <?php
