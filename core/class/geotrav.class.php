@@ -149,15 +149,19 @@ class geotrav extends eqLogic {
 
   public static function updateGeofenceValues($id,$value) {
     foreach (eqLogic::byType('geotrav', true) as $geotrav) {
+      log::add('geotrav', 'debug', 'Geofence ?' . $geotrav->getConfiguration('type'));
       if ($geotrav->getConfiguration('type') == 'geofence') {
         $zone = $geotrav->getConfiguration('zoneConfiguration');
+        log::add('geotrav', 'debug', 'Geofence zone ' . $zone);
         $geofence = new Polygon();
         $points = explode(';',$zone);
         foreach ($points as $point) {
+          log::add('geotrav', 'debug', 'Geofence point ' . $point);
           $geofence->addPoint(new Coordinate($point));
         }
         $position = new Coordinate($value);
         $geotrav->checkAndUpdateCmd('geofence:'.$id.'presence', $geofence->contains($position));
+        log::add('geotrav', 'debug', 'Geofence distance' . $geofence->contains($position);
 
         $from = new Coordinate($points[0]);
         $calculator = new Vincenty();
