@@ -128,6 +128,7 @@ class geotrav extends eqLogic {
               $geotravcmd->setLogicalId('geofence:'.$locationCmd->getId().'presence');
               $geotravcmd->setType('info');
               $geotravcmd->setSubType('binary');
+              $geotravcmd->setConfiguration('type','geofence');
               $geotravcmd->save();
             }
             $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'geofence:'.$locationCmd->getId().'distance');
@@ -139,6 +140,7 @@ class geotrav extends eqLogic {
               $geotravcmd->setType('info');
               $geotravcmd->setSubType('numeric');
               $geotravcmd->setUnite('m');
+              $geotravcmd->setConfiguration('type','geofence');
               $geotravcmd->save();
             }
           }
