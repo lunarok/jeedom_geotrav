@@ -127,12 +127,34 @@ $eqLogics = eqLogic::byType('geotrav');
                   <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="zoneConfiguration" type="text" placeholder="{{voir la doc}}">
                 </div>
               </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">{{Référence de la distance}}</label>
+                <div class="col-sm-3">
+                  <select class="form-control eqLogicAttr configuration" data-l1key="configuration" data-l2key="zoneDistance">
+                    <?php
+                    foreach (eqLogic::byType('geotrav', true) as $location) {
+                      if ($location->getConfiguration('type') == 'location') {
+                        echo '<option value="' . $location->getId() . '">' . $location->getName() . '</option>';
+                      }
+                    }
+                    ?>
+                  </select>
+                </div>
+              </div>
             </div>
             <div id="station">
               <div class="form-group">
-                <label class="col-sm-2 control-label">{{Station}}</label>
+                <label class="col-sm-2 control-label">{{Localisation pour la station}}</label>
                 <div class="col-sm-3">
-                  <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="stationPoint" type="text" placeholder="{{choisir la localisation}}">
+                  <select class="form-control eqLogicAttr configuration" data-l1key="configuration" data-l2key="stationPoint">
+                    <?php
+                    foreach (eqLogic::byType('geotrav', true) as $location) {
+                      if ($location->getConfiguration('type') == 'location') {
+                        echo '<option value="' . $location->getId() . '">' . $location->getName() . '</option>';
+                      }
+                    }
+                    ?>
+                  </select>
                 </div>
               </div>
               <div class="form-group">
@@ -144,15 +166,31 @@ $eqLogics = eqLogic::byType('geotrav');
             </div>
             <div id="travel">
               <div class="form-group">
-                <label class="col-sm-2 control-label">{{Départ}}</label>
+                <label class="col-sm-2 control-label">{{Localisation de départ}}</label>
                 <div class="col-sm-3">
-                  <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelDeparture" type="text" placeholder="{{choisir la localisation}}">
+                  <select class="form-control eqLogicAttr configuration" data-l1key="configuration" data-l2key="travelDeparture">
+                    <?php
+                    foreach (eqLogic::byType('geotrav', true) as $location) {
+                      if ($location->getConfiguration('type') == 'location') {
+                        echo '<option value="' . $location->getId() . '">' . $location->getName() . '</option>';
+                      }
+                    }
+                    ?>
+                  </select>
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label">{{Arrivée}}</label>
+                <label class="col-sm-2 control-label">{{Localisation d'arrivée}}</label>
                 <div class="col-sm-3">
-                  <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelArrival" type="text" placeholder="{{choisir la localisation}}">
+                  <select class="form-control eqLogicAttr configuration" data-l1key="configuration" data-l2key="travelArrival">
+                    <?php
+                    foreach (eqLogic::byType('geotrav', true) as $location) {
+                      if ($location->getConfiguration('type') == 'location') {
+                        echo '<option value="' . $location->getId() . '">' . $location->getName() . '</option>';
+                      }
+                    }
+                    ?>
+                  </select>
                 </div>
               </div>
               <div class="form-group">

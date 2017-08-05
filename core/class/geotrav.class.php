@@ -163,7 +163,8 @@ class geotrav extends eqLogic {
         $geotrav->checkAndUpdateCmd('geofence:'.$id.'presence', $geofence->contains($position));
         log::add('geotrav', 'debug', 'Geofence distance' . $geofence->contains($position));
 
-        $from = new Coordinate($points[0]);
+        $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'location:coordinate');
+        $from = new Coordinate($geotravcmd->execCmd());
         $calculator = new Vincenty();
         $geotrav->checkAndUpdateCmd('geofence:'.$id.'distance', $calculator->getDistance($from, $position));
         log::add('geotrav', 'debug', 'Geofence distance' . $calculator->getDistance($from, $position));
