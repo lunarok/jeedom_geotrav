@@ -101,22 +101,23 @@ class geotrav extends eqLogic {
       if ($geotrav->getConfiguration('type') == 'geofence') {
         foreach (eqLogic::byType('geotrav', true) as $location) {
           if ($location->getConfiguration('type') == 'location') {
-            $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'geofence:'.$location->getId().'presence');
+            $locationCmd= geotravCmd::byEqLogicIdAndLogicalId($location->getId(),'location:coordinate');
+            $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'geofence:'.$locationCmd->getId().'presence');
             if (!is_object($geotravcmd)) {
               $geotravcmd = new geotravCmd();
-              $geotravcmd->setName(__('Présence ' . $location->getId(), __FILE__));
+              $geotravcmd->setName(__('Présence ' . $location->getName(), __FILE__));
               $geotravcmd->setEqLogic_id($geotrav->id);
-              $geotravcmd->setLogicalId('geofence:'.$location->getId().'presence');
+              $geotravcmd->setLogicalId('geofence:'.$locationCmd->getId().'presence');
               $geotravcmd->setType('info');
               $geotravcmd->setSubType('binary');
               $geotravcmd->save();
             }
-            $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'geofence:'.$location->getId().'distance');
+            $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'geofence:'.$locationCmd->getId().'distance');
             if (!is_object($geotravcmd)) {
               $geotravcmd = new geotravCmd();
-              $geotravcmd->setName(__('Distance ' . $location->getId(), __FILE__));
+              $geotravcmd->setName(__('Distance ' . $location->getName(), __FILE__));
               $geotravcmd->setEqLogic_id($geotrav->id);
-              $geotravcmd->setLogicalId('geofence:'.$location->getId().'distance');
+              $geotravcmd->setLogicalId('geofence:'.$locationCmd->getId().'distance');
               $geotravcmd->setType('info');
               $geotravcmd->setSubType('numeric');
               $geotravcmd->setUnite('m');
