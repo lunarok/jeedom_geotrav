@@ -152,7 +152,7 @@ class geotrav extends eqLogic {
   public static function updateGeofenceValues($id,$value) {
     foreach (eqLogic::byType('geotrav', true) as $geotrav) {
       log::add('geotrav', 'debug', 'Geofence ?' . $geotrav->getConfiguration('type'));
-      if ($geotrav->getConfiguration('type') == 'geofence') {
+      /*if ($geotrav->getConfiguration('type') == 'geofence') {
         $zone = $geotrav->getConfiguration('zoneConfiguration');
         log::add('geotrav', 'debug', 'Geofence zone ' . $zone);
         $geofence = new Polygon();
@@ -170,7 +170,7 @@ class geotrav extends eqLogic {
         $calculator = new Vincenty();
         $geotrav->checkAndUpdateCmd('geofence:'.$id.'distance', $calculator->getDistance($from, $position));
         log::add('geotrav', 'debug', 'Geofence distance ' . $calculator->getDistance($from, $position));
-      }
+      }*/
     }
 	}
 
