@@ -18,6 +18,10 @@
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+require_once dirname(__FILE__) . '/../../vendor/autoload.php';
+use Location\Coordinate;
+use Location\Distance\Vincenty;
+use Location\Polygon;
 
 class geotrav extends eqLogic {
 
@@ -107,12 +111,9 @@ class geotrav extends eqLogic {
   public static function triggerGeo($_option) {
     //$alarm = geotrav::byId($_option['geotrav']);//equal global
     log::add('geotrav', 'debug', 'Trigger ' . $_option['event_id'] . ' ' . $_option['value']);
-    $coords = explode(',',$_option['value']);
-    $long1 = $coords[1];
-    $lat1 = $coords[0];
     foreach (eqLogic::byType('geotrav', true) as $geotrav) {
       if ($geotrav->getConfiguration('type') == 'geofence') {
-        $geotrav->updateGeofenceValues($_option['event_id'],$long1,$lat1);
+        $geotrav->updateGeofenceValues($_option['event_id'],$_option['value']);
       }
     }
   }
@@ -152,20 +153,14 @@ class geotrav extends eqLogic {
     }
   }
 
-  public function updateGeofenceValues($id,$long1,$lat1) {
+  public function updateGeofenceValues($id,$coord) {
     log::add('geotrav', 'debug', 'In update ' . $this->getName() . ' ' . $id . ' ' . $long1 . ' ' . $lat1);
-    $coordinate = geotravCmd::byId($id);
-    $coords = explode(',',$coordinate->execCmd());
-    $long2 = $coords[1];
-    $lat2 = $coords[0];
-    log::add('geotrav', 'debug', 'Geofence2 ' . $lat1 . ' ' . $long1 . ' '  . $lat2 . ' ' . $long2);
-    $theta = $lon1 - $lon2;
-    $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
-    $dist = acos($dist);
-    $dist = rad2deg($dist);
-    $miles = $dist * 60 * 1.1515;
-    $distance = $miles * 1.609344 * 1000; // distance in meter
-    log::add('geotrav', 'debug', 'Geofence ' . $lat1 . ' ' . $long1 . ' '  . $lat2 . ' ' . $long2 . ' ' . $distance);
+    $origin = geotrav::byId($this->getConfiguration('zoneOrigin'));
+    $coordinate1 = new Coordinate($coord); // Mauna Kea Summit
+    $coordinate2 = new Coordinate($origin->getConfiguration('coordinate')); // Haleakala Summit
+    $calculator = new Vincenty();
+    $distance = $calculator->getDistance($coordinate1, $coordinate2);
+    log::add('geotrav', 'debug', 'Geofence ' . $distance);
     $this->checkAndUpdateCmd('geofence:'.$id.'distance', $distance);
     if ($distance < $this->getConfiguration('zoneConfiguration')) {
       $presence = true;
