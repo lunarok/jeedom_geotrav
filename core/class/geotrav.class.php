@@ -236,7 +236,7 @@ class geotrav extends eqLogic {
     $url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('coordinate')) . '&destination=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&key=' . config::byKey('keyGMG','geotrav');
     $data = file_get_contents($url);
     $jsondata = json_decode($data,true);
-    log::add('geotrav', 'debug', 'Travel ' . print_r($jsondata,true));
+    log::add('geotrav', 'debug', 'Travel ' . $url . ' ' . print_r($jsondata,true));
     //$this->updateLocation($jsondata);
   }
 
