@@ -122,15 +122,9 @@ $eqLogics = eqLogic::byType('geotrav');
             </div>
             <div id="geofence">
               <div class="form-group">
-                <label class="col-sm-2 control-label">{{Zone de présence}}</label>
-                <div class="col-sm-3">
-                  <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="zoneConfiguration" type="text" placeholder="{{voir la doc}}">
-                </div>
-              </div>
-              <div class="form-group">
                 <label class="col-sm-2 control-label">{{Référence de la distance}}</label>
                 <div class="col-sm-3">
-                  <select class="form-control eqLogicAttr configuration" data-l1key="configuration" data-l2key="zoneDistance">
+                  <select class="form-control eqLogicAttr configuration" data-l1key="configuration" data-l2key="zoneOrigin">
                     <?php
                     foreach (eqLogic::byType('geotrav', true) as $location) {
                       if ($location->getConfiguration('type') == 'location') {
@@ -139,6 +133,12 @@ $eqLogics = eqLogic::byType('geotrav');
                     }
                     ?>
                   </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{Distance de présence}}</label>
+                <div class="col-sm-3">
+                  <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="zoneConfiguration" type="text" placeholder="{{voir la doc}}">
                 </div>
               </div>
             </div>

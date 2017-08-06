@@ -18,10 +18,6 @@
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
-require_once dirname(__FILE__) . '/../../vendor/autoload.php';
-use mjaschen\phpgeo\Location\Coordinate;
-use mjaschen\phpgeo\Location\Distance\Vincenty;
-use mjaschen\phpgeo\Location\Polygon;
 
 class geotrav extends eqLogic {
 
@@ -150,27 +146,41 @@ class geotrav extends eqLogic {
   }
 
   public static function updateGeofenceValues($id,$value) {
+    $moving = geotravCmd::byId($id);
+    if (!is_object($moving)) {
+      log::add('geotrav', 'debug', 'Geofence not object');
+    }
+    $coordinate = geotravCmd::byEqLogicIdAndLogicalId($moving->getId(),'location:coordinate');
+    $coords = explode(',',$coordinate->execCmd());
+    $long1 = $coords[1];
+    $lat1 = $coords[0];
     foreach (eqLogic::byType('geotrav', true) as $geotrav) {
       log::add('geotrav', 'debug', 'Geofence ?' . $geotrav->getConfiguration('type'));
-      /*if ($geotrav->getConfiguration('type') == 'geofence') {
-        $zone = $geotrav->getConfiguration('zoneConfiguration');
-        log::add('geotrav', 'debug', 'Geofence zone ' . $zone);
-        $geofence = new Polygon();
-        $points = explode(';',$zone);
-        foreach ($points as $point) {
-          log::add('geotrav', 'debug', 'Geofence point ' . $point);
-          $geofence->addPoint(new Coordinate($point));
+      if ($geotrav->getConfiguration('type') == 'geofence') {
+        $orgin = $geotrav->getConfiguration('zoneOrigin');
+        if (!is_object($orgin)) {
+          log::add('geotrav', 'debug', 'Geofence not object');
         }
-        $position = new Coordinate($value);
-        $geotrav->checkAndUpdateCmd('geofence:'.$id.'presence', $geofence->contains($position));
-        log::add('geotrav', 'debug', 'Geofence presence ' . $geofence->contains($position));
+        $coordinate = geotravCmd::byEqLogicIdAndLogicalId($orgin->getId(),'location:coordinate');
+        $coords = explode(',',$coordinate->execCmd());
+        $long2 = $coords[1];
+        $lat2 = $coords[0];
+        $theta = $lon1 - $lon2;
+        $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+        $dist = acos($dist);
+        $dist = rad2deg($dist);
+        $miles = $dist * 60 * 1.1515;
+        $distance = $miles * 1.609344 * 1000; // distance in meter
+        $geotrav->checkAndUpdateCmd('geofence:'.$id.'distance', $distance);
+        if ($distance < $geotrav->getConfiguration('zoneConfiguration')) {
+          $presence = true;
+        } else {
+          $presence = false;
+        }
+        $geotrav->checkAndUpdateCmd('geofence:'.$id.'presence', $presence);
 
-        $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'location:coordinate');
-        $from = new Coordinate($geotravcmd->execCmd());
-        $calculator = new Vincenty();
-        $geotrav->checkAndUpdateCmd('geofence:'.$id.'distance', $calculator->getDistance($from, $position));
-        log::add('geotrav', 'debug', 'Geofence distance ' . $calculator->getDistance($from, $position));
-      }*/
+        //$geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'location:coordinate');
+      }
     }
 	}
 
