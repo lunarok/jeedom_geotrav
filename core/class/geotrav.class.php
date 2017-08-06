@@ -172,7 +172,7 @@ class geotrav extends eqLogic {
         $dist = rad2deg($dist);
         $miles = $dist * 60 * 1.1515;
         $distance = $miles * 1.609344 * 1000; // distance in meter
-        log::add('geotrav', 'debug', 'Geofence ' . $lat1 . ' ' . $long1 . ' '  $lat2 . ' ' . $long2 . ' ' . $distance);
+        log::add('geotrav', 'debug', 'Geofence ' . $lat1 . ' ' . $long1 . ' '  . $lat2 . ' ' . $long2 . ' ' . $distance);
         $geotrav->checkAndUpdateCmd('geofence:'.$id.'distance', $distance);
         if ($distance < $geotrav->getConfiguration('zoneConfiguration')) {
           $presence = true;
