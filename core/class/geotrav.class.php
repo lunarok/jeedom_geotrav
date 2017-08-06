@@ -148,7 +148,7 @@ class geotrav extends eqLogic {
   public static function updateGeofenceValues($id,$value) {
     $moving = geotravCmd::byId($id);
     if (!is_object($moving)) {
-      log::add('geotrav', 'debug', 'Geofence not object');
+      log::add('geotrav', 'error', 'Geofence not object');
     }
     $coordinate = geotravCmd::byEqLogicIdAndLogicalId($moving->getId(),'location:coordinate');
     $coords = explode(',',$coordinate->execCmd());
@@ -159,18 +159,20 @@ class geotrav extends eqLogic {
       if ($geotrav->getConfiguration('type') == 'geofence') {
         $orgin = $geotrav->getConfiguration('zoneOrigin');
         if (!is_object($orgin)) {
-          log::add('geotrav', 'debug', 'Geofence not object');
+          log::add('geotrav', 'error', 'Geofence not object');
         }
         $coordinate = geotravCmd::byEqLogicIdAndLogicalId($orgin->getId(),'location:coordinate');
         $coords = explode(',',$coordinate->execCmd());
         $long2 = $coords[1];
         $lat2 = $coords[0];
+
         $theta = $lon1 - $lon2;
         $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
         $dist = acos($dist);
         $dist = rad2deg($dist);
         $miles = $dist * 60 * 1.1515;
         $distance = $miles * 1.609344 * 1000; // distance in meter
+        log::add('geotrav', 'debug', 'Geofence ' . $lat1 . ' ' . $long1 . ' '  $lat2 . ' ' . $long2 . ' ' . $distance);
         $geotrav->checkAndUpdateCmd('geofence:'.$id.'distance', $distance);
         if ($distance < $geotrav->getConfiguration('zoneConfiguration')) {
           $presence = true;
@@ -178,8 +180,6 @@ class geotrav extends eqLogic {
           $presence = false;
         }
         $geotrav->checkAndUpdateCmd('geofence:'.$id.'presence', $presence);
-
-        //$geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'location:coordinate');
       }
     }
 	}
@@ -191,7 +191,7 @@ class geotrav extends eqLogic {
       log::add('geotrav', 'error', 'Coordonnées invalides ' . $geoloc);
       return true;
     }
-    $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG','geotrav');;
+    $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG','geotrav');
     $data = file_get_contents($url);
     $jsondata = json_decode($data,true);
     $this->updateLocation($jsondata);
@@ -199,7 +199,7 @@ class geotrav extends eqLogic {
 
   public function updateGeocoding($address) {
     log::add('geotrav', 'debug', 'Adresse ' . $address);
-    $url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . config::byKey('keyGMG','geotrav');;
+    $url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . config::byKey('keyGMG','geotrav');
     $data = file_get_contents($url);
     $jsondata = json_decode($data,true);
     $this->updateLocation($jsondata);
@@ -236,10 +236,12 @@ class geotrav extends eqLogic {
   }
 
   public function refreshTravel() {
-    log::add('geotrav', 'debug', 'Travel ');
-    //$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . config::byKey('keyGMG','geotrav');;
-    //$data = file_get_contents($url);
-    //$jsondata = json_decode($data,true);
+    $departureEq = geotrav::byId($this->getConfiguration('travelDeparture'));
+    $arrivalEq = geotrav::byId($this->getConfiguration('travelArrival'));
+    $url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('coordinate')) . '&destination=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&key=' . config::byKey('keyGMG','geotrav');
+    $data = file_get_contents($url);
+    $jsondata = json_decode($data,true);
+    log::add('geotrav', 'debug', 'Travel ' . print_r($jsondata,true));
     //$this->updateLocation($jsondata);
   }
 
