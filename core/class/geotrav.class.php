@@ -154,7 +154,7 @@ class geotrav extends eqLogic {
   }
 
   public function updateGeofenceValues($id,$coord) {
-    log::add('geotrav', 'debug', 'In update ' . $this->getName() . ' ' . $id . ' ' . $long1 . ' ' . $lat1);
+    log::add('geotrav', 'debug', 'In update ' . $this->getName() . ' ' . $this->getConfiguration('zoneOrigin'));
     $origin = geotrav::byId($this->getConfiguration('zoneOrigin'));
     $coordinate1 = new Coordinate($coord); // Mauna Kea Summit
     $coordinate2 = new Coordinate($origin->getConfiguration('coordinate')); // Haleakala Summit
