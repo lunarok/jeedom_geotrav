@@ -153,7 +153,7 @@ class geotrav extends eqLogic {
   }
 
   public static function updateGeofenceValues($id,$long1,$lat1) {
-    log::add('geotrav', 'debug', 'In update ' . $id . ' ' . $long1 . ' ' . $lat1);
+    log::add('geotrav', 'debug', 'In update ' . $this->getName() . ' ' . $id . ' ' . $long1 . ' ' . $lat1);
     $coordinate = geotravCmd::byId($id);
     $coords = explode(',',$coordinate->execCmd());
     $long2 = $coords[1];
