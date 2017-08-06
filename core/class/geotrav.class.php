@@ -72,7 +72,7 @@ class geotrav extends eqLogic {
       $url = network::getNetworkAccess('external') . '/plugins/geotrav/core/api/jeeGeotrav.php?apikey=' . jeedom::getApiKey('geotrav') . '&id=' . $this->getId() . '&value=%LOCN';
       $this->setConfiguration('url',$url);
     }
-}
+  }
 
   public function postAjax() {
     $this->loadCmdFromConf($this->getConfiguration('type'));
@@ -105,10 +105,18 @@ class geotrav extends eqLogic {
   }
 
   public static function triggerGeo($_option) {
-		//$alarm = geotrav::byId($_option['geotrav']);//equal global
+    //$alarm = geotrav::byId($_option['geotrav']);//equal global
     log::add('geotrav', 'debug', 'Trigger ' . $_option['event_id'] . ' ' . $_option['value']);
-		geotrav::updateGeofenceValues($_option['event_id'],$_option['value']);
-	}
+    $coords = explode(',',$_option['value']);
+    $long1 = $coords[1];
+    $lat1 = $coords[0];
+    foreach (eqLogic::byType('geotrav', true) as $geotrav) {
+      log::add('geotrav', 'debug', 'Geofence ?' . $geotrav->getConfiguration('type'));
+      if ($geotrav->getConfiguration('type') == 'geofence') {
+        $geotrav->updateGeofenceValues($_option['event_id'],$long1,$lat1);
+      }
+    }
+  }
 
   public function updateGeofencingCmd() {
     foreach (eqLogic::byType('geotrav', true) as $geotrav) {
@@ -145,44 +153,31 @@ class geotrav extends eqLogic {
     }
   }
 
-  public static function updateGeofenceValues($id,$value) {
-    $moving = geotravCmd::byId($id);
-    if (!is_object($moving)) {
+  public static function updateGeofenceValues($id,$long1,$lat1) {
+    $orgin = $this->getConfiguration('zoneOrigin');
+    if (!is_object($orgin)) {
       log::add('geotrav', 'error', 'Geofence not object');
     }
-    $coordinate = geotravCmd::byEqLogicIdAndLogicalId($moving->getId(),'location:coordinate');
+    $coordinate = geotravCmd::byEqLogicIdAndLogicalId($orgin->getId(),'location:coordinate');
     $coords = explode(',',$coordinate->execCmd());
-    $long1 = $coords[1];
-    $lat1 = $coords[0];
-    foreach (eqLogic::byType('geotrav', true) as $geotrav) {
-      log::add('geotrav', 'debug', 'Geofence ?' . $geotrav->getConfiguration('type'));
-      if ($geotrav->getConfiguration('type') == 'geofence') {
-        $orgin = $geotrav->getConfiguration('zoneOrigin');
-        if (!is_object($orgin)) {
-          log::add('geotrav', 'error', 'Geofence not object');
-        }
-        $coordinate = geotravCmd::byEqLogicIdAndLogicalId($orgin->getId(),'location:coordinate');
-        $coords = explode(',',$coordinate->execCmd());
-        $long2 = $coords[1];
-        $lat2 = $coords[0];
+    $long2 = $coords[1];
+    $lat2 = $coords[0];
 
-        $theta = $lon1 - $lon2;
-        $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
-        $dist = acos($dist);
-        $dist = rad2deg($dist);
-        $miles = $dist * 60 * 1.1515;
-        $distance = $miles * 1.609344 * 1000; // distance in meter
-        log::add('geotrav', 'debug', 'Geofence ' . $lat1 . ' ' . $long1 . ' '  . $lat2 . ' ' . $long2 . ' ' . $distance);
-        $geotrav->checkAndUpdateCmd('geofence:'.$id.'distance', $distance);
-        if ($distance < $geotrav->getConfiguration('zoneConfiguration')) {
-          $presence = true;
-        } else {
-          $presence = false;
-        }
-        $geotrav->checkAndUpdateCmd('geofence:'.$id.'presence', $presence);
-      }
+    $theta = $lon1 - $lon2;
+    $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+    $dist = acos($dist);
+    $dist = rad2deg($dist);
+    $miles = $dist * 60 * 1.1515;
+    $distance = $miles * 1.609344 * 1000; // distance in meter
+    log::add('geotrav', 'debug', 'Geofence ' . $lat1 . ' ' . $long1 . ' '  . $lat2 . ' ' . $long2 . ' ' . $distance);
+    $this->checkAndUpdateCmd('geofence:'.$id.'distance', $distance);
+    if ($distance < $this->getConfiguration('zoneConfiguration')) {
+      $presence = true;
+    } else {
+      $presence = false;
     }
-	}
+    $this->checkAndUpdateCmd('geofence:'.$id.'presence', $presence);
+  }
 
   public function updateGeocodingReverse($geoloc) {
     $geoloc = str_replace(' ','',$geoloc);
