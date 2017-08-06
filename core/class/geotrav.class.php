@@ -154,7 +154,7 @@ class geotrav extends eqLogic {
   }
 
   public static function updateGeofenceValues($id,$long1,$lat1) {
-    log::add('geotrav', 'debug', 'In update ' . $id . ' ' . $long1 . ' ' . $lat1 . ' ' . strtotime('18:20'));
+    log::add('geotrav', 'debug', 'In update ' . $id . ' ' . $long1 . ' ' . $lat1);
     $coordinate = geotravCmd::byEqLogicIdAndLogicalId($id,'location:coordinate');
     $coords = explode(',',$coordinate->execCmd());
     $long2 = $coords[1];
@@ -240,6 +240,9 @@ class geotrav extends eqLogic {
       $options = arg2array($param);
     }
     foreach ($options as $key => $value) {
+      if ($key == 'departure_time' || $key == 'arrival_time') {
+        $value = substr_replace($value,':',-2,0)
+      }
       $url .= '&' . $key . '=' . $value;
       $url2 .= '&' . $key . '=' . $value;
     }

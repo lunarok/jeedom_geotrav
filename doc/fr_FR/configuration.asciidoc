@@ -52,7 +52,7 @@ Les options possible sont :
 
   - waypoints : liste de points de passage, voir https://developers.google.com/maps/documentation/directions/intro#Waypoints
 
-  - arrival_time : heure souhaitée d'arrivée, ne peut pas se cumuler avec heure de départ (en timestamp)
+  - arrival_time : heure souhaitée d'arrivée, ne peut pas se cumuler avec heure de départ (en timestamp, mais en paramètre on passera une heure directement au format jeedom comme 1820 pour 18h20)
 
   - departure_time : heure de départ souhaitée (par défaut l'heure est celle du moment sinon)
 
