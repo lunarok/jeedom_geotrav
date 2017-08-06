@@ -14,6 +14,20 @@
             "logicalId": "station:refresh"
         },
         {
+            "name": "Rafraichir avec options",
+            "type": "action",
+            "subtype": "message",
+            "display": {
+				"generic_type": "DONT",
+                "title_disable": 1,
+                "message_placeholder" : "Options"
+            },
+            "configuration": {
+				"type": "travel"
+            },
+            "logicalId": "travel:refreshOptions"
+        },
+        {
             "name": "Départ 1 direction",
             "type": "info",
             "subtype": "text",
