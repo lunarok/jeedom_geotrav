@@ -93,7 +93,7 @@ $eqLogics = eqLogic::byType('geotrav');
               <label class="col-sm-2 control-label" >{{Type de localisation/trajet}}</label>
               <div class="col-sm-3">
                 <select id="typeEq" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="type">
-                  <option value="location">{{Localisation}}</option>
+                  <option value="location" selected>{{Localisation}}</option>
                   <option value="geofence">{{Geofence}}</option>
                   <option value="station">{{Arrêt Transports}}</option>
                   <option value="travel">{{Trajet}}</option>
