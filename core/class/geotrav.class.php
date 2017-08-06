@@ -154,6 +154,7 @@ class geotrav extends eqLogic {
   }
 
   public static function updateGeofenceValues($id,$long1,$lat1) {
+    log::add('geotrav', 'debug', 'In update ' . $id . ' ' . $long1 . ' ' . $lat1);
     $origin = geotrav::byId($this->getConfiguration('zoneOrigin'));
     if (!is_object($origin)) {
       log::add('geotrav', 'error', 'Geofence not object');
