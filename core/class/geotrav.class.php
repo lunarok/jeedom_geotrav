@@ -230,16 +230,16 @@ class geotrav extends eqLogic {
     $this->save();
   }
 
-  public function refreshTravel($options='none') {
+  public function refreshTravel($param='none') {
     $departureEq = geotrav::byId($this->getConfiguration('travelDeparture'));
     $arrivalEq = geotrav::byId($this->getConfiguration('travelArrival'));
     $url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('coordinate')) . '&destination=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&language=fr&key=' . config::byKey('keyGMG','geotrav');
-      $options = array();
+    $options = array();
     if ($this->getConfiguration('travelOptions') != '') {
       $options = arg2array($this->getConfiguration('travelOptions'));
     }
-    if ($options != 'none') {
-      $options = arg2array($options);
+    if ($param != 'none') {
+      $options = arg2array($param);
     }
     foreach ($options as $key => $value) {
       $url .= '&' . $key . '=' . $value;
