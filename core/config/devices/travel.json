@@ -64,6 +64,44 @@
 				"type": "travel"
             },
             "logicalId": "travel:steps"
+        },
+        {
+            "name": "Durée retour",
+            "type": "info",
+            "subtype": "numeric",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "travel"
+            },
+            "unite": "mn",
+            "logicalId": "travel:timeback"
+        },
+        {
+            "name": "Distance retour",
+            "type": "info",
+            "subtype": "numeric",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "travel"
+            },
+            "unite": "km",
+            "logicalId": "travel:distanceback"
+        },
+        {
+            "name": "Etapes retour",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "travel"
+            },
+            "logicalId": "travel:stepsback"
         }
     ]
 }

@@ -235,6 +235,7 @@ class geotrav extends eqLogic {
     $departureEq = geotrav::byId($this->getConfiguration('travelDeparture'));
     $arrivalEq = geotrav::byId($this->getConfiguration('travelArrival'));
     $url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('coordinate')) . '&destination=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&language=fr&key=' . config::byKey('keyGMG','geotrav');
+    $url2 = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&destination=' . urlencode($departureEq->getConfiguration('coordinate')) . '&language=fr&key=' . config::byKey('keyGMG','geotrav');
     $options = array();
     if ($this->getConfiguration('travelOptions') != '') {
       $options = arg2array($this->getConfiguration('travelOptions'));
@@ -244,17 +245,27 @@ class geotrav extends eqLogic {
     }
     foreach ($options as $key => $value) {
       $url .= '&' . $key . '=' . $value;
+      $url2 .= '&' . $key . '=' . $value;
     }
     $data = file_get_contents($url);
     $jsondata = json_decode($data,true);
+    $data = file_get_contents($url2);
+    $jsondata2 = json_decode($data,true);
     log::add('geotrav', 'debug', 'Travel ' . $url);
-    $this->checkAndUpdateCmd('travel:distance', $jsondata['routes'][0]['legs'][0]['distance']['value']/1000);
-    $this->checkAndUpdateCmd('travel:time', $jsondata['routes'][0]['legs'][0]['duration']['value']/60);
+    $this->checkAndUpdateCmd('travel:distance', round($jsondata['routes'][0]['legs'][0]['distance']['value']/1000,2));
+    $this->checkAndUpdateCmd('travel:time', round($jsondata['routes'][0]['legs'][0]['duration']['value']/60));
     $etapes = '';
     foreach ($jsondata['routes'][0]['legs'][0]['steps'] as $elt) {
       $etapes .= $elt['html_instructions'] . '(' . $elt['distance']['text'] . ' ' . $elt['duration']['text'] . ')';
     }
     $this->checkAndUpdateCmd('travel:steps', $etapes);
+    $this->checkAndUpdateCmd('travel:distanceback', round($jsondata2['routes'][0]['legs'][0]['distance']['value']/1000,2));
+    $this->checkAndUpdateCmd('travel:timeback', round($jsondata2['routes'][0]['legs'][0]['duration']['value']/60));
+    $etapes = '';
+    foreach ($jsondata2['routes'][0]['legs'][0]['steps'] as $elt) {
+      $etapes .= $elt['html_instructions'] . '(' . $elt['distance']['text'] . ' ' . $elt['duration']['text'] . ')';
+    }
+    $this->checkAndUpdateCmd('travel:stepsback', $etapes);
   }
 
   public function refreshStation($options='none') {
