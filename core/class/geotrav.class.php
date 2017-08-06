@@ -113,7 +113,7 @@ class geotrav extends eqLogic {
     foreach (eqLogic::byType('geotrav', true) as $geotrav) {
       log::add('geotrav', 'debug', 'Geofence ?' . $geotrav->getConfiguration('type'));
       if ($geotrav->getConfiguration('type') == 'geofence') {
-        $geotrav->updateGeofenceValues($_option['event_id'],$long1,$lat1);
+        //$geotrav->updateGeofenceValues($_option['event_id'],$long1,$lat1);
       }
     }
   }
