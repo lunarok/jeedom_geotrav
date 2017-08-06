@@ -111,9 +111,8 @@ class geotrav extends eqLogic {
     $long1 = $coords[1];
     $lat1 = $coords[0];
     foreach (eqLogic::byType('geotrav', true) as $geotrav) {
-      log::add('geotrav', 'debug', 'Geofence ?' . $geotrav->getConfiguration('type'));
       if ($geotrav->getConfiguration('type') == 'geofence') {
-        //$geotrav->updateGeofenceValues($_option['event_id'],$long1,$lat1);
+        $geotrav->updateGeofenceValues($_option['event_id'],$long1,$lat1);
       }
     }
   }
@@ -159,7 +158,7 @@ class geotrav extends eqLogic {
     $coords = explode(',',$coordinate->execCmd());
     $long2 = $coords[1];
     $lat2 = $coords[0];
-
+    log::add('geotrav', 'debug', 'Geofence2 ' . $lat1 . ' ' . $long1 . ' '  . $lat2 . ' ' . $long2);
     $theta = $lon1 - $lon2;
     $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
     $dist = acos($dist);
