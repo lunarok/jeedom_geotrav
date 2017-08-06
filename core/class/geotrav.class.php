@@ -251,7 +251,7 @@ class geotrav extends eqLogic {
     $this->checkAndUpdateCmd('travel:time', $jsondata['routes'][0]['bounds'][0]['legs'][0]['duration']['value']/60);
     $etapes = '';
     foreach ($jsondata['routes'][0]['bounds'][0]['legs'][0]['steps'] as $elt) {
-      $etapes .= $elt['html_instructions'] . '(' . $elt['distance']['text'] . ' ' . $elt['duration']['text']')'
+      $etapes .= $elt['html_instructions'] . '(' . $elt['distance']['text'] . ' ' . $elt['duration']['text'] . ')';
     }
     $this->checkAndUpdateCmd('travel:steps', $etapes);
   }
