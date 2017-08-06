@@ -241,7 +241,7 @@ class geotrav extends eqLogic {
     }
     foreach ($options as $key => $value) {
       if ($key == 'departure_time' || $key == 'arrival_time') {
-        $value = substr_replace($value,':',-2,0)
+        $value = substr_replace($value,':',-2,0);
       }
       $url .= '&' . $key . '=' . $value;
       $url2 .= '&' . $key . '=' . $value;
