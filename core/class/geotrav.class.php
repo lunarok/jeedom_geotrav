@@ -166,7 +166,7 @@ class geotrav extends eqLogic {
         $dla = ($rla2 - $rla1) / 2;
         $a = (sin($dla) * sin($dla)) + cos($rla1) * cos($rla2) * (sin($dlo) * sin($dlo));
         $d = 2 * atan2(sqrt($a), sqrt(1 - $a));
-        $distance = round(($earth_radius * $d), 2);
+        $distance = round(($earth_radius * $d));
         log::add('geotrav', 'debug', 'Geofence ' . $distance);
         $this->checkAndUpdateCmd('geofence:'.$id.'distance', $distance);
         if ($distance < $this->getConfiguration('zoneConfiguration')) {
@@ -296,7 +296,7 @@ class geotrav extends eqLogic {
         }
         $templatename = $this->getConfiguration('type');
 
-        return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'vigilancemeteo')));
+        return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'geotrav')));
     }
 
 }
