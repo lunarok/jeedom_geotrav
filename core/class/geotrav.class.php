@@ -272,11 +272,11 @@ class geotrav extends eqLogic {
     }
 
     public function refreshStation($options='none') {
-        log::add('geotrav', 'debug', 'Station ');
-        //$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . config::byKey('keyGMG','geotrav');;
-        //$data = file_get_contents($url);
-        //$jsondata = json_decode($data,true);
-        //$this->updateLocation($jsondata);
+        $stationEq = geotrav::byId($this->getConfiguration('stationPoint'));
+        $url = 'https://' . config::byKey('keyNavitia','geotrav') . 'api.navitia.io/v1/coord/' . urlencode($stationEq->getConfiguration('coordinate'));
+        $data = file_get_contents($url);
+        $jsondata = json_decode($data,true);
+        log::add('geotrav', 'debug', 'Station ' . print_r($jsondata,true));
         $this->refreshWidget();
     }
 
