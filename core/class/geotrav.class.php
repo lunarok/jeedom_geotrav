@@ -18,10 +18,6 @@
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
-require_once dirname(__FILE__) . '/../../vendor/autoload.php';
-use Location\Coordinate;
-use Location\Distance\Vincenty;
-use Location\Polygon;
 
 class geotrav extends eqLogic {
 
@@ -157,10 +153,18 @@ class geotrav extends eqLogic {
     log::add('geotrav', 'debug', 'In update ' . $this->getName() . ' ' . $this->getConfiguration('zoneOrigin'));
     $origin = geotrav::byId($this->getConfiguration('zoneOrigin'));
     log::add('geotrav', 'debug', 'In update ' . $origin->getConfiguration('coordinate') . ' ' . $coord);
-    $coordinate1 = new Coordinate($coord); // Mauna Kea Summit
-    $coordinate2 = new Coordinate($origin->getConfiguration('coordinate')); // Haleakala Summit
-    $calculator = new Vincenty();
-    $distance = $calculator->getDistance($coordinate1, $coordinate2);
+    $coordinate1 = explode(',',$coord);
+    $coordinate2 = explode(',',$origin->getConfiguration('coordinate'));
+    $earth_radius = 6378137; // Terre = sphère de 6378km de rayon
+    $rlo1 = deg2rad($coordinate1[1]);
+    $rla1 = deg2rad($coordinate1[0]);
+    $rlo2 = deg2rad($coordinate2[1]);
+    $rla2 = deg2rad($coordinate2[0]);
+    $dlo = ($rlo2 - $rlo1) / 2;
+    $dla = ($rla2 - $rla1) / 2;
+    $a = (sin($dla) * sin($dla)) + cos($rla1) * cos($rla2) * (sin($dlo) * sin($dlo));
+    $d = 2 * atan2(sqrt($a), sqrt(1 - $a));
+    $distance = round(($earth_radius * $d), 2);
     log::add('geotrav', 'debug', 'Geofence ' . $distance);
     $this->checkAndUpdateCmd('geofence:'.$id.'distance', $distance);
     if ($distance < $this->getConfiguration('zoneConfiguration')) {
