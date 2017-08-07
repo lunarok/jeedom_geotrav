@@ -276,7 +276,7 @@ class geotrav extends eqLogic {
         $url = 'https://' . config::byKey('keyNavitia','geotrav') . 'api.navitia.io/v1/coord/' . urlencode($stationEq->getConfiguration('coordinate'));
         $data = file_get_contents($url);
         $jsondata = json_decode($data,true);
-        log::add('geotrav', 'debug', 'Station ' . print_r($jsondata,true));
+        log::add('geotrav', 'debug', 'Station ' . $url . print_r($jsondata,true));
         $this->refreshWidget();
     }
 
