@@ -175,6 +175,7 @@ class geotrav extends eqLogic {
             $presence = false;
         }
         $this->checkAndUpdateCmd('geofence:'.$id.'presence', $presence);
+        $this->refreshWidget();
     }
 
     public function updateGeocodingReverse($geoloc) {
@@ -226,6 +227,7 @@ class geotrav extends eqLogic {
         $this->setConfiguration('address',$jsondata['results'][0]['formatted_address']);
         $this->setConfiguration('fieldaddress',$jsondata['results'][0]['formatted_address']);
         $this->save();
+        $this->refreshWidget();
     }
 
     public function refreshTravel($param='none') {
@@ -266,6 +268,7 @@ class geotrav extends eqLogic {
             $etapes .= $elt['html_instructions'] . '(' . $elt['distance']['text'] . ' ' . $elt['duration']['text'] . ')';
         }
         $this->checkAndUpdateCmd('travel:stepsback', $etapes);
+        $this->refreshWidget();
     }
 
     public function refreshStation($options='none') {
@@ -274,6 +277,7 @@ class geotrav extends eqLogic {
         //$data = file_get_contents($url);
         //$jsondata = json_decode($data,true);
         //$this->updateLocation($jsondata);
+        $this->refreshWidget();
     }
 
     public function toHtml($_version = 'dashboard') {
