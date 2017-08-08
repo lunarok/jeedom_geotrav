@@ -104,7 +104,7 @@ $eqLogics = eqLogic::byType('geotrav');
               <div class="form-group" id="coordinate">
                 <label class="col-sm-2 control-label">{{Coordonnées}}</label>
                 <div class="col-sm-3">
-                  <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="fieldcoordinate" type="text" placeholder="{{saisir des coordonnées}}">
+                  <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="fieldcoordinate" type="text" placeholder="{{Latitude,Longitude}}">
                 </div>
               </div>
               <div class="form-group" id="address">
