@@ -34,6 +34,15 @@ class geotrav extends eqLogic {
         }
     }
 
+    public function postSave() {
+        if ($this->getConfiguration('type') == 'station') {
+            $this->refreshStation();
+        }
+        if ($this->getConfiguration('type') == 'travel') {
+            $this->refreshTravel();
+        }
+    }
+
     public function loadCmdFromConf($type) {
         if ($type == 'geofence') {
             return true;

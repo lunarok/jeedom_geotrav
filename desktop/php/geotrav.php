@@ -166,12 +166,6 @@ $eqLogics = eqLogic::byType('geotrav');
                   </select>
                 </div>
               </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">{{Options de configuration}}</label>
-                <div class="col-sm-3">
-                  <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="stationOptions" type="text" placeholder="{{voir la doc}}">
-                </div>
-              </div>
             </div>
             <div id="travel">
               <div class="form-group">
