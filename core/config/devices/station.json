@@ -122,6 +122,102 @@
 				"type": "station"
             },
             "logicalId": "station:2stop"
+        },
+        {
+            "name": "Arrivée 1 direction",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:arrival1direction"
+        },
+        {
+            "name": "Arrivée 1 heure",
+            "type": "info",
+            "subtype": "numeric",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:arrival1time"
+        },
+        {
+            "name": "Arrivée 1 ligne",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:arrival1line"
+        },
+        {
+            "name": "Arrivée 1 arrêt",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:arrival1stop"
+        },
+        {
+            "name": "Arrivée 2 direction",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:arrival2direction"
+        },
+        {
+            "name": "Arrivée 2 heure",
+            "type": "info",
+            "subtype": "numeric",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:arrival2time"
+        },
+        {
+            "name": "Arrivée 2 ligne",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:arrival2line"
+        },
+        {
+            "name": "Arrivée 2 arrêt",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:arrival2stop"
         }
     ]
 }
