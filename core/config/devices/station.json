@@ -30,7 +30,7 @@
         {
             "name": "Départ 1 direction",
             "type": "info",
-            "subtype": "text",
+            "subtype": "string",
             "display": {
 				"generic_type": "DONT"
             },
@@ -54,7 +54,7 @@
         {
             "name": "Départ 1 ligne",
             "type": "info",
-            "subtype": "numeric",
+            "subtype": "string",
             "display": {
 				"generic_type": "DONT"
             },
@@ -62,6 +62,66 @@
 				"type": "station"
             },
             "logicalId": "station:1line"
+        },
+        {
+            "name": "Départ 1 arrêt",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:1stop"
+        },
+        {
+            "name": "Départ 2 direction",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:2direction"
+        },
+        {
+            "name": "Départ 2 heure",
+            "type": "info",
+            "subtype": "numeric",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:2time"
+        },
+        {
+            "name": "Départ 2 ligne",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:2line"
+        },
+        {
+            "name": "Départ 2 arrêt",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:2stop"
         }
     ]
 }

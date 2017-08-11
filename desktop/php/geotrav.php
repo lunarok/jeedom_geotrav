@@ -101,6 +101,15 @@ $eqLogics = eqLogic::byType('geotrav');
               </div>
             </div>
             <div id="location">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" >{{Mode de configuration}}</label>
+                  <div class="col-sm-3">
+                    <select id="typeLoc" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="typeConfLoc">
+                      <option value="coordinate" selected>{{Par Coordonnées}}</option>
+                      <option value="address">{{Par Adresse}}</option>
+                    </select>
+                  </div>
+                </div>
               <div class="form-group" id="coordinate">
                 <label class="col-sm-2 control-label">{{Coordonnées}}</label>
                 <div class="col-sm-3">

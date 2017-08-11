@@ -18,6 +18,18 @@
 
  $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
+ $('#typeLoc').change(function(){
+   var text = $("#typeLoc").val();
+   if (text == 'coordinate') {
+     $('#coordinate').show();
+     $('#address').hide();
+   }
+   if (text == 'address') {
+     $('#coordinate').hide();
+     $('#address').show();
+   }
+ });
+
 function addCmdToTable(_cmd) {
     if (!isset(_cmd)) {
         var _cmd = {configuration: {}};
