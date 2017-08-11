@@ -100,7 +100,7 @@ $eqLogics = eqLogic::byType('geotrav');
                 </select>
               </div>
             </div>
-            <div id="location">
+            <div id="location" style="display:none">
                 <div class="form-group">
                   <label class="col-sm-2 control-label" >{{Mode de configuration}}</label>
                   <div class="col-sm-3">
@@ -110,13 +110,13 @@ $eqLogics = eqLogic::byType('geotrav');
                     </select>
                   </div>
                 </div>
-              <div class="form-group" id="coordinate">
+              <div class="form-group" id="coordinate" style="display:none">
                 <label class="col-sm-2 control-label">{{Coordonnées}}</label>
                 <div class="col-sm-3">
                   <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="fieldcoordinate" type="text" placeholder="{{Latitude,Longitude}}">
                 </div>
               </div>
-              <div class="form-group" id="address">
+              <div class="form-group" id="address" style="display:none">
                 <label class="col-sm-2 control-label">{{Adresse}}</label>
                 <div class="col-sm-3">
                   <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="fieldaddress" type="text" placeholder="{{saisir une adresse}}">
@@ -129,7 +129,7 @@ $eqLogics = eqLogic::byType('geotrav');
                 </div>
               </div>
             </div>
-            <div id="geofence">
+            <div id="geofence" style="display:none">
               <div class="form-group">
                 <label class="col-sm-2 control-label">{{Référence de la distance}}</label>
                 <div class="col-sm-3">
@@ -151,7 +151,7 @@ $eqLogics = eqLogic::byType('geotrav');
                 </div>
               </div>
             </div>
-            <div id="station">
+            <div id="station" style="display:none">
               <div class="form-group">
                 <label class="col-sm-2 control-label">{{Localisation pour la station}}</label>
                 <div class="col-sm-3">
@@ -167,7 +167,7 @@ $eqLogics = eqLogic::byType('geotrav');
                 </div>
               </div>
             </div>
-            <div id="travel">
+            <div id="travel" style="display:none">
               <div class="form-group">
                 <label class="col-sm-2 control-label">{{Localisation de départ}}</label>
                 <div class="col-sm-3">
