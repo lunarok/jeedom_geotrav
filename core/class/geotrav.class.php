@@ -281,7 +281,7 @@ class geotrav extends eqLogic {
     }
 
     public function refreshStation($options='none') {
-        $loc = urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:longitude')) . ';' . urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:latitude'));
+        $loc = urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:longitude')->execCmd()) . ';' . urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:latitude')->execCmd());
         $url = 'https://' . config::byKey('keyNavitia','geotrav') . '@api.navitia.io/v1/coverage/' . $loc . '/coords/' . $loc;
         $urldepart = $url . '/departures/';
         $data = file_get_contents($urldepart);
