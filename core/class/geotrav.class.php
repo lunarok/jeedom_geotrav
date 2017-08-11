@@ -283,7 +283,20 @@ class geotrav extends eqLogic {
     public function refreshStation($options='none') {
         $loc = urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:longitude')->execCmd()) . ';' . urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:latitude')->execCmd());
         $url = 'https://' . config::byKey('keyNavitia','geotrav') . '@api.navitia.io/v1/coverage/' . $loc . '/coords/' . $loc;
-        $urldepart = $url . '/departures/';
+        $options = array();
+        if ($this->getConfiguration('travelOptions') != '') {
+            $options = arg2array($this->getConfiguration('travelOptions'));
+        }
+        if ($param != 'none') {
+            $options = arg2array($param);
+        }
+        $urldepart = $url . '/departures?';
+        foreach ($options as $key => $value) {
+            if ($key == 'from_datetime') {
+                $value = substr_replace($value,':',-2,0);
+            }
+            $url .= '&' . $key . '=' . $value;
+        }
         $data = file_get_contents($urldepart);
         $jsondata = json_decode($data,true);
         log::add('geotrav', 'debug', 'Station ' . $url . print_r($jsondata,true));
@@ -295,7 +308,13 @@ class geotrav extends eqLogic {
         $this->checkAndUpdateCmd('station:2time', $jsondata['departures'][0]['stop_date_time']['departure_date_time']);
         $this->checkAndUpdateCmd('station:2line', $jsondata['departures'][0]['display_informations']['code']);
         $this->checkAndUpdateCmd('station:2stop', $jsondata['departures'][0]['stop_point']['name']);
-        $urldepart = $url . '/arrivals/';
+        $urldepart = $url . '/arrivals?';
+        foreach ($options as $key => $value) {
+            if ($key == 'from_datetime') {
+                $value = substr_replace($value,':',-2,0);
+            }
+            $url .= '&' . $key . '=' . $value;
+        }
         $data = file_get_contents($urldepart);
         $jsondata = json_decode($data,true);
         //log::add('geotrav', 'debug', 'Station ' . $url . print_r($jsondata,true));

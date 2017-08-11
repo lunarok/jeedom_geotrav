@@ -55,7 +55,7 @@ Les options possible sont :
 
   - arrival_time : heure souhaitée d'arrivée, ne peut pas se cumuler avec l'heure de départ (en timestamp, mais en paramètre on passera une heure directement au format jeedom comme 1820 pour 18h20)
 
-  - departure_time : heure de départ souhaitée (par défaut l'heure est celle du moment sinon)
+  - departure_time : heure de départ souhaitée (par défaut l'heure est celle du moment sinon) l'heure doit se noter au format classique jeedom, par exemple 1720 pour 17h20
 
   - transit_mode : si le mode choisi est transit, permet de sélectionner le mode de transport en commun (bus, subway, train, tram, rail)
 
@@ -69,4 +69,6 @@ Ce type d'équipement dispose de 2 options de configuration :
 
   - Localisation de l'arrêt, un équipement est à sélectionner qui servira pour la recherche
 
-  - Options, ce sont les options (non obligatoires) de l'API (voir la doc API)
+  - Options, ce sont les options (non obligatoires) de l'API (voir link:http://doc.navitia.io/#departures[la doc API])
+
+  A noter que pour l'heure doit se noter au format classique jeedom, par exemple 1720 pour 17h20
