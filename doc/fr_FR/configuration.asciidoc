@@ -24,7 +24,8 @@ Pour un équipement de type localisation, deux champs d'option sont disponibles 
 
   - URL de mise à jour par API : s'utilise dans Tasker/Automate etc pour mettre à jour une localisation automatiquement, toutes les localisations sont ainsi disponible
 
-Important : il ne faut pas saisir adresse ET coordonnées, saisissez un seul des deux, celui que vous avez à disposition et sauvegarder l'équipement. Tout sera renseigné automatiquement.
+[IMPORTANT]
+Il ne faut pas saisir adresse ET coordonnées, saisissez un seul des deux, celui que vous avez à disposition et sauvegarder l'équipement. Tout sera renseigné automatiquement.
 
 === Géofence
 
@@ -46,13 +47,13 @@ Les équipements trajets ont 3 options de configuration :
 
 Les options possible sont :
 
-  - mode : parmis (driving, walking, bicycling, transit), voir https://developers.google.com/maps/documentation/directions/intro#TravelModes
+  - mode : parmis (driving, walking, bicycling, transit), disponible link:https://developers.google.com/maps/documentation/directions/intro#TravelModes[dans l'API google maps]
 
-  - avoid : parmis (tolls, highways, ferries, indoor), voir https://developers.google.com/maps/documentation/directions/intro#Restrictions
+  - avoid : parmis (tolls, highways, ferries, indoor), voir link:https://developers.google.com/maps/documentation/directions/intro#Restrictions[les restrictions]
 
-  - waypoints : liste de points de passage, voir https://developers.google.com/maps/documentation/directions/intro#Waypoints
+  - waypoints : liste de points de passage, voir link:https://developers.google.com/maps/documentation/directions/intro#Waypoints[les waypoints]
 
-  - arrival_time : heure souhaitée d'arrivée, ne peut pas se cumuler avec heure de départ (en timestamp, mais en paramètre on passera une heure directement au format jeedom comme 1820 pour 18h20)
+  - arrival_time : heure souhaitée d'arrivée, ne peut pas se cumuler avec l'heure de départ (en timestamp, mais en paramètre on passera une heure directement au format jeedom comme 1820 pour 18h20)
 
   - departure_time : heure de départ souhaitée (par défaut l'heure est celle du moment sinon)
 
