@@ -281,15 +281,14 @@ class geotrav extends eqLogic {
     }
 
     public function refreshStation($options='none') {
-        $stationEq = geotrav::byId($this->getConfiguration('stationPoint'));
-        $loc = urlencode(geotravCmd::byEqLogicIdAndLogicalId($stationEq->getId(),'location:longitude')) . ';' . urlencode(geotravCmd::byEqLogicIdAndLogicalId($stationEq->getId(),'location:latitude'));
+        $loc = urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:longitude')) . ';' . urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:latitude'));
         $url = 'https://' . config::byKey('keyNavitia','geotrav') . '@api.navitia.io/v1/coverage/' . $loc . '/coords/' . $loc;
         $urldepart = $url . '/departures/';
         $data = file_get_contents($urldepart);
         $jsondata = json_decode($data,true);
         log::add('geotrav', 'debug', 'Station ' . $url . print_r($jsondata,true));
         $this->checkAndUpdateCmd('station:1direction', $jsondata['departures'][0]['display_informations']['direction']);
-        $this->checkAndUpdateCmd('station:1time', $jsondata['departures'][0]['stop_date_time']['departure_date_time']);
+        $this->checkAndUpdateCmd('station:1time', substr($jsondata['departures'][0]['stop_date_time']['departure_date_time'],9,4));
         $this->checkAndUpdateCmd('station:1line', $jsondata['departures'][0]['display_informations']['code']);
         $this->checkAndUpdateCmd('station:1stop', $jsondata['departures'][0]['stop_point']['name']);
         $this->checkAndUpdateCmd('station:2direction', $jsondata['departures'][0]['display_informations']['direction']);
@@ -301,7 +300,7 @@ class geotrav extends eqLogic {
         $jsondata = json_decode($data,true);
         //log::add('geotrav', 'debug', 'Station ' . $url . print_r($jsondata,true));
         $this->checkAndUpdateCmd('station:arrival1direction', $jsondata['departures'][0]['display_informations']['direction']);
-        $this->checkAndUpdateCmd('station:arrival1time', $jsondata['departures'][0]['stop_date_time']['departure_date_time']);
+        $this->checkAndUpdateCmd('station:arrival1time', substr($jsondata['departures'][0]['stop_date_time']['departure_date_time'],9,4));
         $this->checkAndUpdateCmd('station:arrival1line', $jsondata['departures'][0]['display_informations']['code']);
         $this->checkAndUpdateCmd('station:arrival1stop', $jsondata['departures'][0]['stop_point']['name']);
         $this->checkAndUpdateCmd('station:arrival2direction', $jsondata['departures'][0]['display_informations']['direction']);
