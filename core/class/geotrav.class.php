@@ -280,7 +280,7 @@ class geotrav extends eqLogic {
         $this->refreshWidget();
     }
 
-    public function refreshStation($options='none') {
+    public function refreshStation($param='none') {
         $loc = urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:longitude')->execCmd()) . ';' . urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:latitude')->execCmd());
         $url = 'https://' . config::byKey('keyNavitia','geotrav') . '@api.navitia.io/v1/coverage/' . $loc . '/coords/' . $loc;
         $options = array();
