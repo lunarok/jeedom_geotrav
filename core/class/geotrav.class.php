@@ -361,11 +361,21 @@ class geotrav extends eqLogic {
         $options = array();
         $options = arg2array($this->getConfiguration('travelOptions'));
         foreach ($options as $key => $value) {
-          if ($key == 'mode' || $key == 'avoid' || $key == 'waypoints')
-          $replace['#options#'] .= '&' . $key . '=' . $value;
+          if ($key == 'mode' || $key == 'avoid' || $key == 'waypoints') {
+            $replace['#options#'] .= '&' . $key . '=' . $value;
+          }
         }
       }
     }
+    if ($this->getConfiguration('type') == 'geofence') {
+      $replace['#status#'] = '';
+        foreach ($options as $key => $value) {
+          if ($key == 'mode' || $key == 'avoid' || $key == 'waypoints') {
+            $replace['#status#'] .= '<span style="font-size : 0.9em;"><i class="fa fa-check"></i>Téléphone XX</span><br/>';
+          }
+        }
+    }
+
     $templatename = $this->getConfiguration('type');
 
     return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'geotrav')));
