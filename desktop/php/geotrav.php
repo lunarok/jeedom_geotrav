@@ -82,8 +82,21 @@ $eqLogics = eqLogic::byType('geotrav');
               </div>
             </div>
             <div class="form-group">
+              <label class="col-sm-2 control-label">{{Catégorie}}</label>
+              <div class="col-sm-3">
+                <?php
+                foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
+                  echo '<label class="checkbox-inline">';
+                  echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
+                  echo '</label>';
+                }
+                ?>
+
+              </div>
+            </div>
+            <div class="form-group">
               <label class="col-sm-2 control-label"></label>
-              <div class="col-sm-9">
+              <div class="col-sm-3">
                 <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked/>{{Activer}}</label>
                 <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked/>{{Visible}}</label>
               </div>
@@ -148,6 +161,18 @@ $eqLogics = eqLogic::byType('geotrav');
                 <label class="col-sm-2 control-label">{{Distance de présence}}</label>
                 <div class="col-sm-3">
                   <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="zoneConfiguration" type="text" placeholder="{{voir la doc}}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{Equipements à rechercher}}</label>
+                <div class="col-sm-3">
+                    <?php
+                    foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
+                      echo '<label class="checkbox-inline">';
+                      echo '<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="geofence:' . $location->getId() . '" />' . $location->getName();
+                      echo '</label>';
+                    }
+                    ?>
                 </div>
               </div>
             </div>
