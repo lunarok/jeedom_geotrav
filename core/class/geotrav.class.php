@@ -32,8 +32,11 @@ class geotrav extends eqLogic {
         $location->refreshTravel();
       }
       if ($location->getConfiguration('type') == 'location') {
-        $option = array('event_id' => $location->getId(), 'value' => $location->getConfiguration('coordinate'));
-        $location->triggerGeo($option);
+        foreach (eqLogic::byType('geotrav', true) as $geotrav) {
+          if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $location->getId()) == 1) {
+            $geotrav->updateGeofenceValues($location->getId(),$location->getConfiguration('coordinate'));
+          }
+        }
       }
     }
   }
@@ -124,9 +127,10 @@ class geotrav extends eqLogic {
   public static function triggerGeo($_option) {
     //$alarm = geotrav::byId($_option['geotrav']);//equal global
     log::add('geotrav', 'debug', 'Trigger ' . $_option['event_id'] . ' ' . $_option['value']);
+    $id = geotravCmd::byId($_option['event_id'])->getEqLogic()->getId();
     foreach (eqLogic::byType('geotrav', true) as $geotrav) {
-      if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $_option['event_id']) == 1) {
-        $geotrav->updateGeofenceValues($_option['event_id'],$_option['value']);
+      if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $id) == 1) {
+        $geotrav->updateGeofenceValues($id,$_option['value']);
       }
     }
   }
