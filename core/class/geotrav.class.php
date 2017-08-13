@@ -44,14 +44,10 @@ class geotrav extends eqLogic {
     if ($this->getConfiguration('type') == 'travel') {
       $this->refreshTravel();
     }
-    /*if ($this->getConfiguration('type') == 'location') {
-      $this->updateGeofenceValues($this->getId(),$this->getConfiguration('coordinate'));
-    }*/
   }
 
   public function loadCmdFromConf($type) {
     if ($type == 'geofence') {
-          $this->updateGeofencingCmd();
       return true;
       //nothing to do
     }
@@ -100,6 +96,9 @@ class geotrav extends eqLogic {
     if ($this->getConfiguration('fieldaddress') != $this->getConfiguration('address')) {
       $this->updateGeocoding($this->getConfiguration('fieldaddress'));
     }
+    if ($this->getConfiguration('type') == 'geofence') {
+      $this->updateGeofencingCmd();
+    }
     geotrav::triggerGlobal();
   }
 
@@ -134,33 +133,33 @@ class geotrav extends eqLogic {
   public function updateGeofencingCmd() {
     foreach (eqLogic::byType('geotrav', true) as $geotrav) {
       if ($geotrav->getConfiguration('type') == 'location') {
-          if ($this->getConfiguration('geofence:' . $geotrav->getId()) === true) {
-            $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($this->getId(),'geofence:'.$geotrav->getId().':presence');
-            if (!is_object($geotravcmd)) {
-              $geotravcmd = new geotravCmd();
-              $geotravcmd->setName(__('Présence ' . $geotrav->getName(), __FILE__));
-              $geotravcmd->setEqLogic_id($this->id);
-              $geotravcmd->setLogicalId('geofence:'.$geotrav->getId().'presence');
-              $geotravcmd->setType('info');
-              $geotravcmd->setSubType('binary');
-              $geotravcmd->setConfiguration('geofenceType','presence');
-              $geotravcmd->setConfiguration('geofenceId',$geotrav->getId());
-              $geotravcmd->save();
-            }
-            $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($this->getId(),'geofence:'.$geotrav->getId().':distance');
-            if (!is_object($geotravcmd)) {
-              $geotravcmd = new geotravCmd();
-              $geotravcmd->setName(__('Distance ' . $geotrav->getName(), __FILE__));
-              $geotravcmd->setEqLogic_id($this->id);
-              $geotravcmd->setLogicalId('geofence:'.$geotrav->getId().'distance');
-              $geotravcmd->setType('info');
-              $geotravcmd->setSubType('numeric');
-              $geotravcmd->setUnite('m');
-              $geotravcmd->setConfiguration('geofenceType','distance');
-              $geotravcmd->setConfiguration('geofenceId',$geotrav->getId());
-              $geotravcmd->save();
-            }
+        if ($this->getConfiguration('geofence:' . $geotrav->getId()) == 1) {
+          $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($this->getId(),'geofence:'.$geotrav->getId().':presence');
+          if (!is_object($geotravcmd)) {
+            $geotravcmd = new geotravCmd();
+            $geotravcmd->setName(__('Présence ' . $geotrav->getName(), __FILE__));
+            $geotravcmd->setEqLogic_id($this->id);
+            $geotravcmd->setLogicalId('geofence:'.$geotrav->getId().'presence');
+            $geotravcmd->setType('info');
+            $geotravcmd->setSubType('binary');
+            $geotravcmd->setConfiguration('geofenceType','presence');
+            $geotravcmd->setConfiguration('geofenceId',$geotrav->getId());
+            $geotravcmd->save();
           }
+          $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($this->getId(),'geofence:'.$geotrav->getId().':distance');
+          if (!is_object($geotravcmd)) {
+            $geotravcmd = new geotravCmd();
+            $geotravcmd->setName(__('Distance ' . $geotrav->getName(), __FILE__));
+            $geotravcmd->setEqLogic_id($this->id);
+            $geotravcmd->setLogicalId('geofence:'.$geotrav->getId().'distance');
+            $geotravcmd->setType('info');
+            $geotravcmd->setSubType('numeric');
+            $geotravcmd->setUnite('m');
+            $geotravcmd->setConfiguration('geofenceType','distance');
+            $geotravcmd->setConfiguration('geofenceId',$geotrav->getId());
+            $geotravcmd->save();
+          }
+        }
       }
     }
   }
@@ -374,12 +373,12 @@ class geotrav extends eqLogic {
     if ($this->getConfiguration('type') == 'geofence') {
       $replace['#status#'] = '';
       $replace['#location:coordinate#'] = geotrav::byId($this->getConfiguration('zoneOrigin'))->getConfiguration('coordinate');
-        foreach ($this->getCmd('info') as $presence) {
-          if ($presence->getConfiguration('geofenceType') == 'presence') {
-            $icon = $presence->execCmd() ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
-            $replace['#status#'] .= '<span style="font-size : 0.9em;">' . $icon . $presence->getName() . '</span><br/>';
-          }
+      foreach ($this->getCmd('info') as $presence) {
+        if ($presence->getConfiguration('geofenceType') == 'presence') {
+          $icon = $presence->execCmd() ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
+          $replace['#status#'] .= '<span style="font-size : 0.9em;">' . $icon . $presence->getName() . '</span><br/>';
         }
+      }
     }
 
     $templatename = $this->getConfiguration('type');
