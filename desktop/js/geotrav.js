@@ -43,8 +43,9 @@ function addCmdToTable(_cmd) {
     tr += '<input class="cmdAttr form-control input-sm" data-l1key="name" >';
     tr += '</td>';
     tr += '<td>';
-    tr += '<span class="cmdAttr form-control input-sm" data-l1key="type"></span>';
-    tr += '<span class="cmdAttr form-control input-sm" data-l1key="subType"></span>';
+    tr += '<span class="cmdAttr" data-l1key="type"></span>';
+    tr += '<br/>';
+    tr += '<span class="cmdAttr" data-l1key="subType"></span>';
     tr += '</td>';
     tr += '<td>';
     if (init(_cmd.subType) == 'numeric' || init(_cmd.subType) == 'binary') {
