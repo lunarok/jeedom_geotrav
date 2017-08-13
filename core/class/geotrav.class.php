@@ -348,7 +348,11 @@ class geotrav extends eqLogic {
     foreach ($this->getCmd('info') as $cmd) {
       $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
       $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
-      $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+      if (strrpos($cmd->getLogicalId(),'time') !== false) {
+        $replace['#' . $cmd->getLogicalId() . '#'] = substr_replace($cmd->execCmd(),':',-2,0);
+      } else {
+        $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+      }
       $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
       if ($cmd->getIsHistorized() == 1) {
         $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
