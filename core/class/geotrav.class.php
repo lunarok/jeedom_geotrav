@@ -373,10 +373,10 @@ class geotrav extends eqLogic {
     }
     if ($this->getConfiguration('type') == 'geofence') {
       $replace['#status#'] = '';
-        foreach ($this->getCmd('info') as $cmd) {
-          if ($cmd->getConfiguration('geofenceType') == 'presence') {
-            $icon = $cmd->execCmd() ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
-            $replace['#status#'] .= '<span style="font-size : 0.9em;">' . $icon . $cmd->getName() . '</span><br/>';
+        foreach ($this->getCmd('info') as $presence) {
+          if ($presence->getConfiguration('geofenceType') == 'presence') {
+            $icon = $presence->execCmd() ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
+            $replace['#status#'] .= '<span style="font-size : 0.9em;">' . $icon . $presence->getName() . '</span><br/>';
           }
         }
     }
