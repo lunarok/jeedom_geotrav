@@ -31,6 +31,10 @@ class geotrav extends eqLogic {
       if ($location->getConfiguration('type') == 'travel') {
         $location->refreshTravel();
       }
+      if ($location->getConfiguration('type') == 'location') {
+        $option = array('event_id' => $location->getId(), 'value' => $location->getConfiguration('coordinate'));
+        $location->triggerGeo($option);
+      }
     }
   }
 
@@ -178,13 +182,13 @@ class geotrav extends eqLogic {
     $d = 2 * atan2(sqrt($a), sqrt(1 - $a));
     $distance = round(($earth_radius * $d));
     log::add('geotrav', 'debug', 'Geofence ' . $distance);
-    $this->checkAndUpdateCmd('geofence:'.$id.'distance', $distance);
+    $this->checkAndUpdateCmd('geofence:'.$id.':distance', $distance);
     if ($distance < $this->getConfiguration('zoneConfiguration')) {
       $presence = true;
     } else {
       $presence = false;
     }
-    $this->checkAndUpdateCmd('geofence:'.$id.'presence', $presence);
+    $this->checkAndUpdateCmd('geofence:'.$id.':presence', $presence);
     $this->refreshWidget();
   }
 
