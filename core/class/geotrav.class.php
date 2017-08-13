@@ -347,6 +347,12 @@ class geotrav extends eqLogic {
                 $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
             }
         }
+        $replace['#keyGMG'] = config::byKey('keyGMG','geotrav');
+        if ($this->getConfiguration('type') == 'travel') {
+          $replace['#origin'] = $this->getConfiguration('travelDeparture');
+          $replace['#destination'] = $this->getConfiguration('travelArrival');
+          $replace['#keyGMG'] = config::byKey('keyGMG','geotrav');
+        }
         $templatename = $this->getConfiguration('type');
 
         return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'geotrav')));
