@@ -373,6 +373,7 @@ class geotrav extends eqLogic {
     }
     if ($this->getConfiguration('type') == 'geofence') {
       $replace['#status#'] = '';
+      $replace['#location:coordinate#'] = geotrav::byId($this->getConfiguration('zoneOrigin'))->getConfiguration('coordinate');
         foreach ($this->getCmd('info') as $presence) {
           if ($presence->getConfiguration('geofenceType') == 'presence') {
             $icon = $presence->execCmd() ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
