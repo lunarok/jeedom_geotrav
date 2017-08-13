@@ -1,12 +1,16 @@
 <div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
       <center><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a></strong></center><br />
-    <div class="row">
+      <div class="row">
 
-	<div class="col-sm-12">
-	<center>
-        <span style="font-weight: bold;font-size : 1.2em;">#address#</span><br/>
-        <iframe src="https://maps.google.com/maps?hl=fr&ie=utf8&output=embed&q=#coordinate#" width="240" height="180" frameborder="0" style="border:0;"></iframe>
-   </center>
-	</div>
-	</div>
+  	<div class="col-md-8">
+  	<center>
+          <iframe src="https://maps.google.com/maps/embed/v1/place?key=#keyGMW#&q=#location:coordinate#" width="240" height="180" frameborder="0" style="border:0;"></iframe>
+     </center>
+  	</div>
+    <div class="col-md-4">
+      <center>
+      #status#
+    </center>
+    </div>
+  	</div>
 </div>
