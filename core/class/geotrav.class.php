@@ -170,9 +170,8 @@ class geotrav extends eqLogic {
   }
 
   public function updateGeofenceValues($id,$coord) {
-    log::add('geotrav', 'debug', 'In update ' . $this->getName() . ' ' . $this->getConfiguration('zoneOrigin'));
+    log::add('geotrav', 'debug', 'Calcul geofence ' . $this->getName() . ' ' . $this->getConfiguration('zoneOrigin') ' pour ' . $id . ' ' . $coord);
     $origin = geotrav::byId($this->getConfiguration('zoneOrigin'));
-    log::add('geotrav', 'debug', 'In update ' . $origin->getConfiguration('coordinate') . ' ' . $coord);
     $coordinate1 = explode(',',$coord);
     $coordinate2 = explode(',',$origin->getConfiguration('coordinate'));
     $earth_radius = 6378137; // Terre = sphère de 6378km de rayon
