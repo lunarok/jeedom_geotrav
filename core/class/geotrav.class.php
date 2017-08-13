@@ -125,7 +125,7 @@ class geotrav extends eqLogic {
     //$alarm = geotrav::byId($_option['geotrav']);//equal global
     log::add('geotrav', 'debug', 'Trigger ' . $_option['event_id'] . ' ' . $_option['value']);
     foreach (eqLogic::byType('geotrav', true) as $geotrav) {
-      if ($geotrav->getConfiguration('type') == 'geofence') {
+      if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $_option['event_id']) == 1) {
         $geotrav->updateGeofenceValues($_option['event_id'],$_option['value']);
       }
     }
@@ -181,7 +181,7 @@ class geotrav extends eqLogic {
     $a = (sin($dla) * sin($dla)) + cos($rla1) * cos($rla2) * (sin($dlo) * sin($dlo));
     $d = 2 * atan2(sqrt($a), sqrt(1 - $a));
     $distance = round(($earth_radius * $d));
-    log::add('geotrav', 'debug', 'Geofence ' . $distance);
+    log::add('geotrav', 'debug', 'Geofence ' . $id . ' ' . $distance);
     $this->checkAndUpdateCmd('geofence:'.$id.':distance', $distance);
     if ($distance < $this->getConfiguration('zoneConfiguration')) {
       $presence = true;
