@@ -167,10 +167,12 @@ $eqLogics = eqLogic::byType('geotrav');
                 <label class="col-sm-2 control-label">{{Equipements à rechercher}}</label>
                 <div class="col-sm-3">
                     <?php
-                    foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
-                      echo '<label class="checkbox-inline">';
-                      echo '<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="geofence:' . $location->getId() . '" />' . $location->getName();
-                      echo '</label>';
+                    foreach (eqLogic::byType('geotrav', true) as $location) {
+                      if ($location->getConfiguration('type') == 'location') {
+                        echo '<label class="checkbox-inline">';
+                        echo '<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="geofence:' . $location->getId() . '" />' . $location->getName();
+                        echo '</label>';
+                      }
                     }
                     ?>
                 </div>
