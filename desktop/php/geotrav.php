@@ -39,6 +39,7 @@ $eqLogics = eqLogic::byType('geotrav');
     </div>
 
     <legend><i class="icon nature-planet5"></i> {{Mes équipements localisation et trajets}}</legend>
+    <div class="eqLogicThumbnailContainer">
     <?php
     foreach ($eqLogics as $eqLogic) {
       $opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
@@ -51,6 +52,7 @@ $eqLogics = eqLogic::byType('geotrav');
     }
     ?>
   </div>
+</div>
 
 
   <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
