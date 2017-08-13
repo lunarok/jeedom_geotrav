@@ -31,9 +31,6 @@ class geotrav extends eqLogic {
       if ($location->getConfiguration('type') == 'travel') {
         $location->refreshTravel();
       }
-      if ($location->getConfiguration('type') == 'location') {
-        $location->updateGeofenceValues($location->getId(),$location->getConfiguration('coordinate'));
-      }
     }
   }
 
