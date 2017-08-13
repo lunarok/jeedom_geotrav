@@ -102,6 +102,30 @@
 				"type": "travel"
             },
             "logicalId": "travel:stepsback"
+        },
+        {
+            "name": "Coordonnées départ",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "travel"
+            },
+            "logicalId": "travel:departureCoordinate"
+        },
+        {
+            "name": "Coordonnées retour",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "travel"
+            },
+            "logicalId": "travel:arrivalCoordinate"
         }
     ]
 }
