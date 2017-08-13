@@ -170,7 +170,7 @@ class geotrav extends eqLogic {
   }
 
   public function updateGeofenceValues($id,$coord) {
-    log::add('geotrav', 'debug', 'Calcul geofence ' . $this->getName() . ' ' . $this->getConfiguration('zoneOrigin') ' pour ' . $id . ' ' . $coord);
+    log::add('geotrav', 'debug', 'Calcul geofence ' . $this->getName() . ' ' . $this->getConfiguration('zoneOrigin') . ' pour ' . $id . ' ' . $coord);
     $origin = geotrav::byId($this->getConfiguration('zoneOrigin'));
     $coordinate1 = explode(',',$coord);
     $coordinate2 = explode(',',$origin->getConfiguration('coordinate'));
