@@ -311,10 +311,10 @@ class geotrav extends eqLogic {
     $this->checkAndUpdateCmd('station:1time', substr($jsondata['departures'][0]['stop_date_time']['departure_date_time'],9,4));
     $this->checkAndUpdateCmd('station:1line', $jsondata['departures'][0]['display_informations']['code']);
     $this->checkAndUpdateCmd('station:1stop', $jsondata['departures'][0]['stop_point']['name']);
-    $this->checkAndUpdateCmd('station:2direction', $jsondata['departures'][0]['display_informations']['direction']);
-    $this->checkAndUpdateCmd('station:2time', $jsondata['departures'][0]['stop_date_time']['departure_date_time']);
-    $this->checkAndUpdateCmd('station:2line', $jsondata['departures'][0]['display_informations']['code']);
-    $this->checkAndUpdateCmd('station:2stop', $jsondata['departures'][0]['stop_point']['name']);
+    $this->checkAndUpdateCmd('station:2direction', $jsondata['departures'][1]['display_informations']['direction']);
+    $this->checkAndUpdateCmd('station:2time', substr($jsondata['departures'][1]['stop_date_time']['departure_date_time'],9,4));
+    $this->checkAndUpdateCmd('station:2line', $jsondata['departures'][1]['display_informations']['code']);
+    $this->checkAndUpdateCmd('station:2stop', $jsondata['departures'][1]['stop_point']['name']);
     $urldepart = $url . '/arrivals?';
     foreach ($options as $key => $value) {
       if ($key == 'from_datetime') {
@@ -329,10 +329,10 @@ class geotrav extends eqLogic {
     $this->checkAndUpdateCmd('station:arrival1time', substr($jsondata['arrivals'][0]['stop_date_time']['departure_date_time'],9,4));
     $this->checkAndUpdateCmd('station:arrival1line', $jsondata['arrivals'][0]['display_informations']['code']);
     $this->checkAndUpdateCmd('station:arrival1stop', $jsondata['arrivals'][0]['stop_point']['name']);
-    $this->checkAndUpdateCmd('station:arrival2direction', $jsondata['arrivals'][0]['display_informations']['direction']);
-    $this->checkAndUpdateCmd('station:arrival2time', $jsondata['arrivals'][0]['stop_date_time']['departure_date_time']);
-    $this->checkAndUpdateCmd('station:arrival2line', $jsondata['arrivals'][0]['display_informations']['code']);
-    $this->checkAndUpdateCmd('station:arrival2stop', $jsondata['arrivals'][0]['stop_point']['name']);
+    $this->checkAndUpdateCmd('station:arrival2direction', $jsondata['arrivals'][1]['display_informations']['direction']);
+    $this->checkAndUpdateCmd('station:arrival2time', substr($jsondata['arrivals'][1]['stop_date_time']['departure_date_time'],9,4));
+    $this->checkAndUpdateCmd('station:arrival2line', $jsondata['arrivals'][1]['display_informations']['code']);
+    $this->checkAndUpdateCmd('station:arrival2stop', $jsondata['arrivals'][1]['stop_point']['name']);
     $this->refreshWidget();
   }
 
