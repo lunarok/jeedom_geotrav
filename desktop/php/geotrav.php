@@ -22,8 +22,7 @@ $eqLogics = eqLogic::byType('geotrav');
   </div>
 
   <div class="col-lg-10 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE; padding-left: 25px;">
-    <legend><i class="icon nature-planet5"></i> {{Mes équipements localisation et trajets}}
-    </legend>
+    <legend><i class="fa fa-cog"></i>  {{Gestion}}</legend>
     <div class="eqLogicThumbnailContainer">
       <div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
         <center>
@@ -37,19 +36,22 @@ $eqLogics = eqLogic::byType('geotrav');
         </center>
         <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#767676"><center>{{Configuration}}</center></span>
       </div>
-      <?php
-      foreach ($eqLogics as $eqLogic) {
-        $opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
-        echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff ; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
-        echo "<center>";
-        echo '<img src="plugins/geotrav/doc/images/geotrav_icon.png" height="105" width="95" />';
-        echo "</center>";
-        echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
-        echo '</div>';
-      }
-      ?>
     </div>
+
+    <legend><i class="icon nature-planet5"></i> {{Mes équipements localisation et trajets}}</legend>
+    <?php
+    foreach ($eqLogics as $eqLogic) {
+      $opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
+      echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff ; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
+      echo "<center>";
+      echo '<img src="plugins/geotrav/doc/images/geotrav_icon.png" height="105" width="95" />';
+      echo "</center>";
+      echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
+      echo '</div>';
+    }
+    ?>
   </div>
+
 
   <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
     <a class="btn btn-success eqLogicAction pull-right" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
@@ -120,15 +122,15 @@ $eqLogics = eqLogic::byType('geotrav');
               </div>
             </div>
             <div id="location" style="display:none">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" >{{Mode de configuration}}</label>
-                  <div class="col-sm-3">
-                    <select id="typeLoc" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="typeConfLoc">
-                      <option value="coordinate" selected>{{Par Coordonnées}}</option>
-                      <option value="address">{{Par Adresse}}</option>
-                    </select>
-                  </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" >{{Mode de configuration}}</label>
+                <div class="col-sm-3">
+                  <select id="typeLoc" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="typeConfLoc">
+                    <option value="coordinate" selected>{{Par Coordonnées}}</option>
+                    <option value="address">{{Par Adresse}}</option>
+                  </select>
                 </div>
+              </div>
               <div class="form-group" id="coordinate" style="display:none">
                 <label class="col-sm-2 control-label">{{Coordonnées}}</label>
                 <div class="col-sm-3">
@@ -172,15 +174,15 @@ $eqLogics = eqLogic::byType('geotrav');
               <div class="form-group">
                 <label class="col-sm-2 control-label">{{Equipements à rechercher}}</label>
                 <div class="col-sm-3">
-                    <?php
-                    foreach (eqLogic::byType('geotrav', true) as $location) {
-                      if ($location->getConfiguration('type') == 'location') {
-                        echo '<label class="checkbox-inline">';
-                        echo '<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="geofence:' . $location->getId() . '" />' . $location->getName();
-                        echo '</label>';
-                      }
+                  <?php
+                  foreach (eqLogic::byType('geotrav', true) as $location) {
+                    if ($location->getConfiguration('type') == 'location') {
+                      echo '<label class="checkbox-inline">';
+                      echo '<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="geofence:' . $location->getId() . '" />' . $location->getName();
+                      echo '</label>';
                     }
-                    ?>
+                  }
+                  ?>
                 </div>
               </div>
             </div>
