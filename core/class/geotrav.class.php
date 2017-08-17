@@ -202,7 +202,7 @@ class geotrav extends eqLogic {
       log::add('geotrav', 'error', 'Coordonnées invalides ' . $geoloc);
       return true;
     }
-    $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG','geotrav');
+    $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . trim(config::byKey('keyGMG','geotrav'));
     $data = file_get_contents($url);
     $jsondata = json_decode($data,true);
     $this->updateLocation($jsondata);
@@ -210,7 +210,7 @@ class geotrav extends eqLogic {
 
   public function updateGeocoding($address) {
     log::add('geotrav', 'debug', 'Adresse ' . $address);
-    $url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . config::byKey('keyGMG','geotrav');
+    $url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . trim(config::byKey('keyGMG','geotrav'));
     $data = file_get_contents($url);
     $jsondata = json_decode($data,true);
     $this->updateLocation($jsondata);
@@ -250,8 +250,8 @@ class geotrav extends eqLogic {
   public function refreshTravel($param='none') {
     $departureEq = geotrav::byId($this->getConfiguration('travelDeparture'));
     $arrivalEq = geotrav::byId($this->getConfiguration('travelArrival'));
-    $url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('coordinate')) . '&destination=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&language=fr&key=' . config::byKey('keyGMG','geotrav');
-    $url2 = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&destination=' . urlencode($departureEq->getConfiguration('coordinate')) . '&language=fr&key=' . config::byKey('keyGMG','geotrav');
+    $url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('coordinate')) . '&destination=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyGMG','geotrav'));
+    $url2 = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&destination=' . urlencode($departureEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyGMG','geotrav'));
     $options = array();
     if ($this->getConfiguration('travelOptions') != '') {
       $options = arg2array($this->getConfiguration('travelOptions'));
@@ -292,7 +292,7 @@ class geotrav extends eqLogic {
 
   public function refreshStation($param='none') {
     $loc = urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:longitude')->execCmd()) . ';' . urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:latitude')->execCmd());
-    $url = 'https://' . config::byKey('keyNavitia','geotrav') . '@api.navitia.io/v1/coverage/' . $loc . '/coords/' . $loc;
+    $url = 'https://' . trim(config::byKey('keyNavitia','geotrav')) . '@api.navitia.io/v1/coverage/' . $loc . '/coords/' . $loc;
     $options = array();
     if ($this->getConfiguration('travelOptions') != '') {
       $options = arg2array($this->getConfiguration('travelOptions'));
@@ -361,7 +361,7 @@ class geotrav extends eqLogic {
         $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
       }
     }
-    $replace['#keyGMW#'] = config::byKey('keyGMW','geotrav');
+    $replace['#keyGMW#'] = trim(config::byKey('keyGMW','geotrav'));
     if ($this->getConfiguration('type') == 'travel') {
       $replace['#options#'] = '';
       if ($this->getConfiguration('travelOptions') != '') {
