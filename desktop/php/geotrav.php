@@ -147,6 +147,7 @@ $eqLogics = eqLogic::byType('geotrav');
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">{{URL à utiliser}}</label>
+                <sup><i class="fa fa-question-circle" style="font-size : 1em;color:grey;" title="Pour pouvoir mettre à jour la localisation par API"></i></sup>
                 <div class="col-sm-3">
                   <span class="eqLogicAttr" data-l1key="configuration" data-l2key="url"></span>
                 </div>
@@ -155,6 +156,7 @@ $eqLogics = eqLogic::byType('geotrav');
             <div id="geofence" style="display:none">
               <div class="form-group">
                 <label class="col-sm-2 control-label">{{Référence de la distance}}</label>
+                <sup><i class="fa fa-question-circle" style="font-size : 1em;color:grey;" title="Pour définir le centre de la zone de présence"></i></sup>
                 <div class="col-sm-3">
                   <select class="form-control eqLogicAttr configuration" data-l1key="configuration" data-l2key="zoneOrigin">
                     <?php
@@ -169,6 +171,7 @@ $eqLogics = eqLogic::byType('geotrav');
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">{{Distance de présence}}</label>
+                <sup><i class="fa fa-question-circle" style="font-size : 1em;color:grey;" title="Rayon de la zone de présence en mètres"></i></sup>
                 <div class="col-sm-3">
                   <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="zoneConfiguration" type="text" placeholder="{{voir la doc}}">
                 </div>
@@ -205,6 +208,7 @@ $eqLogics = eqLogic::byType('geotrav');
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">{{Options de transport}}</label>
+                <sup><i class="fa fa-question-circle" style="font-size : 1em;color:grey;" title="Se référer à la doc, permet de saisir les options de l'API pour affiner la recherche"></i></sup>
                 <div class="col-sm-3">
                   <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="stationOptions" type="text" placeholder="{{voir la doc}}">
                 </div>
@@ -241,6 +245,7 @@ $eqLogics = eqLogic::byType('geotrav');
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">{{Options de voyage}}</label>
+                <sup><i class="fa fa-question-circle" style="font-size : 1em;color:grey;" title="Se référer à la doc, permet de saisir les options de l'API pour affiner la recherche"></i></sup>
                 <div class="col-sm-3">
                   <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelOptions" type="text" placeholder="{{voir la doc}}">
                 </div>
