@@ -4,5 +4,7 @@
 	"licence" : "AGPL",
 	"author" : "lunarok",
 	"require" : "3.0",
-	"category" : "organization"
+	"category" : "organization",
+	"issue" : "https://github.com/lunarok/jeedom_geotrav/issues",
+	"documentation" : "https://github.com/lunarok/jeedom_geotrav/blob/master/doc/fr_FR/index.asciidoc"
 }
