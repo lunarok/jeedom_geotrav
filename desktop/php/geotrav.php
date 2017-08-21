@@ -93,7 +93,7 @@ $eqLogics = eqLogic::byType('geotrav');
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label">{{Catégorie}}</label>
-              <div class="col-sm-3">
+              <div class="col-sm-10">
                 <?php
                 foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
                   echo '<label class="checkbox-inline">';
