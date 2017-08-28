@@ -126,7 +126,7 @@ $eqLogics = eqLogic::byType('geotrav');
                             <div class="form-group" id="cmdgeoloc" style="display:none">
                                 <label class="col-sm-2 control-label">{{Commande}}</label>
                                 <div class="col-sm-3">
-                                <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmdgeoloc">
+                                <input class="eqLogicAttr" data-l1key="configuration" data-l2key="cmdgeoloc">
                                 <span class="input-group-btn">
                                     <a class="btn btn-default cursor listEquipementAction" data-input="cmdgeoloc"><i class="fa fa-list-alt "></i></a>
                                 </span>
