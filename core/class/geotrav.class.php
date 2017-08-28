@@ -195,6 +195,7 @@ class geotrav extends eqLogic {
         $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG','geotrav');
         $data = file_get_contents($url);
         $jsondata = json_decode($data,true);
+        log::add('geotrav', 'debug', 'Resultat ' . $url . ' ' . print_r($jsondata, true));
         $this->updateLocation($jsondata);
     }
 
