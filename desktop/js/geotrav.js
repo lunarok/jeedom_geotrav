@@ -17,7 +17,7 @@
  $("#cmdgeoloc").delegate(".listEquipementAction", 'click', function () {
      var el = $(this);
      jeedom.cmd.getSelectModal({cmd: {type: 'info', subType: 'string'}}, function (result) {
-         var calcul = el.closest('tr').find('.eqLogicAttr[data-l1key=configuration][data-l2key=' + el.attr('data-input') + ']');
+         var calcul = el.find('.eqLogicAttr[data-l1key=configuration][data-l2key=' + el.attr('data-input') + ']');
          calcul.atCaret('insert', result.human);
      });
  });

@@ -123,8 +123,8 @@ $eqLogics = eqLogic::byType('geotrav');
                                     <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="fieldaddress" type="text" placeholder="{{saisir une adresse}}">
                                 </div>
                             </div>
-                            <div class="input-group" id="cmdgeoloc" style="display:none">
-                                <label class="col-sm-3 control-label">{{Commande}}</label>
+                            <div class="form-group" id="cmdgeoloc" style="display:none">
+                                <label class="col-sm-2 control-label">{{Commande}}</label>
                                 <div class="col-sm-3">
                                 <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmdgeoloc">
                                 <span class="input-group-btn">
