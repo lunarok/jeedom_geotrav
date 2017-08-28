@@ -14,13 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
- $("#cmdgeoloc").delegate(".listEquipementAction", 'click', function () {
-     var el = $(this);
-     jeedom.cmd.getSelectModal({cmd: {type: 'info', subType: 'string'}}, function (result) {
-         var calcul = el.closest('input').find('.eqLogicAttr[data-l1key=configuration][data-l2key=cmdgeoloc]');
-         calcul.atCaret('insert', result.human);
-     });
- });
+ $('#cmdgeoloc').on('click', function () {
+    jeedom.cmd.getSelectModal({cmd: {type: 'info', subType: 'string'}}, function (result) {
+        $('.eqLogicAttr[data-l2key=cmdgeoloc]').atCaret('insert', result.human);
+    });
+});
 
  $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
