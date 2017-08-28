@@ -14,7 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
-
+ $("#table_cmd").delegate(".listEquipementAction", 'click', function () {
+     var el = $(this);
+     jeedom.cmd.getSelectModal({cmd: {type: 'info', subType: 'string'}}, function (result) {
+         var calcul = el.closest('tr').find('.cmdAttr[data-l1key=configuration][data-l2key=' + el.attr('data-input') + ']');
+         calcul.atCaret('insert', result.human);
+     });
+ });
 
  $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
@@ -23,11 +29,45 @@
    if (text == 'coordinate') {
      $('#coordinate').show();
      $('#address').hide();
+     $('#cmdgeoloc').hide();
    }
    if (text == 'address') {
      $('#coordinate').hide();
      $('#address').show();
+     $('#cmdgeoloc').hide();
    }
+   if (text == 'cmdgeoloc') {
+     $('#coordinate').hide();
+     $('#address').hide();
+     $('#cmdgeoloc').show();
+   }
+ });
+
+ $( "#typeEq" ).change(function(){
+     if ($('#typeEq').value() == 'location') {
+         $('#location').show();
+         $('#geofence').hide();
+         $('#station').hide();
+         $('#travel').hide();
+     }
+     else if ($('#typeEq').value() == 'geofence') {
+         $('#location').hide();
+         $('#geofence').show();
+         $('#station').hide();
+         $('#travel').hide();
+     }
+     else if ($('#typeEq').value() == 'station') {
+         $('#location').hide();
+         $('#geofence').hide();
+         $('#station').show();
+         $('#travel').hide();
+     }
+     else if ($('#typeEq').value() == 'travel') {
+         $('#location').hide();
+         $('#geofence').hide();
+         $('#station').hide();
+         $('#travel').show();
+     }
  });
 
 function addCmdToTable(_cmd) {

@@ -41,9 +41,25 @@ class geotrav extends eqLogic {
     }
   }
 
-  public function postSave() {
-    if ($this->getConfiguration('type') == 'station') {
-      $this->refreshStation();
+    public function postSave() {
+        if ($this->getConfiguration('type') == 'station') {
+            $this->refreshStation();
+        }
+        if ($this->getConfiguration('type') == 'travel') {
+            $this->refreshTravel();
+        }
+        if ($location->getConfiguration('typeConfLoc') == 'cmdgeoloc') {
+            $listener = listener::byClassAndFunction('geotrav', 'updateGeocodingReverse', array('geotrav' => $this->getId()));
+            if (!is_object($listener)) {
+                $listener = new listener();
+            }
+            $listener->setClass('geotrav');
+            $listener->setFunction('updateGeocodingReverse');
+            $listener->setOption(array('geotrav' => $this->getId()));
+            $listener->emptyEvent();
+            $listener->addEvent(str_replace('#','',$this->getConfiguration('cmdgeoloc')));
+            $listener->save();
+        }
     }
     if ($this->getConfiguration('type') == 'travel') {
       $this->refreshTravel();
@@ -169,27 +185,20 @@ class geotrav extends eqLogic {
     }
   }
 
-  public function updateGeofenceValues($id,$coord) {
-    log::add('geotrav', 'debug', 'Calcul geofence ' . $this->getName() . ' ' . $this->getConfiguration('zoneOrigin') . ' pour ' . $id . ' ' . $coord);
-    $origin = geotrav::byId($this->getConfiguration('zoneOrigin'));
-    $coordinate1 = explode(',',$coord);
-    $coordinate2 = explode(',',$origin->getConfiguration('coordinate'));
-    $earth_radius = 6378137; // Terre = sphère de 6378km de rayon
-    $rlo1 = deg2rad($coordinate1[1]);
-    $rla1 = deg2rad($coordinate1[0]);
-    $rlo2 = deg2rad($coordinate2[1]);
-    $rla2 = deg2rad($coordinate2[0]);
-    $dlo = ($rlo2 - $rlo1) / 2;
-    $dla = ($rla2 - $rla1) / 2;
-    $a = (sin($dla) * sin($dla)) + cos($rla1) * cos($rla2) * (sin($dlo) * sin($dlo));
-    $d = 2 * atan2(sqrt($a), sqrt(1 - $a));
-    $distance = round(($earth_radius * $d));
-    log::add('geotrav', 'debug', 'Geofence ' . $id . ' ' . $distance);
-    $this->checkAndUpdateCmd('geofence:'.$id.':distance', $distance);
-    if ($distance < $this->getConfiguration('zoneConfiguration')) {
-      $presence = true;
-    } else {
-      $presence = false;
+    public function updateGeocodingReverse($geoloc) {
+        if (is_array($geoloc)) {
+            $geoloc = $geoloc['value'];
+        }
+        $geoloc = str_replace(' ','',$geoloc);
+        log::add('geotrav', 'debug', 'Coordonnées ' . $geoloc);
+        if ($geoloc == '' || strrpos($geoloc,',') === false) {
+            log::add('geotrav', 'error', 'Coordonnées invalides ' . $geoloc);
+            return true;
+        }
+        $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG','geotrav');
+        $data = file_get_contents($url);
+        $jsondata = json_decode($data,true);
+        $this->updateLocation($jsondata);
     }
     $this->checkAndUpdateCmd('geofence:'.$id.':presence', $presence);
     $this->refreshWidget();
@@ -372,17 +381,42 @@ class geotrav extends eqLogic {
             $replace['#options#'] .= '&' . $key . '=' . $value;
           }
         }
-      }
-    }
-    if ($this->getConfiguration('type') == 'geofence') {
-      $replace['#status#'] = '';
-      $replace['#location:coordinate#'] = geotrav::byId($this->getConfiguration('zoneOrigin'))->getConfiguration('coordinate');
-      foreach ($this->getCmd('info') as $presence) {
-        if ($presence->getConfiguration('geofenceType') == 'presence') {
-          $icon = $presence->execCmd() ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
-          $replace['#status#'] .= '<span style="font-size : 0.9em;">' . $icon . $presence->getName() . '</span><br/>';
+        $data = file_get_contents($urldepart);
+        $jsondata = json_decode($data,true);
+        log::add('geotrav', 'debug', 'Station ' . $url . print_r($jsondata,true));
+        if (!is_array($jsondata['departures'])) {
+            return;
         }
-      }
+        $this->checkAndUpdateCmd('station:1direction', $jsondata['departures'][0]['display_informations']['direction']);
+        $this->checkAndUpdateCmd('station:1time', substr($jsondata['departures'][0]['stop_date_time']['departure_date_time'],9,4));
+        $this->checkAndUpdateCmd('station:1line', $jsondata['departures'][0]['display_informations']['code']);
+        $this->checkAndUpdateCmd('station:1stop', $jsondata['departures'][0]['stop_point']['name']);
+        $this->checkAndUpdateCmd('station:2direction', $jsondata['departures'][0]['display_informations']['direction']);
+        $this->checkAndUpdateCmd('station:2time', $jsondata['departures'][0]['stop_date_time']['departure_date_time']);
+        $this->checkAndUpdateCmd('station:2line', $jsondata['departures'][0]['display_informations']['code']);
+        $this->checkAndUpdateCmd('station:2stop', $jsondata['departures'][0]['stop_point']['name']);
+        $urldepart = $url . '/arrivals?';
+        foreach ($options as $key => $value) {
+            if ($key == 'from_datetime') {
+                $value = substr_replace($value,':',-2,0);
+            }
+            $url .= '&' . $key . '=' . $value;
+        }
+        $data = file_get_contents($urldepart);
+        $jsondata = json_decode($data,true);
+        if (!is_array($jsondata['arrivals'])) {
+            return;
+        }
+        //log::add('geotrav', 'debug', 'Station ' . $url . print_r($jsondata,true));
+        $this->checkAndUpdateCmd('station:arrival1direction', $jsondata['arrivals'][0]['display_informations']['direction']);
+        $this->checkAndUpdateCmd('station:arrival1time', substr($jsondata['arrivals'][0]['stop_date_time']['departure_date_time'],9,4));
+        $this->checkAndUpdateCmd('station:arrival1line', $jsondata['arrivals'][0]['display_informations']['code']);
+        $this->checkAndUpdateCmd('station:arrival1stop', $jsondata['arrivals'][0]['stop_point']['name']);
+        $this->checkAndUpdateCmd('station:arrival2direction', $jsondata['arrivals'][0]['display_informations']['direction']);
+        $this->checkAndUpdateCmd('station:arrival2time', $jsondata['arrivals'][0]['stop_date_time']['departure_date_time']);
+        $this->checkAndUpdateCmd('station:arrival2line', $jsondata['arrivals'][0]['display_informations']['code']);
+        $this->checkAndUpdateCmd('station:arrival2stop', $jsondata['arrivals'][0]['stop_point']['name']);
+        $this->refreshWidget();
     }
 
     $templatename = $this->getConfiguration('type');
