@@ -59,6 +59,7 @@ class geotrav extends eqLogic {
             $listener->emptyEvent();
             $listener->addEvent(str_replace('#','',$this->getConfiguration('cmdgeoloc')));
             $listener->save();
+            log::add('geotrav', 'debug', 'Tracking ' . $this->getConfiguration('cmdgeoloc') . ' for ' . $this->getId());
         }
     }
 
