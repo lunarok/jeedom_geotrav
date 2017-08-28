@@ -337,6 +337,32 @@ class geotrav extends eqLogic {
         $this->refreshWidget();
     }
 
+    public function updateGeofenceValues($id,$coord) {
+      log::add('geotrav', 'debug', 'Calcul geofence ' . $this->getName() . ' ' . $this->getConfiguration('zoneOrigin') . ' pour ' . $id . ' ' . $coord);
+      $origin = geotrav::byId($this->getConfiguration('zoneOrigin'));
+      $coordinate1 = explode(',',$coord);
+      $coordinate2 = explode(',',$origin->getConfiguration('coordinate'));
+      $earth_radius = 6378137; // Terre = sphère de 6378km de rayon
+      $rlo1 = deg2rad($coordinate1[1]);
+      $rla1 = deg2rad($coordinate1[0]);
+      $rlo2 = deg2rad($coordinate2[1]);
+      $rla2 = deg2rad($coordinate2[0]);
+      $dlo = ($rlo2 - $rlo1) / 2;
+      $dla = ($rla2 - $rla1) / 2;
+      $a = (sin($dla) * sin($dla)) + cos($rla1) * cos($rla2) * (sin($dlo) * sin($dlo));
+      $d = 2 * atan2(sqrt($a), sqrt(1 - $a));
+      $distance = round(($earth_radius * $d));
+      log::add('geotrav', 'debug', 'Geofence ' . $id . ' ' . $distance);
+      $this->checkAndUpdateCmd('geofence:'.$id.':distance', $distance);
+      if ($distance < $this->getConfiguration('zoneConfiguration')) {
+        $presence = true;
+      } else {
+        $presence = false;
+      }
+      $this->checkAndUpdateCmd('geofence:'.$id.':presence', $presence);
+      $this->refreshWidget();
+  }
+
     public function toHtml($_version = 'dashboard') {
         $replace = $this->preToHtml($_version);
         if (!is_array($replace)) {
