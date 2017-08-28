@@ -48,7 +48,7 @@ class geotrav extends eqLogic {
         if ($this->getConfiguration('type') == 'travel') {
             $this->refreshTravel();
         }
-        if ($this->getConfiguration('type') == 'location' && $this->getConfiguration('typeConfLoc') == 'cmdgeoloc') {
+        if ($this->getConfiguration('type') == 'location' && $this->getConfiguration('typeConfLoc') == 'cmdinfo') {
             $listener = listener::byClassAndFunction('geotrav', 'updateGeocodingReverse', array('geotrav' => $this->getId()));
             if (!is_object($listener)) {
                 $listener = new listener();
