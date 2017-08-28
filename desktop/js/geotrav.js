@@ -36,7 +36,7 @@
      $('#address').show();
      $('#cmdgeoloc').hide();
    }
-   if (text == 'cmdgeoloc') {
+   if (text == 'cmdinfo') {
      $('#coordinate').hide();
      $('#address').hide();
      $('#cmdgeoloc').show();
