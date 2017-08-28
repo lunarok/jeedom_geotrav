@@ -49,12 +49,12 @@ class geotrav extends eqLogic {
             $this->refreshTravel();
         }
         if ($this->getConfiguration('type') == 'location' && $this->getConfiguration('typeConfLoc') == 'cmdinfo') {
-            $listener = listener::byClassAndFunction('geotrav', 'updateGeocodingReverse', array('geotrav' => $this->getId()));
+            $listener = listener::byClassAndFunction('geotrav', 'trackGeoloc', array('geotrav' => $this->getId()));
             if (!is_object($listener)) {
                 $listener = new listener();
             }
             $listener->setClass('geotrav');
-            $listener->setFunction('updateGeocodingReverse');
+            $listener->setFunction('trackGeoloc');
             $listener->setOption(array('geotrav' => $this->getId()));
             $listener->emptyEvent();
             $listener->addEvent(str_replace('#','',$this->getConfiguration('cmdgeoloc')));
@@ -182,10 +182,12 @@ class geotrav extends eqLogic {
         }
     }
 
+    public function trackGeoloc($geoloc) {
+        $geolocEq = geotrav::byId($geoloc['geotrav']);
+        $geolocEq->updateGeocodingReverse($geoloc['value'])
+    }
+
     public function updateGeocodingReverse($geoloc) {
-        if (is_array($geoloc)) {
-            $geoloc = $geoloc['value'];
-        }
         $geoloc = str_replace(' ','',$geoloc);
         log::add('geotrav', 'debug', 'Coordonnées ' . $geoloc);
         if ($geoloc == '' || strrpos($geoloc,',') === false) {
