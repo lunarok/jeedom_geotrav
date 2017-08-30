@@ -33,7 +33,7 @@ Les équipements Geofence dispose de 2 options de configuration :
 
   - Localisation de référence : c'est celle qui est utilisée pour la distance et par défaut pour la présence (liste des équipements de type localisation du plugin)
 
-  - Distance de calcul : c'est la limite qui sera utilisée pour comparer la distance et dire si l'équipement "est présent"
+  - Distance de calcul (en mètres) : c'est la limite qui sera utilisée pour comparer la distance et dire si l'équipement "est présent"
 
 === Trajets
 
