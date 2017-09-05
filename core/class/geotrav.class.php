@@ -366,46 +366,54 @@ class geotrav extends eqLogic {
         $this->refreshWidget();
     }
 
-    public function toHtml($_version = 'dashboard') {
-        $replace = $this->preToHtml($_version);
-        if (!is_array($replace)) {
-            return $replace;
-        }
-        $version = jeedom::versionAlias($_version);
-        if ($this->getDisplay('hideOn' . $version) == 1) {
-            return '';
-        }
-        foreach ($this->getCmd('info') as $cmd) {
-            $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
-            $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
-            if (strrpos($cmd->getLogicalId(),'time') !== false) {
-                $replace['#' . $cmd->getLogicalId() . '#'] = substr_replace($cmd->execCmd(),':',-2,0);
-            } else {
-                $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
-            }
-            $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
-            if ($cmd->getIsHistorized() == 1) {
-                $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
-            }
-        }
-        $replace['#keyGMW#'] = trim(config::byKey('keyGMW','geotrav'));
-        if ($this->getConfiguration('type') == 'travel') {
-            $replace['#options#'] = '';
-            if ($this->getConfiguration('travelOptions') != '') {
-                $options = array();
-                $options = arg2array($this->getConfiguration('travelOptions'));
-                foreach ($options as $key => $value) {
-                    if ($key == 'mode' || $key == 'avoid' || $key == 'waypoints') {
-                        $replace['#options#'] .= '&' . $key . '=' . $value;
-                    }
-                }
-            }
-        }
-
-            $templatename = $this->getConfiguration('type');
-
-            return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'geotrav')));
+      public function toHtml($_version = 'dashboard') {
+    $replace = $this->preToHtml($_version);
+    if (!is_array($replace)) {
+      return $replace;
     }
+    $version = jeedom::versionAlias($_version);
+    if ($this->getDisplay('hideOn' . $version) == 1) {
+      return '';
+    }
+    foreach ($this->getCmd('info') as $cmd) {
+      $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
+      $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+      if (strrpos($cmd->getLogicalId(),'time') !== false) {
+        $replace['#' . $cmd->getLogicalId() . '#'] = substr_replace($cmd->execCmd(),':',-2,0);
+      } else {
+        $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+      }
+      $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
+      if ($cmd->getIsHistorized() == 1) {
+        $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
+      }
+    }
+    $replace['#keyGMW#'] = trim(config::byKey('keyGMW','geotrav'));
+    if ($this->getConfiguration('type') == 'travel') {
+      $replace['#options#'] = '';
+      if ($this->getConfiguration('travelOptions') != '') {
+        $options = array();
+        $options = arg2array($this->getConfiguration('travelOptions'));
+        foreach ($options as $key => $value) {
+          if ($key == 'mode' || $key == 'avoid' || $key == 'waypoints') {
+            $replace['#options#'] .= '&' . $key . '=' . $value;
+          }
+        }
+      }
+    }
+    if ($this->getConfiguration('type') == 'geofence') {
+      $replace['#status#'] = '';
+      $replace['#location:coordinate#'] = geotrav::byId($this->getConfiguration('zoneOrigin'))->getConfiguration('coordinate');
+      foreach ($this->getCmd('info') as $presence) {
+        if ($presence->getConfiguration('geofenceType') == 'presence') {
+          $icon = $presence->execCmd() ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
+          $replace['#status#'] .= '<span style="font-size : 0.9em;">' . $icon . $presence->getName() . '</span><br/>';
+        }
+      }
+    }
+    $templatename = $this->getConfiguration('type');
+    return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'geotrav')));
+  }
 }
 
 class geotravCmd extends cmd {
