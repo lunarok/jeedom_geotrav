@@ -399,43 +399,8 @@ class geotrav extends eqLogic {
                         $replace['#options#'] .= '&' . $key . '=' . $value;
                     }
                 }
-                $data = file_get_contents($urldepart);
-                $jsondata = json_decode($data,true);
-                log::add('geotrav', 'debug', 'Station ' . $url . print_r($jsondata,true));
-                if (!is_array($jsondata['departures'])) {
-                    return;
-                }
-                $this->checkAndUpdateCmd('station:1direction', $jsondata['departures'][0]['display_informations']['direction']);
-                $this->checkAndUpdateCmd('station:1time', substr($jsondata['departures'][0]['stop_date_time']['departure_date_time'],9,4));
-                $this->checkAndUpdateCmd('station:1line', $jsondata['departures'][0]['display_informations']['code']);
-                $this->checkAndUpdateCmd('station:1stop', $jsondata['departures'][0]['stop_point']['name']);
-                $this->checkAndUpdateCmd('station:2direction', $jsondata['departures'][0]['display_informations']['direction']);
-                $this->checkAndUpdateCmd('station:2time', $jsondata['departures'][0]['stop_date_time']['departure_date_time']);
-                $this->checkAndUpdateCmd('station:2line', $jsondata['departures'][0]['display_informations']['code']);
-                $this->checkAndUpdateCmd('station:2stop', $jsondata['departures'][0]['stop_point']['name']);
-                $urldepart = $url . '/arrivals?';
-                foreach ($options as $key => $value) {
-                    if ($key == 'from_datetime') {
-                        $value = substr_replace($value,':',-2,0);
-                    }
-                    $url .= '&' . $key . '=' . $value;
-                }
-                $data = file_get_contents($urldepart);
-                $jsondata = json_decode($data,true);
-                if (!is_array($jsondata['arrivals'])) {
-                    return;
-                }
-                //log::add('geotrav', 'debug', 'Station ' . $url . print_r($jsondata,true));
-                $this->checkAndUpdateCmd('station:arrival1direction', $jsondata['arrivals'][0]['display_informations']['direction']);
-                $this->checkAndUpdateCmd('station:arrival1time', substr($jsondata['arrivals'][0]['stop_date_time']['departure_date_time'],9,4));
-                $this->checkAndUpdateCmd('station:arrival1line', $jsondata['arrivals'][0]['display_informations']['code']);
-                $this->checkAndUpdateCmd('station:arrival1stop', $jsondata['arrivals'][0]['stop_point']['name']);
-                $this->checkAndUpdateCmd('station:arrival2direction', $jsondata['arrivals'][0]['display_informations']['direction']);
-                $this->checkAndUpdateCmd('station:arrival2time', $jsondata['arrivals'][0]['stop_date_time']['departure_date_time']);
-                $this->checkAndUpdateCmd('station:arrival2line', $jsondata['arrivals'][0]['display_informations']['code']);
-                $this->checkAndUpdateCmd('station:arrival2stop', $jsondata['arrivals'][0]['stop_point']['name']);
-                $this->refreshWidget();
             }
+        }
 
             $templatename = $this->getConfiguration('type');
 
