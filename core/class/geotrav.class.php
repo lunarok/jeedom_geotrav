@@ -405,7 +405,6 @@ class geotrav extends eqLogic {
             $templatename = $this->getConfiguration('type');
 
             return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'geotrav')));
-        }
     }
 }
 
