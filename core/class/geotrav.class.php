@@ -287,8 +287,8 @@ class geotrav extends eqLogic {
         $loc = urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:longitude')->execCmd()) . ';' . urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:latitude')->execCmd());
         $url = 'https://' . trim(config::byKey('keyNavitia','geotrav')) . '@api.navitia.io/v1/coverage/' . $loc . '/coords/' . $loc;
         $options = array();
-        if ($this->getConfiguration('travelOptions') != '') {
-            $options = arg2array($this->getConfiguration('travelOptions'));
+        if ($this->getConfiguration('stationOptions') != '') {
+            $options = arg2array($this->getConfiguration('stationOptions'));
         }
         if ($param != 'none') {
             $options = arg2array($param);
@@ -298,7 +298,7 @@ class geotrav extends eqLogic {
             if ($key == 'from_datetime') {
                 $value = substr_replace($value,':',-2,0);
             }
-            $url .= '&' . $key . '=' . $value;
+            $urldepart .= '&' . $key . '=' . $value;
         }
         $data = file_get_contents($urldepart);
         $jsondata = json_decode($data,true);
@@ -320,7 +320,7 @@ class geotrav extends eqLogic {
             if ($key == 'from_datetime') {
                 $value = substr_replace($value,':',-2,0);
             }
-            $url .= '&' . $key . '=' . $value;
+            $urldepart .= '&' . $key . '=' . $value;
         }
         $data = file_get_contents($urldepart);
         $jsondata = json_decode($data,true);
@@ -417,7 +417,6 @@ class geotrav extends eqLogic {
 }
 
 class geotravCmd extends cmd {
-
     public function execute($_options = array()) {
         $eqLogic = $this->getEqLogic();
         log::add('geotrav', 'debug', 'Action sur ' . $this->getLogicalId());
@@ -442,7 +441,5 @@ class geotravCmd extends cmd {
             break;
         }
     }
-
 }
-
 ?>
