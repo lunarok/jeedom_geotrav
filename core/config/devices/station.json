@@ -25,7 +25,7 @@
             "configuration": {
 				"type": "travel"
             },
-            "logicalId": "travel:refreshOptions"
+            "logicalId": "station:refreshOptions"
         },
         {
             "name": "Départ 1 direction",
