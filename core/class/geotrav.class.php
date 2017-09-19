@@ -188,6 +188,10 @@ class geotrav extends eqLogic {
     }
 
     public function updateGeocodingReverse($geoloc) {
+        if (config::byKey('keyGMG','geotrav') == '') {
+            log::add('geotrav', 'debug', 'Vous devez remplir les clefs API Google pour les trajets');
+            return;
+        }
         $geoloc = str_replace(' ','',$geoloc);
         log::add('geotrav', 'debug', 'Coordonnées ' . $geoloc);
         if ($geoloc == '' || strrpos($geoloc,',') === false) {
@@ -202,6 +206,10 @@ class geotrav extends eqLogic {
     }
 
     public function updateGeocoding($address) {
+        if (config::byKey('keyGMG','geotrav') == '') {
+            log::add('geotrav', 'debug', 'Vous devez remplir les clefs API Google pour les trajets');
+            return;
+        }
         log::add('geotrav', 'debug', 'Adresse ' . $address);
         $url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . trim(config::byKey('keyGMG','geotrav'));
         $data = file_get_contents($url);
@@ -241,6 +249,10 @@ class geotrav extends eqLogic {
     }
 
     public function refreshTravel($param='none') {
+        if (config::byKey('keyGMG','geotrav') == '') {
+            log::add('geotrav', 'debug', 'Vous devez remplir les clefs API Google pour les trajets');
+            return;
+        }
         $departureEq = geotrav::byId($this->getConfiguration('travelDeparture'));
         $arrivalEq = geotrav::byId($this->getConfiguration('travelArrival'));
         $url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('coordinate')) . '&destination=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyGMG','geotrav'));
@@ -286,6 +298,10 @@ class geotrav extends eqLogic {
     }
 
     public function refreshStation($param='none') {
+        if (config::byKey('keyNavitia','geotrav') == '') {
+            log::add('geotrav', 'debug', 'SVous devez remplir la clef API Navitia pour les équipements transports en commun');
+            return;
+        }
         $loc = urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:longitude')->execCmd()) . ';' . urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'),'location:latitude')->execCmd());
         $url = 'https://' . trim(config::byKey('keyNavitia','geotrav')) . '@api.navitia.io/v1/coverage/' . $loc . '/coords/' . $loc;
         $options = array();
