@@ -316,7 +316,7 @@ class geotrav extends eqLogic {
             if ($key == 'from_datetime') {
                 $value = substr_replace($value,':',-2,0);
             }
-            $urldepart .= '&' . $key . '=' . $value;
+            $urldepart .= $key . '=' . $value . '&';
         }
         $data = file_get_contents($urldepart);
         $jsondata = json_decode($data,true);
@@ -338,7 +338,7 @@ class geotrav extends eqLogic {
             if ($key == 'from_datetime') {
                 $value = substr_replace($value,':',-2,0);
             }
-            $urldepart .= '&' . $key . '=' . $value;
+            $urldepart .= $key . '=' . $value .'&';
         }
         $data = file_get_contents($urldepart);
         $jsondata = json_decode($data,true);
