@@ -258,7 +258,7 @@ class geotrav extends eqLogic {
         $url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('coordinate')) . '&destination=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyGMG','geotrav'));
         $url2 = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&destination=' . urlencode($departureEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyGMG','geotrav'));
         $options = array();
-        $options['departure_time'] = time();
+        //$options['departure_time'] = time();
         if ($this->getConfiguration('travelOptions') != '') {
             $options = arg2array($this->getConfiguration('travelOptions'));
         }
