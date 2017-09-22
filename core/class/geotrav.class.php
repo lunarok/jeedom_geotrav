@@ -311,6 +311,7 @@ class geotrav extends eqLogic {
         if ($param != 'none') {
             $options = arg2array($param);
         }
+        log::add('geotrav', 'debug', 'Station:Options '. print_r($options))
         $urldepart = $url . '/departures?';
         foreach ($options as $key => $value) {
             if ($key == 'from_datetime') {
@@ -320,7 +321,7 @@ class geotrav extends eqLogic {
         }
         $data = file_get_contents($urldepart);
         $jsondata = json_decode($data,true);
-        log::add('geotrav', 'debug', 'Station:Départ ' . $urldepart . print_r($jsondata,true));
+        log::add('geotrav', 'debug', 'Station:Départs ' . $urldepart . print_r($jsondata,true));
         if (isset($jsondata['departures'][0])) {
             $this->checkAndUpdateCmd('station:1direction', $jsondata['departures'][0]['display_informations']['direction']);
             $this->checkAndUpdateCmd('station:1time', substr($jsondata['departures'][0]['stop_date_time']['departure_date_time'],9,4));
