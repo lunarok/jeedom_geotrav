@@ -71,10 +71,8 @@ Ce type d'équipement dispose de 2 options de configuration :
 
   - Options, ce sont les options (non obligatoires) de l'API (voir link:http://doc.navitia.io/#departures[la doc API])
 
-Pour filtrer certaines lignes (LINE dans navitia) ou destination (définit par un couple origine-destination appelé ROUTE dans navitia), utiliser le paramètre 'forbidden_uris[]='.
-Par exemple :
-        forbidden_uris[]=line:RAT:M1 (ne pas afficher la ligne 1 du métro parisien)
-        forbidden_uris[]=route:RAT:M1_R
+Pour filtrer certaines lignes (LINE dans navitia) ou destination (définit par un couple origine-destination appelé ROUTE dans navitia), utiliser le paramètre 'filter=line.code="nom de la ligne à garder"'.
+
 A noter que pour l'heure doit se noter au format classique jeedom, par exemple 1720 pour 17h20
 
 Astuce pour déterminer les codes de ligne/route, utiliser le playground navitia :
@@ -86,6 +84,6 @@ Puis :
   - stop_points le nom de la station recherché (ou stop_areas pour une station avec plusieurs arrêt)
   - dans features LINES ou ROUTES suivant l'info recherché
 SUBMIT
-  -selectionner la ROUTE/LINE désirée, le code de type line:XXX:XXX sera indiqué
+  -selectionner la ROUTE/LINE désirée, le code sera indiqué
 
 Les options peuvent être testées dans 'parameters'
