@@ -311,7 +311,7 @@ class geotrav extends eqLogic {
         if ($param != 'none') {
             $options = arg2array($param);
         }
-        log::add('geotrav', 'debug', 'Station:Options '. print_r($options))
+        log::add('geotrav', 'debug', 'Station:Options '. print_r($options));
         $urldepart = $url . '/departures?';
         foreach ($options as $key => $value) {
             if ($key == 'from_datetime') {
