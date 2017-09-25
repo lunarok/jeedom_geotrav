@@ -278,8 +278,13 @@ class geotrav extends eqLogic {
         $data = file_get_contents($url2);
         $jsondata2 = json_decode($data,true);
         log::add('geotrav', 'debug', 'Travel ' . $url);
+        if (isset($jsondata['routes'][0]['legs'][0]['duration_in_traffic']['value'])) {
+            $duration = round($jsondata['routes'][0]['legs'][0]['duration_in_traffic']['value']/60);
+        } else {
+            $duration = round($jsondata['routes'][0]['legs'][0]['duration']['value']/60);
+        }
         $this->checkAndUpdateCmd('travel:distance', round($jsondata['routes'][0]['legs'][0]['distance']['value']/1000,2));
-        $this->checkAndUpdateCmd('travel:time', round($jsondata['routes'][0]['legs'][0]['duration']['value']/60));
+        $this->checkAndUpdateCmd('travel:time', $duration);
         $etapes = '';
         foreach ($jsondata['routes'][0]['legs'][0]['steps'] as $elt) {
             $etapes .= $elt['html_instructions'] . '(' . $elt['distance']['text'] . ' ' . $elt['duration']['text'] . ')';
