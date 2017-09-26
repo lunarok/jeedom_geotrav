@@ -5,4 +5,5 @@
 	"author" : "lunarok",
 	"require" : "3.0",
 	"category" : "organization"
+	"documentation" : "https://github.com/lunarok/jeedom_geotrav/blob/master/doc/fr_FR/configuration.asciidoc"
 }
