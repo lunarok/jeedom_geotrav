@@ -26,16 +26,19 @@
    var text = $("#typeLoc").val();
    if (text == 'coordinate') {
      $('#coordinate').show();
+     $('#noreverse').show();
      $('#address').hide();
      $('#cmdgeoloc').hide();
    }
    if (text == 'address') {
      $('#coordinate').hide();
+     $('#noreverse').hide();
      $('#address').show();
      $('#cmdgeoloc').hide();
    }
    if (text == 'cmdinfo') {
      $('#coordinate').hide();
+     $('#noreverse').hide();
      $('#address').hide();
      $('#cmdgeoloc').show();
    }

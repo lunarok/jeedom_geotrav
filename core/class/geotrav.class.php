@@ -189,7 +189,7 @@ class geotrav extends eqLogic {
 
     public function updateGeocodingReverse($geoloc) {
         if (config::byKey('keyGMG','geotrav') == '') {
-            log::add('geotrav', 'debug', 'Vous devez remplir les clefs API Google pour les trajets');
+            log::add('geotrav', 'debug', 'Vous devez remplir les clefs API Google pour les localisations');
             return;
         }
         $geoloc = str_replace(' ','',$geoloc);
@@ -198,9 +198,16 @@ class geotrav extends eqLogic {
             log::add('geotrav', 'error', 'Coordonnées invalides ' . $geoloc);
             return true;
         }
-        $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG','geotrav');
-        $data = file_get_contents($url);
-        $jsondata = json_decode($data,true);
+        if ($this->getConfiguration('reverse')) {
+          $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG','geotrav');
+          $data = file_get_contents($url);
+          $jsondata = json_decode($data,true);
+        } else {
+          $geoexpl = explode(',',$geoloc);
+          $jsondata['results'][0]['geometry']['location']['lat'] = $geoexpl[0];
+          $jsondata['results'][0]['geometry']['location']['lng'] = $geoexpl[1];
+          $jsondata['results'][0]['formatted_address'] = 'NA';
+        }
         log::add('geotrav', 'debug', 'Resultat ' . $url . ' ' . print_r($jsondata, true));
         $this->updateLocation($jsondata);
     }
