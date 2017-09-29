@@ -22,6 +22,10 @@ Pour un équipement de type localisation, deux champs d'option sont disponibles 
 
   - Coordonnées : en saisissant les coordonnées, les informations se mettront à jour (reverse geocoding)
 
+  - Déterminer l'adresse : pour une localisation par coordonnées par défaut il y aura une création de l'adresse, si on veut l'éviter il faut décocher cette option (cela est nécessaire pour éviter qu'un point soit rapprocher d'une adresse physique existante)
+
+  - Par une info Jeedom : permet de se mettre à jour par rapport à la valeur provenant d'ailleurs dans Jeedom
+
   - URL de mise à jour par API : s'utilise dans Tasker/Automate etc pour mettre à jour une localisation automatiquement, toutes les localisations sont ainsi disponible
 
 [IMPORTANT]
