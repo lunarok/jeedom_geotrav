@@ -241,6 +241,9 @@ class geotrav extends eqLogic {
                     $department = '2A';
                 }
             }
+            if ($department == '97') {
+                $department = substr($jsondata['results'][0]['address_components'][6]['long_name'],0,3);
+            }
         } else {
             $department = 'NA';
         }
