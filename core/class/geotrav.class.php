@@ -202,13 +202,14 @@ class geotrav extends eqLogic {
           $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG','geotrav');
           $data = file_get_contents($url);
           $jsondata = json_decode($data,true);
+            log::add('geotrav', 'debug', 'Resultat ' . $url . ' ' . print_r($jsondata, true));
         } else {
           $geoexpl = explode(',',$geoloc);
           $jsondata['results'][0]['geometry']['location']['lat'] = $geoexpl[0];
           $jsondata['results'][0]['geometry']['location']['lng'] = $geoexpl[1];
           $jsondata['results'][0]['formatted_address'] = 'NA';
         }
-        log::add('geotrav', 'debug', 'Resultat ' . $url . ' ' . print_r($jsondata, true));
+        
         $this->updateLocation($jsondata);
     }
 
