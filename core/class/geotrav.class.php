@@ -62,12 +62,6 @@ class geotrav extends eqLogic {
             $listener->save();
             log::add('geotrav', 'debug', 'Tracking ' . $this->getConfiguration('cmdgeoloc') . ' for ' . $this->getId());
           }
-          if ($this->getConfiguration('typeConfLoc') == 'address') {
-            $this->updateGeocoding($this->getConfiguration('fieldaddress'));
-          }
-          if ($this->getConfiguration('typeConfLoc') == 'coordinate') {
-            $this->updateGeocodingReverse($this->getConfiguration('fieldcoordinate'));
-          }
         }
     }
 
@@ -117,6 +111,14 @@ class geotrav extends eqLogic {
         $this->loadCmdFromConf($this->getConfiguration('type'));
         if ($this->getConfiguration('type') == 'geofence') {
             $this->updateGeofencingCmd();
+        }
+        if ($this->getConfiguration('type') == 'location') {
+          if ($this->getConfiguration('typeConfLoc') == 'address') {
+            $this->updateGeocoding($this->getConfiguration('fieldaddress'));
+          }
+          if ($this->getConfiguration('typeConfLoc') == 'coordinate') {
+            $this->updateGeocodingReverse($this->getConfiguration('fieldcoordinate'));
+          }
         }
         geotrav::triggerGlobal();
     }
