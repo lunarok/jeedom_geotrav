@@ -192,8 +192,7 @@ $eqLogics = eqLogic::byType('geotrav');
                             <div class="form-group" id="noreverse" style="display:none">
                                 <label class="col-sm-2 control-label">{{Déterminer l'adresse}}</label>
                                 <div class="col-sm-3">
-                                    <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr form-control" data-l1key="reverse" checked/>{{Activer}}</label>
-                                </div>
+                                <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="reverse" checked/>                                </div>
                             </div>
                             <div class="form-group" id="address" style="display:none">
                                 <label class="col-sm-2 control-label">{{Adresse}}</label>
