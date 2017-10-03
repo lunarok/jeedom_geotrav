@@ -48,7 +48,8 @@ class geotrav extends eqLogic {
         if ($this->getConfiguration('type') == 'travel') {
             $this->refreshTravel();
         }
-        if ($this->getConfiguration('type') == 'location' && $this->getConfiguration('typeConfLoc') == 'cmdinfo') {
+        if ($this->getConfiguration('type') == 'location') {
+          if ($this->getConfiguration('typeConfLoc') == 'cmdinfo') {
             $listener = listener::byClassAndFunction('geotrav', 'trackGeoloc', array('geotrav' => $this->getId()));
             if (!is_object($listener)) {
                 $listener = new listener();
@@ -60,6 +61,13 @@ class geotrav extends eqLogic {
             $listener->addEvent(str_replace('#','',$this->getConfiguration('cmdgeoloc')));
             $listener->save();
             log::add('geotrav', 'debug', 'Tracking ' . $this->getConfiguration('cmdgeoloc') . ' for ' . $this->getId());
+          }
+          if ($this->getConfiguration('typeConfLoc') == 'address') {
+            $this->updateGeocoding($this->getConfiguration('fieldaddress'));
+          }
+          if ($this->getConfiguration('typeConfLoc') == 'coordinate') {
+            $this->updateGeocodingReverse($this->getConfiguration('fieldcoordinate'));
+          }
         }
     }
 
@@ -107,12 +115,6 @@ class geotrav extends eqLogic {
 
     public function postAjax() {
         $this->loadCmdFromConf($this->getConfiguration('type'));
-        if ($this->getConfiguration('fieldcoordinate') != $this->getConfiguration('coordinate')) {
-            $this->updateGeocodingReverse($this->getConfiguration('fieldcoordinate'));
-        }
-        if ($this->getConfiguration('fieldaddress') != $this->getConfiguration('address')) {
-            $this->updateGeocoding($this->getConfiguration('fieldaddress'));
-        }
         if ($this->getConfiguration('type') == 'geofence') {
             $this->updateGeofencingCmd();
         }
