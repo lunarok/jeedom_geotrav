@@ -209,7 +209,7 @@ class geotrav extends eqLogic {
           $jsondata['results'][0]['geometry']['location']['lng'] = $geoexpl[1];
           $jsondata['results'][0]['formatted_address'] = 'NA';
         }
-        
+
         $this->updateLocation($jsondata);
     }
 
@@ -218,10 +218,10 @@ class geotrav extends eqLogic {
             log::add('geotrav', 'debug', 'Vous devez remplir les clefs API Google pour les trajets');
             return;
         }
-        log::add('geotrav', 'debug', 'Adresse ' . $address);
         $url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . trim(config::byKey('keyGMG','geotrav'));
         $data = file_get_contents($url);
         $jsondata = json_decode($data,true);
+        log::add('geotrav', 'debug', 'Adresse ' . $address . ' ' . $data);
         $this->updateLocation($jsondata);
     }
 
