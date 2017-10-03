@@ -226,15 +226,36 @@ class geotrav extends eqLogic {
     }
 
     public function updateLocation($jsondata) {
-        $this->checkAndUpdateCmd('location:latitude', $jsondata['results'][0]['geometry']['location']['lat']);
-        $this->checkAndUpdateCmd('location:longitude', $jsondata['results'][0]['geometry']['location']['lng']);
-        $this->checkAndUpdateCmd('location:coordinate', $jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
+      if ($jsondata['results'][0]['address_components'][0]['types'][0] == "street_number") {
         $this->checkAndUpdateCmd('location:address', isset($jsondata['results'][0]['formatted_address']) ? $jsondata['results'][0]['formatted_address']:'NA');
         $this->checkAndUpdateCmd('location:street', isset($jsondata['results'][0]['address_components'][0]['long_name']) ? $jsondata['results'][0]['address_components'][0]['long_name'] . ' ' . $jsondata['results'][0]['address_components'][1]['long_name']:'NA');
         $this->checkAndUpdateCmd('location:city', isset($jsondata['results'][0]['address_components'][2]['long_name']) ? $jsondata['results'][0]['address_components'][2]['long_name']:'NA');
-        $this->checkAndUpdateCmd('location:zip', isset($jsondata['results'][0]['address_components'][6]['long_name']) ? $jsondata['results'][0]['address_components'][6]['long_name']:'NA');
-        if (isset($jsondata['results'][0]['address_components'][6]['long_name']) && $jsondata['results'][0]['address_components'][5]['long_name'] == 'France') {
-            $department = substr($jsondata['results'][0]['address_components'][6]['long_name'],0,2);
+        $this->checkAndUpdateCmd('location:district', isset($jsondata['results'][0]['address_components'][3]['long_name']) ? $jsondata['results'][0]['address_components'][3]['long_name']:'NA');
+        $country = $jsondata['results'][0]['address_components'][5]['long_name'];
+        $zip = $jsondata['results'][0]['address_components'][6]['long_name'];
+        $this->checkAndUpdateCmd('location:zip', $zip);
+      } else if ($jsondata['results'][0]['address_components'][0]['types'][0] == "route") {
+        $this->checkAndUpdateCmd('location:address', isset($jsondata['results'][0]['formatted_address']) ? $jsondata['results'][0]['formatted_address']:'NA');
+        $this->checkAndUpdateCmd('location:street', isset($jsondata['results'][0]['address_components'][0]['long_name']) ? $jsondata['results'][0]['address_components'][0]['long_name']:'NA');
+        $this->checkAndUpdateCmd('location:city', isset($jsondata['results'][0]['address_components'][1]['long_name']) ? $jsondata['results'][0]['address_components'][1]['long_name']:'NA');
+        $this->checkAndUpdateCmd('location:district', isset($jsondata['results'][0]['address_components'][2]['long_name']) ? $jsondata['results'][0]['address_components'][2]['long_name']:'NA');
+        $country = $jsondata['results'][0]['address_components'][4]['long_name'];
+        $zip = $jsondata['results'][0]['address_components'][5]['long_name'];
+        $this->checkAndUpdateCmd('location:zip', $zip);
+      } else if ($jsondata['results'][0]['address_components'][0]['types'][0] == "locality") {
+        $this->checkAndUpdateCmd('location:address', 'NA');
+        $this->checkAndUpdateCmd('location:street', 'NA');
+        $this->checkAndUpdateCmd('location:city', isset($jsondata['results'][0]['address_components'][0]['long_name']) ? $jsondata['results'][0]['address_components'][0]['long_name']:'NA');
+        $this->checkAndUpdateCmd('location:district', isset($jsondata['results'][0]['address_components'][1]['long_name']) ? $jsondata['results'][0]['address_components'][1]['long_name']:'NA');
+        $country = $jsondata['results'][0]['address_components'][3]['long_name'];
+        $zip = 'NA';
+        $this->checkAndUpdateCmd('location:zip', $zip);
+      }
+        $this->checkAndUpdateCmd('location:latitude', $jsondata['results'][0]['geometry']['location']['lat']);
+        $this->checkAndUpdateCmd('location:longitude', $jsondata['results'][0]['geometry']['location']['lng']);
+        $this->checkAndUpdateCmd('location:coordinate', $jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
+        if ($country == 'France') {
+            $department = substr($zip,0,2);
             if ($department == '20') {
                 if ((int)$zip >= 20200) {
                     $department = '2B';
@@ -249,8 +270,7 @@ class geotrav extends eqLogic {
             $department = 'NA';
         }
         $this->checkAndUpdateCmd('location:department', $department);
-        $this->checkAndUpdateCmd('location:country', isset($jsondata['results'][0]['address_components'][5]['long_name']) ? $jsondata['results'][0]['address_components'][5]['long_name']:'NA');
-        $this->checkAndUpdateCmd('location:district', isset($jsondata['results'][0]['address_components'][3]['long_name']) ? $jsondata['results'][0]['address_components'][3]['long_name']:'NA');
+        $this->checkAndUpdateCmd('location:country', $country);
         $this->setConfiguration('coordinate',$jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
         $this->setConfiguration('fieldcoordinate',$jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
         $this->setConfiguration('address',$jsondata['results'][0]['formatted_address']);
