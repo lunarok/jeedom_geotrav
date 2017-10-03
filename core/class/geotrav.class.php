@@ -254,6 +254,9 @@ class geotrav extends eqLogic {
         $country = $jsondata['results'][0]['address_components'][3]['long_name'];
         $zip = 'NA';
         $this->checkAndUpdateCmd('location:zip', $zip);
+      } else {
+        log::add('geotrav', 'debug', 'Problème avec adresse');
+        return;
       }
         $this->checkAndUpdateCmd('location:latitude', $jsondata['results'][0]['geometry']['location']['lat']);
         $this->checkAndUpdateCmd('location:longitude', $jsondata['results'][0]['geometry']['location']['lng']);
