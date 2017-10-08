@@ -36,8 +36,9 @@ class geotrav extends eqLogic {
                     if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $location->getId()) == 1) {
                         $geotrav->updateGeofenceValues($location->getId(),$location->getConfiguration('coordinate'));
                     }
-                    $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'location:coordinate');
-                    if ($geotravcmd->execute() == '') {
+                }
+                $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'location:coordinate');
+                if ($geotravcmd->execute() == '') {
                           if ($geotrav->getConfiguration('typeConfLoc') == 'address') {
                             $geotrav->updateGeocoding($geotrav->getConfiguration('fieldaddress'));
                           }
@@ -45,7 +46,6 @@ class geotrav extends eqLogic {
                             $geotrav->updateGeocodingReverse($geotrav->getConfiguration('fieldcoordinate'));
                           }
                     }
-                }
             }
         }
     }
