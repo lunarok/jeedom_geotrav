@@ -37,13 +37,13 @@ class geotrav extends eqLogic {
                         $geotrav->updateGeofenceValues($location->getId(),$location->getConfiguration('coordinate'));
                     }
                 }
-                $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($geotrav->getId(),'location:coordinate');
+                $geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($location->getId(),'location:coordinate');
                 if ($geotravcmd->execute() == '') {
-                          if ($geotrav->getConfiguration('typeConfLoc') == 'address') {
-                            $geotrav->updateGeocoding($geotrav->getConfiguration('fieldaddress'));
+                          if ($location->getConfiguration('typeConfLoc') == 'address') {
+                            $location->updateGeocoding($location->getConfiguration('fieldaddress'));
                           }
-                          if ($geotrav->getConfiguration('typeConfLoc') == 'coordinate') {
-                            $geotrav->updateGeocodingReverse($geotrav->getConfiguration('fieldcoordinate'));
+                          if ($location->getConfiguration('typeConfLoc') == 'coordinate') {
+                            $location->updateGeocodingReverse($location->getConfiguration('fieldcoordinate'));
                           }
                     }
             }
