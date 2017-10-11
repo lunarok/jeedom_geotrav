@@ -23,7 +23,7 @@ class geotrav extends eqLogic {
 
     public static $_widgetPossibility = array('custom' => true);
 
-    public function cron15() {
+    public static function cron15() {
         foreach (eqLogic::byType('geotrav', true) as $location) {
             if ($location->getConfiguration('type') == 'station') {
                 $location->refreshStation();
