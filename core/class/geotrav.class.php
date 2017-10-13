@@ -221,8 +221,9 @@ class geotrav extends eqLogic {
           $jsondata['results'][0]['geometry']['location']['lat'] = $geoexpl[0];
           $jsondata['results'][0]['geometry']['location']['lng'] = $geoexpl[1];
           $jsondata['results'][0]['formatted_address'] = 'NA';
+          $jsondata['results'][0]['address_components'][0]['types'][0] = "locality";
+          $jsondata['results'][0]['address_components'][3]['long_name'] = "NA";
         }
-
         $this->updateLocation($jsondata);
     }
 
