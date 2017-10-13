@@ -19,8 +19,8 @@ header('Content-type: application/json');
 require_once dirname(__FILE__) . "/../../../../core/php/core.inc.php";
 
 if (!jeedom::apiAccess(init('apikey'), 'geotrav')) {
- echo __('Clef API non valide, vous n\'êtes pas autorisé à effectuer cette action (geotrav)', __FILE__);
- die();
+	echo __('Clef API non valide, vous n\'êtes pas autorisé à effectuer cette action (geotrav)', __FILE__);
+	die();
 }
 
 $content = file_get_contents('php://input');
@@ -29,16 +29,19 @@ log::add('geotrav', 'debug', $content);
 
 $eqlogic = geotrav::byId(init('id'));
 if (!is_object($eqlogic)) {
-    throw new Exception(__('Commande ID geotrav inconnu : ', __FILE__) . init('id'));
+	throw new Exception(__('Commande ID geotrav inconnu : ', __FILE__) . init('id'));
 }
 if ($eqlogic->getEqType_name() != 'geotrav') {
-    throw new Exception(__('Cette commande n\'est pas de type geotrav : ', __FILE__) . init('id'));
+	throw new Exception(__('Cette commande n\'est pas de type geotrav : ', __FILE__) . init('id'));
 }
 if ($eqlogic->getConfiguration('type') != 'location') {
-    throw new Exception(__('Cette commande geotrav n\'est pas une localisation : ', __FILE__) . init('id'));
+	throw new Exception(__('Cette commande geotrav n\'est pas une localisation : ', __FILE__) . init('id'));
 }
-
-$eqlogic->updateGeocodingReverse(trim(init('value')));
+if (is_array($json) && isset($json['location'])) {
+	$eqlogic->updateGeocodingReverse($json['location']['coords']['latitude'] . ',' . $json['location']['coords']['longitude']);
+} else {
+	$eqlogic->updateGeocodingReverse(trim(init('value')));
+}
 
 return true;
 ?>
