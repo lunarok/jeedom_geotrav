@@ -310,6 +310,11 @@ $eqLogics = eqLogic::byType('geotrav');
                                     <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelOptions" type="text" placeholder="{{voir la doc}}">
                                 </div>
                             </div>
+                            <divclass="form-group">
+                                <labelclass="col-sm-2 control-label">{{Masquer :}}</label>
+                                    <labelclass="checkbox-inline"><inputtype="checkbox"class="eqLogicAttr"data-l1key="configuration"data-l2key="hideDepart"checked/>Départ</label>
+                                    <labelclass="checkbox-inline"><inputtype="checkbox"class="eqLogicAttr"data-l1key="configuration"data-l2key="hideArrivee"checked/>Arrivée</label>
+                             </div>   
                         </div>
 
                     </fieldset>
