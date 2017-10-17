@@ -16,7 +16,7 @@
  */
  $('#cmdgeoloc').on('click', function () {
     jeedom.cmd.getSelectModal({cmd: {type: 'info', subType: 'string'}}, function (result) {
-        $('.eqLogicAttr[data-l2key=cmdgeoloc]').atCaret('insert', result.human);
+        $('.eqLogicAttr[data-l2key=cmdgeoloc]').value(result.human);
     });
 });
 
