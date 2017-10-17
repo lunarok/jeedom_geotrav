@@ -439,6 +439,9 @@ class geotrav extends eqLogic {
 	}
 
 	public function toHtml($_version = 'dashboard') {
+		if ($this->getConfiguration('type') == 'geofence') {
+			return parent::toHtml($_version);
+		}
 		$replace = $this->preToHtml($_version);
 		if (!is_array($replace)) {
 			return $replace;
@@ -471,11 +474,6 @@ class geotrav extends eqLogic {
 						$replace['#options#'] .= '&' . $key . '=' . $value;
 					}
 				}
-			}
-		} else if ($this->getConfiguration('type') == 'geofence') {
-			$replace['#status#'] = '';
-			foreach ($this->getCmd('info') as $cmd) {
-				$replace['#status#'] .= $cmd->toHtml($_version);
 			}
 		}
 		$templatename = $this->getConfiguration('type');
