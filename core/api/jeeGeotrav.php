@@ -43,5 +43,11 @@ if (is_array($json) && isset($json['location'])) {
 	$eqlogic->updateGeocodingReverse(trim(init('value')));
 }
 
+foreach (eqLogic::byType('geotrav', true) as $geotrav) {
+	if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $eqlogic->getId()) == 1) {
+		$geotrav->updateGeofenceValues($eqlogic->getId(), $eqlogic->getConfiguration('coordinate'));
+	}
+}
+
 return true;
 ?>

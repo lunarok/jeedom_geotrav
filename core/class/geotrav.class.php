@@ -86,6 +86,11 @@ class geotrav extends eqLogic {
 		log::add('geotrav', 'debug', 'Listenner update ' . print_r($geoloc, true));
 		$geolocEq = geotrav::byId($geoloc['geotrav']);
 		$geolocEq->updateGeocodingReverse($geoloc['value']);
+		foreach (eqLogic::byType('geotrav', true) as $geotrav) {
+			if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $geolocEq->getId()) == 1) {
+				$geotrav->updateGeofenceValues($geolocEq->getId(), $geolocEq->getConfiguration('coordinate'));
+			}
+		}
 	}
 
 	/*     * *********************Méthodes d'instance************************* */
