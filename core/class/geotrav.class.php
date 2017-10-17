@@ -195,9 +195,10 @@ class geotrav extends eqLogic {
 		}
 	}
 
-	public function trackGeoloc($geoloc) {
+	public static function trackGeoloc($geoloc) {
+		log::add('geotrav', 'debug', 'Listenner update ' . print_r($geoloc, true));
 		$geolocEq = geotrav::byId($geoloc['geotrav']);
-		$geolocEq->updateGeocodingReverse($geoloc['event_id']->execCmd());
+		$geolocEq->updateGeocodingReverse($geoloc['value']);
 	}
 
 	public function updateGeocodingReverse($geoloc) {
