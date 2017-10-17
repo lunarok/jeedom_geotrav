@@ -5,5 +5,6 @@
 	"author" : "lunarok",
 	"require" : "3.0",
 	"category" : "organization",
-	"display" : "panel"
+	"display" : "panel",
+	"mobile" : "panel"
 }

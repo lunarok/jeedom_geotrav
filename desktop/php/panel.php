@@ -5,8 +5,7 @@ if (!isConnect()) {
 $location = array();
 $travel = array();
 $geofence = array();
-$eqLogics = eqLogic::byType('geotrav');
-foreach ($eqLogics as $eqLogic) {
+foreach (eqLogic::byType('geotrav') as $eqLogic) {
 	if ($eqLogic->getIsEnable() == 0 || $eqLogic->getIsVisible() == 0) {
 		continue;
 	}

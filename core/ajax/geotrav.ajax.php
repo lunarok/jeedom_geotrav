@@ -40,6 +40,27 @@ try {
 		ajax::success($return);
 	}
 
+	if (init('action') == 'getGeotrav') {
+		$return['location'] = array();
+		$return['travel'] = array();
+		$return['geofence'] = array();
+		foreach (eqLogic::byType('geotrav') as $eqLogic) {
+			if ($eqLogic->getIsEnable() == 0 || $eqLogic->getIsVisible() == 0) {
+				continue;
+			}
+			if ($eqLogic->getConfiguration('type') == 'location') {
+				$return['location'][] = $eqLogic->toHtml(init('version'));
+			}
+			if ($eqLogic->getConfiguration('type') == 'travel') {
+				$return['travel'][] = $eqLogic->toHtml(init('version'));
+			}
+			if ($eqLogic->getConfiguration('type') == 'geofence') {
+				$return['geofence'][] = $eqLogic->toHtml(init('version'));
+			}
+		}
+		ajax::success($return);
+	}
+
 	throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
 	/*     * *********Catch exeption*************** */
 } catch (Exception $e) {
