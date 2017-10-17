@@ -474,7 +474,6 @@ class geotrav extends eqLogic {
 			}
 		} else if ($this->getConfiguration('type') == 'geofence') {
 			$replace['#status#'] = '';
-			$replace['#location:coordinate#'] = geotrav::byId($this->getConfiguration('zoneOrigin'))->getConfiguration('coordinate');
 			foreach ($this->getCmd('info') as $cmd) {
 				$replace['#status#'] .= $cmd->toHtml($_version);
 			}
