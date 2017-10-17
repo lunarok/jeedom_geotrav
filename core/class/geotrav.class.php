@@ -437,7 +437,7 @@ class geotrav extends eqLogic {
         $this->refreshWidget();
     }
 
-      public function toHtml($_version = 'dashboard') {
+    public function toHtml($_version = 'dashboard') {
     $replace = $this->preToHtml($_version);
     if (!is_array($replace)) {
       return $replace;
@@ -481,6 +481,12 @@ class geotrav extends eqLogic {
           $replace['#status#'] .= '<span style="font-size : 0.9em;">' . $icon . $presence->getName() . '</span><br/>';
         }
       }
+    }
+    if ($this->getConfiguration('type') == 'station') {    
+        $hideDepart = $this->getConfiguration('hideDepart');
+		$hideArrivee = $this->getConfiguration('hideArrivee');
+		$replace['#hideDepart#'] = $hideDepart;
+		$replace['#hideArrivee#'] = $hideArrivee;
     }
     $templatename = $this->getConfiguration('type');
     return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'geotrav')));
