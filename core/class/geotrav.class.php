@@ -21,7 +21,11 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class geotrav extends eqLogic {
 
+	/*     * *************************Attributs****************************** */
+
 	public static $_widgetPossibility = array('custom' => true);
+
+	/*     * ***********************Methode static*************************** */
 
 	public static function cron15() {
 		foreach (eqLogic::byType('geotrav', true) as $location) {
@@ -50,6 +54,42 @@ class geotrav extends eqLogic {
 		}
 	}
 
+	public static function triggerGlobal() {
+		$listener = listener::byClassAndFunction('geotrav', 'triggerGeo', array('geotrav' => 'global'));
+		if (!is_object($listener)) {
+			$listener = new listener();
+		}
+		$listener->setClass('geotrav');
+		$listener->setFunction('triggerGeo');
+		$listener->setOption(array('geotrav' => 'global'));
+		$listener->emptyEvent();
+		foreach (eqLogic::byType('geotrav', true) as $location) {
+			if ($location->getConfiguration('type') == 'location') {
+				$locationcmd = geotravCmd::byEqLogicIdAndLogicalId($location->getId(), 'location:coordinate');
+				$listener->addEvent($locationcmd->getId());
+			}
+		}
+		$listener->save();
+	}
+
+	public static function triggerGeo($_option) {
+		log::add('geotrav', 'debug', 'Trigger ' . $_option['event_id'] . ' ' . $_option['value']);
+		$id = geotravCmd::byId($_option['event_id'])->getEqLogic()->getId();
+		foreach (eqLogic::byType('geotrav', true) as $geotrav) {
+			if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $id) == 1) {
+				$geotrav->updateGeofenceValues($id, $_option['value']);
+			}
+		}
+	}
+
+	public static function trackGeoloc($geoloc) {
+		log::add('geotrav', 'debug', 'Listenner update ' . print_r($geoloc, true));
+		$geolocEq = geotrav::byId($geoloc['geotrav']);
+		$geolocEq->updateGeocodingReverse($geoloc['value']);
+	}
+
+	/*     * *********************Méthodes d'instance************************* */
+
 	public function postSave() {
 		if ($this->getConfiguration('type') == 'station') {
 			$this->refreshStation();
@@ -77,7 +117,6 @@ class geotrav extends eqLogic {
 	public function loadCmdFromConf($type) {
 		if ($type == 'geofence') {
 			return true;
-			//nothing to do
 		}
 		if (!is_file(dirname(__FILE__) . '/../config/devices/' . $type . '.json')) {
 			return;
@@ -90,7 +129,6 @@ class geotrav extends eqLogic {
 		if (!is_array($device) || !isset($device['commands'])) {
 			return true;
 		}
-		/*$this->import($device);*/
 		foreach ($device['commands'] as $command) {
 			$cmd = null;
 			foreach ($this->getCmd() as $liste_cmd) {
@@ -132,35 +170,6 @@ class geotrav extends eqLogic {
 		geotrav::triggerGlobal();
 	}
 
-	public function triggerGlobal() {
-		$listener = listener::byClassAndFunction('geotrav', 'triggerGeo', array('geotrav' => 'global'));
-		if (!is_object($listener)) {
-			$listener = new listener();
-		}
-		$listener->setClass('geotrav');
-		$listener->setFunction('triggerGeo');
-		$listener->setOption(array('geotrav' => 'global'));
-		$listener->emptyEvent();
-		foreach (eqLogic::byType('geotrav', true) as $location) {
-			if ($location->getConfiguration('type') == 'location') {
-				$locationcmd = geotravCmd::byEqLogicIdAndLogicalId($location->getId(), 'location:coordinate');
-				$listener->addEvent($locationcmd->getId());
-			}
-		}
-		$listener->save();
-	}
-
-	public static function triggerGeo($_option) {
-		//$alarm = geotrav::byId($_option['geotrav']);//equal global
-		log::add('geotrav', 'debug', 'Trigger ' . $_option['event_id'] . ' ' . $_option['value']);
-		$id = geotravCmd::byId($_option['event_id'])->getEqLogic()->getId();
-		foreach (eqLogic::byType('geotrav', true) as $geotrav) {
-			if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $id) == 1) {
-				$geotrav->updateGeofenceValues($id, $_option['value']);
-			}
-		}
-	}
-
 	public function updateGeofencingCmd() {
 		foreach (eqLogic::byType('geotrav', true) as $geotrav) {
 			if ($geotrav->getConfiguration('type') == 'location') {
@@ -193,12 +202,6 @@ class geotrav extends eqLogic {
 				}
 			}
 		}
-	}
-
-	public static function trackGeoloc($geoloc) {
-		log::add('geotrav', 'debug', 'Listenner update ' . print_r($geoloc, true));
-		$geolocEq = geotrav::byId($geoloc['geotrav']);
-		$geolocEq->updateGeocodingReverse($geoloc['value']);
 	}
 
 	public function updateGeocodingReverse($geoloc) {
@@ -483,6 +486,12 @@ class geotrav extends eqLogic {
 }
 
 class geotravCmd extends cmd {
+	/*     * *************************Attributs****************************** */
+
+	/*     * ***********************Methode static*************************** */
+
+	/*     * *********************Methode d'instance************************* */
+
 	public function execute($_options = array()) {
 		$eqLogic = $this->getEqLogic();
 		log::add('geotrav', 'debug', 'Action sur ' . $this->getLogicalId());
