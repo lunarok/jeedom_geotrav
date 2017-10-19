@@ -1,17 +1,12 @@
-<div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
+<div class="eqLogic-widget eqLogic allowResize" style="margin:0px;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #text-color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
 	<center>
 		<span class="widget-name">
 			<span style="#hideEqLogicName#">#name_display# <span style="font-size: 0.85em;">#object_name#</span></span><br/>
 		</span>
 	</center>
-	<div class="row">
-
-		<div class="col-sm-12">
-			<center>
-				<iframe src="https://maps.google.com/maps/embed/v1/place?key=#keyGMW#&q=#location:coordinate#" width="240" height="180" frameborder="0" style="border:0;"></iframe>
-			</center>
-		</div>
-	</div>
+	<center>
+		<iframe src="https://maps.google.com/maps/embed/v1/place?key=#keyGMW#&q=#location:coordinate#" width="240" height="180" frameborder="0" style="border:0;"></iframe>
+	</center>
 	<script type="text/javascript">
 		$('.eqLogic[data-eqLogic_uid=#uid#] iframe').width(deviceInfo.bSize - 10);
 	</script>
