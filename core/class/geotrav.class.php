@@ -79,6 +79,9 @@ class geotrav extends eqLogic {
 			if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $id) == 1) {
 				$geotrav->updateGeofenceValues($id, $_option['value']);
 			}
+			if ($geotrav->getConfiguration('type') == 'travel' && ($geotrav->getConfiguration('travelDeparture') == $id || $geotrav->getConfiguration('travelArrival') == $id)) {
+				$geotravl->refreshTravel();
+			}
 		}
 	}
 
