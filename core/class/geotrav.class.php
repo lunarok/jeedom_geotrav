@@ -80,9 +80,13 @@ class geotrav extends eqLogic {
 				$geotrav->updateGeofenceValues($id, $_option['value']);
                 log::add('geotrav', 'debug', 'Geofence eqlogic ' . $id);
 			}
-			if ($geotrav->getConfiguration('type') == 'travel' && ($geotrav->getConfiguration('travelDeparture') == $id || $geotrav->getConfiguration('travelArrival') == $id)) {
-				$geotravl->refreshTravel();
-                log::add('geotrav', 'debug', 'Travel eqlogic ' . $id);
+			if ($geotrav->getConfiguration('type') == 'travel') {
+                if ($geotrav->getConfiguration('travelDeparture') == $id || $geotrav->getConfiguration('travelArrival') == $id) {
+                    $geotrav->refreshTravel();
+                    log::add('geotrav', 'debug', 'Travel eqlogic ' . $id);
+                } else {
+                    log::add('geotrav', 'debug', 'Not travel for this location ' . $id);
+                }
 			}
 		}
 	}
