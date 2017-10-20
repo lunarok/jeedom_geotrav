@@ -74,7 +74,7 @@ class geotrav extends eqLogic {
 
 	public static function triggerGeo($_option) {
 		$id = geotravCmd::byId($_option['event_id'])->getEqLogic()->getId();
-        log::add('geotrav', 'debug', 'Trigger ' . $_option['event_id'] . ' ' . $_option['value']);
+        log::add('geotrav', 'debug', 'Trigger cmd ' . $_option['event_id'] . ' valeur ' . $_option['value'] . ' de ' . geotravCmd::byId($_option['event_id'])->getEqLogic()->getName() . '(' . $id . ')');
 		foreach (eqLogic::byType('geotrav', true) as $geotrav) {
 			if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $id) == 1) {
 				$geotrav->updateGeofenceValues($id, $_option['value']);
