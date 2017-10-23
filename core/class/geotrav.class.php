@@ -494,6 +494,10 @@ class geotrav extends eqLogic {
 				}
 			}
 		}
+		if ($this->getConfiguration('type') == 'station') {    
+			$replace['#hideDepart#'] = ($this->getConfiguration('hideDepart')) ? ' style="display:none"':'';
+			$replace['#hideArrivee#'] = ($this->getConfiguration('hideArrivee')) ? ' style="display:none"':'';
+	        }
 		$templatename = $this->getConfiguration('type');
 		return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'geotrav')));
 	}
