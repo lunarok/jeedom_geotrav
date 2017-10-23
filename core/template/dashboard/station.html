@@ -4,14 +4,14 @@
 
 	<div class="col-md-12">
 	<center>
-		<div#hideDepart#>
+		<div="Depart">
         <span style="font-weight: bold;font-size : 1.2em;">Départs</span><br/>
 
    <span style="font-size : 0.9em;">#station:1time# #station:1line# - #station:1direction# (#station:1stop#)</span><br/>
    <span style="font-size : 0.9em;">#station:2time# #station:2line# - #station:2direction# (#station:2stop#)</span><br/>
 			</div>
 <br />
-		<div#hideArrivee#>
+		<div="Arrivee">
         <span style="font-weight: bold;font-size : 1.2em;">Arrivées</span><br/>
 
    <span style="font-size : 0.9em;">#station:arrival1time# #station:arrival1line# - #station:arrival1direction# (#station:arrival1stop#)</span><br/>
@@ -20,4 +20,14 @@
 	    </div>
 	</div>
 	</div>
+<script>
+	$('.eqLogic[data-eqLogic_uid=#uid#] .refresh').on('click', function () {    jeedom.cmd.execute({id: '#refresh_id#'});  });
+	if('#hideDepart#' == 1){   
+		$('.eqLogic[data-eqLogic_uid=#uid#] .Depart').hide();
+	}
+	if('#hideArrivee#' == 1){  
+		$('.eqLogic[data-eqLogic_uid=#uid#] .Arivee').hide();
+	}
+</script>
+
 </div>
