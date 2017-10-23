@@ -80,14 +80,14 @@ class geotrav extends eqLogic {
 				$geotrav->updateGeofenceValues($id, $_option['value']);
                 log::add('geotrav', 'debug', 'Geofence eqlogic ' . $id);
 			}
-			if ($geotrav->getConfiguration('type') == 'travel') {
+			/*if ($geotrav->getConfiguration('type') == 'travel') {
                 if ($geotrav->getConfiguration('travelDeparture') == $id || $geotrav->getConfiguration('travelArrival') == $id) {
                     $geotrav->refreshTravel();
                     log::add('geotrav', 'debug', 'Travel eqlogic ' . $id);
                 } else {
                     log::add('geotrav', 'debug', 'Not travel for this location ' . $id);
                 }
-			}
+			}*/
 		}
 	}
 
@@ -370,7 +370,7 @@ class geotrav extends eqLogic {
 
 	public function refreshStation($param = 'none') {
 		if (config::byKey('keyNavitia', 'geotrav') == '') {
-			log::add('geotrav', 'debug', 'SVous devez remplir la clef API Navitia pour les équipements transports en commun');
+			log::add('geotrav', 'debug', 'Vous devez remplir la clef API Navitia pour les équipements transports en commun');
 			return;
 		}
 		$loc = urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'), 'location:longitude')->execCmd()) . ';' . urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'), 'location:latitude')->execCmd());
@@ -382,7 +382,7 @@ class geotrav extends eqLogic {
 		if ($param != 'none') {
 			$options = arg2array($param);
 		}
-		log::add('geotrav', 'debug', 'Station:Options ' . print_r($options));
+		//log::add('geotrav', 'debug', 'Station:Options ' . print_r($options));
 		$urldepart = $url . '/departures?';
 		foreach ($options as $key => $value) {
 			if ($key == 'from_datetime') {
