@@ -312,6 +312,11 @@ foreach (eqLogic::byType('geotrav', true) as $location) {
         <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelOptions" type="text" placeholder="{{voir la doc}}">
     </div>
 </div>
+	<divclass="form-group">
+                                <labelclass="col-sm-2 control-label">{{Masquer sur le widget :}}</label>
+                                    <labelclass="checkbox-inline"><inputtype="checkbox"class="eqLogicAttr"data-l1key="configuration"data-l2key="hideDepart"checked/>les Départs</label>
+                                    <labelclass="checkbox-inline"><inputtype="checkbox"class="eqLogicAttr"data-l1key="configuration"data-l2key="hideArrivee"checked/>les Arrivées</label>
+                             </div>
 </div>
 
 </fieldset>
