@@ -41,46 +41,26 @@ try {
 	}
 
 	if (init('action') == 'getGeotrav') {
-		$return['vigilance'] = array();
-		$return['pluie1h'] = array();
-		$return['pollen'] = array();
-        $return['air'] = array();
-        $return['crue'] = array();
-		$return['maree'] = array();
-		$return['plage'] = array();
-        $return['seisme'] = array();
-        $return['surf'] = array();
+        $return['location'] = array();
+		$return['travel'] = array();
+		$return['geofence'] = array();
+        $return['station'] = array();
 		foreach (eqLogic::byType('geotrav') as $eqLogic) {
 			if ($eqLogic->getIsEnable() == 0 || $eqLogic->getIsVisible() == 0) {
 				continue;
 			}
-            if ($eqLogic->getConfiguration('type') == 'vigilance') {
-                $return['vigilance'][] = $eqLogic->toHtml(init('version'));
-            }
-            if ($eqLogic->getConfiguration('type') == 'pluie1') {
-                $return['pluie1h'][] = $eqLogic->toHtml(init('version'));
-            }
-            if ($eqLogic->getConfiguration('type') == 'pollen') {
-                $return['pollen'][] = $eqLogic->toHtml(init('version'));
-            }
-            if ($eqLogic->getConfiguration('type') == 'air') {
-                $return['air'][] = $eqLogic->toHtml(init('version'));
-            }
-            if ($eqLogic->getConfiguration('type') == 'crue') {
-                $return['crue'][] = $eqLogic->toHtml(init('version'));
-            }
-            if ($eqLogic->getConfiguration('type') == 'maree') {
-                $return['maree'][] = $eqLogic->toHtml(init('version'));
-            }
-            if ($eqLogic->getConfiguration('type') == 'plage') {
-                $return['plage'][] = $eqLogic->toHtml(init('version'));
-            }
-            if ($eqLogic->getConfiguration('type') == 'seisme') {
-                $return['seisme'][] = $eqLogic->toHtml(init('version'));
-            }
-            if ($eqLogic->getConfiguration('type') == 'surf') {
-                $return['surf'][] = $eqLogic->toHtml(init('version'));
-            }
+			if ($eqLogic->getConfiguration('type') == 'location') {
+				$return['location'][] = $eqLogic->toHtml(init('version'));
+			}
+			if ($eqLogic->getConfiguration('type') == 'travel') {
+				$return['travel'][] = $eqLogic->toHtml(init('version'));
+			}
+			if ($eqLogic->getConfiguration('type') == 'geofence') {
+				$return['geofence'][] = $eqLogic->toHtml(init('version'));
+			}
+            if ($eqLogic->getConfiguration('type') == 'station') {
+				$return['station'][] = $eqLogic->toHtml(init('version'));
+			}
 		}
 		ajax::success($return);
 	}
