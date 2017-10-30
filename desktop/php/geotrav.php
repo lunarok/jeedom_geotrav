@@ -276,6 +276,13 @@ foreach (eqLogic::byType('geotrav', true) as $location) {
             <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="stationOptions" type="text" placeholder="{{voir la doc}}">
         </div>
     </div>
+	      <div class="form-group">
+		      <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-9">
+                    <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="hideDepart">Masquer les Départs</label>
+                                    <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="hideArrivee">Masquer les Arrivées</label>
+</div>                                    
+                             </div>
 </div>
 <div id="travel" style="display:none">
     <div class="form-group">
@@ -312,6 +319,7 @@ foreach (eqLogic::byType('geotrav', true) as $location) {
         <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="travelOptions" type="text" placeholder="{{voir la doc}}">
     </div>
 </div>
+	
 </div>
 
 </fieldset>

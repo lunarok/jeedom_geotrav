@@ -73,12 +73,21 @@ class geotrav extends eqLogic {
 	}
 
 	public static function triggerGeo($_option) {
-		log::add('geotrav', 'debug', 'Trigger ' . $_option['event_id'] . ' ' . $_option['value']);
 		$id = geotravCmd::byId($_option['event_id'])->getEqLogic()->getId();
+        log::add('geotrav', 'debug', 'Trigger cmd ' . $_option['event_id'] . ' valeur ' . $_option['value'] . ' de ' . geotravCmd::byId($_option['event_id'])->getEqLogic()->getName() . '(' . $id . ')');
 		foreach (eqLogic::byType('geotrav', true) as $geotrav) {
 			if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $id) == 1) {
 				$geotrav->updateGeofenceValues($id, $_option['value']);
+                log::add('geotrav', 'debug', 'Geofence eqlogic ' . $id);
 			}
+			/*if ($geotrav->getConfiguration('type') == 'travel') {
+                if ($geotrav->getConfiguration('travelDeparture') == $id || $geotrav->getConfiguration('travelArrival') == $id) {
+                    $geotrav->refreshTravel();
+                    log::add('geotrav', 'debug', 'Travel eqlogic ' . $id);
+                } else {
+                    log::add('geotrav', 'debug', 'Not travel for this location ' . $id);
+                }
+			}*/
 		}
 	}
 
@@ -222,7 +231,9 @@ class geotrav extends eqLogic {
 		}
 		if ($this->getConfiguration('reverse')) {
 			$url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG', 'geotrav');
-			$data = file_get_contents($url);
+			$request_http = new com_http($url);
+			$data = $request_http->exec(30);
+			//$data = file_get_contents($url);
 			$jsondata = json_decode($data, true);
 			log::add('geotrav', 'debug', 'Resultat ' . $url . ' ' . print_r($jsondata, true));
 		} else {
@@ -242,7 +253,9 @@ class geotrav extends eqLogic {
 			return;
 		}
 		$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . trim(config::byKey('keyGMG', 'geotrav'));
-		$data = file_get_contents($url);
+		$request_http = new com_http($url);
+		$data = $request_http->exec(30);
+		//$data = file_get_contents($url);
 		$jsondata = json_decode($data, true);
 		log::add('geotrav', 'debug', 'Adresse ' . $address . ' ' . $data);
 		$this->updateLocation($jsondata);
@@ -330,9 +343,13 @@ class geotrav extends eqLogic {
 			$url .= '&' . $key . '=' . $value;
 			$url2 .= '&' . $key . '=' . $value;
 		}
-		$data = file_get_contents($url);
+		$request_http = new com_http($url);
+		$data = $request_http->exec(30);
+		//$data = file_get_contents($url);
 		$jsondata = json_decode($data, true);
-		$data = file_get_contents($url2);
+		$request_http = new com_http($url2);
+		$data = $request_http->exec(30);
+		//$data = file_get_contents($url2);
 		$jsondata2 = json_decode($data, true);
 		log::add('geotrav', 'debug', 'Travel ' . $url);
 		if (isset($jsondata['routes'][0]['legs'][0]['duration_in_traffic']['value'])) {
@@ -361,7 +378,7 @@ class geotrav extends eqLogic {
 
 	public function refreshStation($param = 'none') {
 		if (config::byKey('keyNavitia', 'geotrav') == '') {
-			log::add('geotrav', 'debug', 'SVous devez remplir la clef API Navitia pour les équipements transports en commun');
+			log::add('geotrav', 'debug', 'Vous devez remplir la clef API Navitia pour les équipements transports en commun');
 			return;
 		}
 		$loc = urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'), 'location:longitude')->execCmd()) . ';' . urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'), 'location:latitude')->execCmd());
@@ -373,7 +390,7 @@ class geotrav extends eqLogic {
 		if ($param != 'none') {
 			$options = arg2array($param);
 		}
-		log::add('geotrav', 'debug', 'Station:Options ' . print_r($options));
+		//log::add('geotrav', 'debug', 'Station:Options ' . print_r($options));
 		$urldepart = $url . '/departures?';
 		foreach ($options as $key => $value) {
 			if ($key == 'from_datetime') {
@@ -381,7 +398,9 @@ class geotrav extends eqLogic {
 			}
 			$urldepart .= $key . '=' . $value . '&';
 		}
-		$data = file_get_contents($urldepart);
+		$request_http = new com_http($urldepart);
+		$data = $request_http->exec(30);
+		//$data = file_get_contents($urldepart);
 		$jsondata = json_decode($data, true);
 		log::add('geotrav', 'debug', 'Station:Départs ' . $urldepart . print_r($jsondata, true));
 		if (isset($jsondata['departures'][0])) {
@@ -403,7 +422,9 @@ class geotrav extends eqLogic {
 			}
 			$urldepart .= $key . '=' . $value . '&';
 		}
-		$data = file_get_contents($urldepart);
+		$request_http = new com_http($urldepart);
+		$data = $request_http->exec(30);
+		//$data = file_get_contents($urldepart);
 		$jsondata = json_decode($data, true);
 		log::add('geotrav', 'debug', 'Station:Arrivées ' . $urldepart . print_r($jsondata, true));
 		if (isset($jsondata['arrivals'][0])) {
@@ -485,6 +506,10 @@ class geotrav extends eqLogic {
 				}
 			}
 		}
+		if ($this->getConfiguration('type') == 'station') {
+			$replace['#hideDepart#'] = ($this->getConfiguration('hideDepart')) ? ' style="display:none"':'';
+			$replace['#hideArrivee#'] = ($this->getConfiguration('hideArrivee')) ? ' style="display:none"':'';
+	        }
 		$templatename = $this->getConfiguration('type');
 		return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'geotrav')));
 	}

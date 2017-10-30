@@ -26,7 +26,7 @@ Pour un équipement de type localisation, deux champs d'option sont disponibles 
 
   - Par une info Jeedom : permet de se mettre à jour par rapport à la valeur provenant d'ailleurs dans Jeedom
 
-  - URL de mise à jour par API : s'utilise dans Tasker/Automate etc pour mettre à jour une localisation automatiquement, toutes les localisations sont ainsi disponible
+  - URL de mise à jour par API : s'utilise dans Tasker/Automate etc pour mettre à jour une localisation automatiquement, toutes les localisations sont ainsi disponibles
 
 [IMPORTANT]
 Il ne faut pas saisir adresse ET coordonnées, saisissez un seul des deux, celui que vous avez à disposition et sauvegarder l'équipement. Tout sera renseigné automatiquement.
@@ -49,7 +49,7 @@ Les équipements trajets ont 3 options de configuration :
 
   - Options, ce sont les options (non obligatoires) de l'API à utiliser pour les appels de cet équipement (il est possible de les préciser uniquement sur un appel de commande via le "rafraichir avec options")
 
-Les options possible sont :
+Les options possibles sont :
 
   - mode : parmis (driving, walking, bicycling, transit), disponible link:https://developers.google.com/maps/documentation/directions/intro#TravelModes[dans l'API google maps]
 
@@ -57,9 +57,9 @@ Les options possible sont :
 
   - waypoints : liste de points de passage, voir link:https://developers.google.com/maps/documentation/directions/intro#Waypoints[les waypoints]
 
-  - arrival_time : heure souhaitée d'arrivée, ne peut pas se cumuler avec l'heure de départ (en timestamp, mais en paramètre on passera une heure directement au format jeedom comme 1820 pour 18h20)
+  - arrival_time : heure souhaitée d'arrivée, ne peut pas se cumuler avec l'heure de départ (en timestamp, mais en paramètre on passera une heure directement au format Jeedom comme 1820 pour 18h20)
 
-  - departure_time : heure de départ souhaitée (par défaut l'heure est celle du moment sinon) l'heure doit se noter au format classique jeedom, par exemple 1720 pour 17h20
+  - departure_time : heure de départ souhaitée (par défaut l'heure est celle du moment sinon) l'heure doit se noter au format classique Jeedom, par exemple 1720 pour 17h20
 
   - transit_mode : si le mode choisi est transit, permet de sélectionner le mode de transport en commun (bus, subway, train, tram, rail)
 
@@ -77,17 +77,17 @@ Ce type d'équipement dispose de 2 options de configuration :
 
 Pour filtrer certaines lignes (LINE dans navitia) ou destination (définit par un couple origine-destination appelé ROUTE dans navitia), utiliser le paramètre 'filter=line.code="nom de la ligne à garder"'.
 
-A noter que pour l'heure doit se noter au format classique jeedom, par exemple 1720 pour 17h20
+À noter que pour l'heure doit se noter au format classique Jeedom, par exemple 1720 pour 17h20
 
 Astuce pour déterminer les codes de ligne/route, utiliser le playground navitia :
 Ligne : https://api.navitia.io/v1/coverage/sandbox/stop_points/stop_point%3ARAT%3ASP%3AHALLE2/lines?
 Routes :https://api.navitia.io/v1/coverage/sandbox/stop_points/stop_point%3ARAT%3ASP%3AMIROM2/routes?
-Il faut indiquer votre clé API dans "token" pour débloquer a toutes les zones et avoir l'auto complète.
+Il faut indiquer votre clé API dans "token" pour débloquer toutes les zones et avoir l'auto complète.
 Puis :
   - dans coverage votre zone geographique (fr-idf, fr-ne, fr-...)
-  - stop_points le nom de la station recherché (ou stop_areas pour une station avec plusieurs arrêt)
-  - dans features LINES ou ROUTES suivant l'info recherché
+  - stop_points le nom de la station recherché (ou stop_areas pour une station avec plusieurs arrêts)
+  - dans features LINES ou ROUTES suivant l'info recherchée
 SUBMIT
-  -selectionner la ROUTE/LINE désirée, le code sera indiqué
+  -sélectionner la ROUTE/LINE désirée, le code sera indiqué
 
 Les options peuvent être testées dans 'parameters'

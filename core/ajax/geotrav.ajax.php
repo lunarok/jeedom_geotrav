@@ -41,9 +41,10 @@ try {
 	}
 
 	if (init('action') == 'getGeotrav') {
-		$return['location'] = array();
+        $return['location'] = array();
 		$return['travel'] = array();
 		$return['geofence'] = array();
+        $return['station'] = array();
 		foreach (eqLogic::byType('geotrav') as $eqLogic) {
 			if ($eqLogic->getIsEnable() == 0 || $eqLogic->getIsVisible() == 0) {
 				continue;
@@ -56,6 +57,9 @@ try {
 			}
 			if ($eqLogic->getConfiguration('type') == 'geofence') {
 				$return['geofence'][] = $eqLogic->toHtml(init('version'));
+			}
+            if ($eqLogic->getConfiguration('type') == 'station') {
+				$return['station'][] = $eqLogic->toHtml(init('version'));
 			}
 		}
 		ajax::success($return);
