@@ -485,7 +485,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Par une info Jeedom : permet de se mettre à jour par rapport à la valeur provenant d&#8217;ailleurs dans Jeedom</p>
 </li>
 <li>
-<p>URL de mise à jour par API : s&#8217;utilise dans Tasker/Automate etc pour mettre à jour une localisation automatiquement, toutes les localisations sont ainsi disponible</p>
+<p>URL de mise à jour par API : s&#8217;utilise dans Tasker/Automate etc pour mettre à jour une localisation automatiquement, toutes les localisations sont ainsi disponibles</p>
 </li>
 </ul>
 </div>
@@ -537,7 +537,7 @@ Il ne faut pas saisir adresse ET coordonnées, saisissez un seul des deux, celui
 </ul>
 </div>
 <div class="paragraph">
-<p>Les options possible sont :</p>
+<p>Les options possibles sont :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -551,10 +551,10 @@ Il ne faut pas saisir adresse ET coordonnées, saisissez un seul des deux, celui
 <p>waypoints : liste de points de passage, voir <a href="https://developers.google.com/maps/documentation/directions/intro#Waypoints">les waypoints</a></p>
 </li>
 <li>
-<p>arrival_time : heure souhaitée d&#8217;arrivée, ne peut pas se cumuler avec l&#8217;heure de départ (en timestamp, mais en paramètre on passera une heure directement au format jeedom comme 1820 pour 18h20)</p>
+<p>arrival_time : heure souhaitée d&#8217;arrivée, ne peut pas se cumuler avec l&#8217;heure de départ (en timestamp, mais en paramètre on passera une heure directement au format Jeedom comme 1820 pour 18h20)</p>
 </li>
 <li>
-<p>departure_time : heure de départ souhaitée (par défaut l&#8217;heure est celle du moment sinon) l&#8217;heure doit se noter au format classique jeedom, par exemple 1720 pour 17h20</p>
+<p>departure_time : heure de départ souhaitée (par défaut l&#8217;heure est celle du moment sinon) l&#8217;heure doit se noter au format classique Jeedom, par exemple 1720 pour 17h20</p>
 </li>
 <li>
 <p>transit_mode : si le mode choisi est transit, permet de sélectionner le mode de transport en commun (bus, subway, train, tram, rail)</p>
@@ -587,19 +587,19 @@ Il ne faut pas saisir adresse ET coordonnées, saisissez un seul des deux, celui
 <p>Pour filtrer certaines lignes (LINE dans navitia) ou destination (définit par un couple origine-destination appelé ROUTE dans navitia), utiliser le paramètre 'filter=line.code="nom de la ligne à garder"'.</p>
 </div>
 <div class="paragraph">
-<p>A noter que pour l&#8217;heure doit se noter au format classique jeedom, par exemple 1720 pour 17h20</p>
+<p>À noter que pour l&#8217;heure doit se noter au format classique Jeedom, par exemple 1720 pour 17h20</p>
 </div>
 <div class="paragraph">
 <p>Astuce pour déterminer les codes de ligne/route, utiliser le playground navitia :
 Ligne : <a href="https://api.navitia.io/v1/coverage/sandbox/stop_points/stop_point%3ARAT%3ASP%3AHALLE2/lines?" class="bare">https://api.navitia.io/v1/coverage/sandbox/stop_points/stop_point%3ARAT%3ASP%3AHALLE2/lines?</a>
 Routes :https://api.navitia.io/v1/coverage/sandbox/stop_points/stop_point%3ARAT%3ASP%3AMIROM2/routes?
-Il faut indiquer votre clé API dans "token" pour débloquer a toutes les zones et avoir l&#8217;auto complète.
+Il faut indiquer votre clé API dans "token" pour débloquer toutes les zones et avoir l&#8217;auto complète.
 Puis :
   - dans coverage votre zone geographique (fr-idf, fr-ne, fr-&#8230;&#8203;)
-  - stop_points le nom de la station recherché (ou stop_areas pour une station avec plusieurs arrêt)
-  - dans features LINES ou ROUTES suivant l&#8217;info recherché
+  - stop_points le nom de la station recherché (ou stop_areas pour une station avec plusieurs arrêts)
+  - dans features LINES ou ROUTES suivant l&#8217;info recherchée
 SUBMIT
-  -selectionner la ROUTE/LINE désirée, le code sera indiqué</p>
+  -sélectionner la ROUTE/LINE désirée, le code sera indiqué</p>
 </div>
 <div class="paragraph">
 <p>Les options peuvent être testées dans 'parameters'</p>
