@@ -85,7 +85,7 @@ Routes :https://api.navitia.io/v1/coverage/sandbox/stop_points/stop_point%3ARAT%
 Il faut indiquer votre clé API dans "token" pour débloquer toutes les zones et avoir l'auto complète.
 Puis :
   - dans coverage votre zone geographique (fr-idf, fr-ne, fr-...)
-  - stop_points le nom de la station recherché (ou stop_areas pour une station avec plusieurs arrêt)
+  - stop_points le nom de la station recherché (ou stop_areas pour une station avec plusieurs arrêts)
   - dans features LINES ou ROUTES suivant l'info recherchée
 SUBMIT
   -sélectionner la ROUTE/LINE désirée, le code sera indiqué
