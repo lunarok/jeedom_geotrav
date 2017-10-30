@@ -65,7 +65,7 @@ function editWidgetMode(_mode){
  $('.div_displayEquipement .eqLogic-widget').draggable('enable');
 
  $( ".div_displayEquipement .eqLogic-widget.allowResize").resizable({
-  grid: [ 10, 10 ],
+  grid: [ 2, 2 ],
   resize: function( event, ui ) {
      var el = ui.element;
      el.closest('.div_displayEquipement').packery();
@@ -76,8 +76,8 @@ function editWidgetMode(_mode){
     el.closest('.div_displayEquipement').packery();
     var eqLogic = {id : el.attr('data-eqlogic_id')}
     eqLogic.display = {};
-    eqLogic.display.width =  Math.floor(el.width() / 10) * 10 + 'px';
-    eqLogic.display.height = Math.floor(el.height() / 10) * 10+ 'px';
+    eqLogic.display.width =  Math.floor(el.width() / 2) * 2 + 'px';
+    eqLogic.display.height = Math.floor(el.height() / 2) * 2+ 'px';
     jeedom.eqLogic.simpleSave({
         eqLogic : eqLogic,
         error: function (error) {
