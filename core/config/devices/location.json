@@ -8,7 +8,7 @@
             "display": {
 				"generic_type": "DONT",
                 "title_disable": 1,
-                "message_placeholder" : "Longitude,Latitude"
+                "message_placeholder" : "Latitude,Longitude"
             },
             "configuration": {
 				"type": "location"
