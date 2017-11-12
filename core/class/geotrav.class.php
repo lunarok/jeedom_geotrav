@@ -382,7 +382,6 @@ class geotrav extends eqLogic {
 			return;
 		}
 		$loc = urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'), 'location:longitude')->execCmd()) . ';' . urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'), 'location:latitude')->execCmd());
-		$url = 'https://' . trim(config::byKey('keyNavitia', 'geotrav')) . '@api.navitia.io/v1/coverage/' . $loc . '/coords/' . $loc;
 		$options = array();
 		if ($this->getConfiguration('stationOptions') != '') {
 			$options = arg2array($this->getConfiguration('stationOptions'));
@@ -391,12 +390,26 @@ class geotrav extends eqLogic {
 			$options = arg2array($param);
 		}
 		//log::add('geotrav', 'debug', 'Station:Options ' . print_r($options));
+		$url = 'https://' . trim(config::byKey('keyNavitia', 'geotrav')) . '@api.navitia.io/v1/coverage/' . $loc; 
+
+		if (array_key_exists ('stop_point',$options) or array_key_exists ('stop_areas',$options) ){
+			foreach ($options as $key => $value) {
+				if ($key == 'stop_point' or $key == 'stop_areas') {
+					$url .=  '/' . $key . '/' . $value 
+				}
+			}
+		}else{
+			$url .= '/coords/' . $loc;
+		}			
 		$urldepart = $url . '/departures?count=2&';
 		foreach ($options as $key => $value) {
 			if ($key == 'from_datetime') {
 				$value = substr_replace($value, ':', -2, 0);
 			}
+			if ($key == 'stop_point' or $key == 'stop_areas') {
+			}else{
 			$urldepart .= $key . '=' . $value . '&';
+			}
 		}
 		$request_http = new com_http($urldepart);
 		$data = $request_http->exec(30);
@@ -420,7 +433,10 @@ class geotrav extends eqLogic {
 			if ($key == 'from_datetime') {
 				$value = substr_replace($value, ':', -2, 0);
 			}
+			if ($key == 'stop_point' or $key == 'stop_areas') {
+			}else{
 			$urldepart .= $key . '=' . $value . '&';
+			}
 		}
 		$request_http = new com_http($urldepart);
 		$data = $request_http->exec(30);
@@ -441,7 +457,8 @@ class geotrav extends eqLogic {
 		}
 		$this->refreshWidget();
 	}
-
+	
+	
 	public function updateGeofenceValues($id, $coord) {
 		log::add('geotrav', 'debug', 'Calcul geofence ' . $this->getName() . ' ' . $this->getConfiguration('zoneOrigin') . ' pour ' . $id . ' ' . $coord);
 		$origin = geotrav::byId($this->getConfiguration('zoneOrigin'));
