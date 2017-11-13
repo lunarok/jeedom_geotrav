@@ -395,7 +395,7 @@ class geotrav extends eqLogic {
 		if (array_key_exists ('stop_point',$options) or array_key_exists ('stop_areas',$options) ){
 			foreach ($options as $key => $value) {
 				if ($key == 'stop_point' or $key == 'stop_areas') {
-					$url .=  '/' . $key . '/' . $value 
+					$url .=  '/' . $key . '/' . $value;
 				}
 			}
 		}else{
