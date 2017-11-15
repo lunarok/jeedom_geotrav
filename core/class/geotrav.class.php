@@ -233,7 +233,9 @@ class geotrav extends eqLogic {
 			$url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG', 'geotrav');
 			$request_http = new com_http($url);
 			$data = $request_http->exec(30);
-			//$data = file_get_contents($url);
+			if !(is_string($data) && is_array(json_decode($data, true)) && (json_last_error() == JSON_ERROR_NONE)) {
+				log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
+			}
 			$jsondata = json_decode($data, true);
 			log::add('geotrav', 'debug', 'Resultat ' . $url . ' ' . print_r($jsondata, true));
 		} else {
@@ -255,7 +257,9 @@ class geotrav extends eqLogic {
 		$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . trim(config::byKey('keyGMG', 'geotrav'));
 		$request_http = new com_http($url);
 		$data = $request_http->exec(30);
-		//$data = file_get_contents($url);
+		if !(is_string($data) && is_array(json_decode($data, true)) && (json_last_error() == JSON_ERROR_NONE)) {
+			log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
+		}
 		$jsondata = json_decode($data, true);
 		log::add('geotrav', 'debug', 'Adresse ' . $address . ' ' . $data);
 		$this->updateLocation($jsondata);
@@ -346,6 +350,9 @@ class geotrav extends eqLogic {
 		$request_http = new com_http($url);
 		$data = $request_http->exec(30);
 		//$data = file_get_contents($url);
+		if !(is_string($data) && is_array(json_decode($data, true)) && (json_last_error() == JSON_ERROR_NONE)) {
+			log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
+		}
 		$jsondata = json_decode($data, true);
 		$request_http = new com_http($url2);
 		$data = $request_http->exec(30);
