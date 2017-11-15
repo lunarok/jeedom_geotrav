@@ -233,7 +233,7 @@ class geotrav extends eqLogic {
 			$url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG', 'geotrav');
 			$request_http = new com_http($url);
 			$data = $request_http->exec(30);
-			if !(is_string($data) && is_array(json_decode($data, true)) && (json_last_error() == JSON_ERROR_NONE)) {
+			if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
 				log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 			}
 			$jsondata = json_decode($data, true);
@@ -257,7 +257,7 @@ class geotrav extends eqLogic {
 		$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . trim(config::byKey('keyGMG', 'geotrav'));
 		$request_http = new com_http($url);
 		$data = $request_http->exec(30);
-		if !(is_string($data) && is_array(json_decode($data, true)) && (json_last_error() == JSON_ERROR_NONE)) {
+		if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
 			log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 		}
 		$jsondata = json_decode($data, true);
@@ -350,7 +350,7 @@ class geotrav extends eqLogic {
 		$request_http = new com_http($url);
 		$data = $request_http->exec(30);
 		//$data = file_get_contents($url);
-		if !(is_string($data) && is_array(json_decode($data, true)) && (json_last_error() == JSON_ERROR_NONE)) {
+		if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
 			log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 		}
 		$jsondata = json_decode($data, true);
@@ -397,7 +397,7 @@ class geotrav extends eqLogic {
 			$options = arg2array($param);
 		}
 		//log::add('geotrav', 'debug', 'Station:Options ' . print_r($options));
-		$url = 'https://' . trim(config::byKey('keyNavitia', 'geotrav')) . '@api.navitia.io/v1/coverage/' . $loc; 
+		$url = 'https://' . trim(config::byKey('keyNavitia', 'geotrav')) . '@api.navitia.io/v1/coverage/' . $loc;
 
 		if (array_key_exists ('stop_point',$options) or array_key_exists ('stop_areas',$options) ){
 			foreach ($options as $key => $value) {
@@ -407,7 +407,7 @@ class geotrav extends eqLogic {
 			}
 		}else{
 			$url .= '/coords/' . $loc;
-		}			
+		}
 		$urldepart = $url . '/departures?count=2&';
 		foreach ($options as $key => $value) {
 			if ($key == 'from_datetime') {
@@ -464,8 +464,8 @@ class geotrav extends eqLogic {
 		}
 		$this->refreshWidget();
 	}
-	
-	
+
+
 	public function updateGeofenceValues($id, $coord) {
 		log::add('geotrav', 'debug', 'Calcul geofence ' . $this->getName() . ' ' . $this->getConfiguration('zoneOrigin') . ' pour ' . $id . ' ' . $coord);
 		$origin = geotrav::byId($this->getConfiguration('zoneOrigin'));
