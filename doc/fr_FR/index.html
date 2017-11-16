@@ -584,15 +584,17 @@ Il ne faut pas saisir adresse ET coordonnées, saisissez un seul des deux, celui
 </ul>
 </div>
 <div class="paragraph">
-<p>Pour filtrer certaines lignes (LINE dans navitia) ou destination (définit par un couple origine-destination appelé ROUTE dans navitia), utiliser le paramètre 'filter=line.code="nom de la ligne à garder"'.</p>
-</div>
-<div class="paragraph">
 <p>À noter que pour l&#8217;heure doit se noter au format classique Jeedom, par exemple 1720 pour 17h20</p>
 </div>
 <div class="paragraph">
-<p>Astuce pour déterminer les codes de ligne/route, utiliser le playground navitia :
-Ligne : <a href="https://api.navitia.io/v1/coverage/sandbox/stop_points/stop_point%3ARAT%3ASP%3AHALLE2/lines?" class="bare">https://api.navitia.io/v1/coverage/sandbox/stop_points/stop_point%3ARAT%3ASP%3AHALLE2/lines?</a>
-Routes :https://api.navitia.io/v1/coverage/sandbox/stop_points/stop_point%3ARAT%3ASP%3AMIROM2/routes?
+<p>Les options prennent en compte stop_areas ou stop_points pour "forcer" l&#8217;utilisation d&#8217;une station.</p>
+</div>
+<div class="paragraph">
+<p>Pour filtrer certaines lignes (LINE dans navitia) ou destination (définit par un couple origine-destination appelé ROUTE dans navitia), utiliser le paramètre 'filter=line.code="nom de la ligne à garder"'. Voir le tuto <a href="https://www.jeedom.com/forum/viewtopic.php?f=138&amp;t=31310">Tuto du forum Jeedom</a></p>
+</div>
+<div class="paragraph">
+<p>Pour déterminer les codes de ligne/route, utiliser le playground navitia :
+<a href="https://api.navitia.io/v1/coverage/sandbox/stop_points/stop_point%3ARAT%3ASP%3AHALLE2/lines?">Lien</a>
 Il faut indiquer votre clé API dans "token" pour débloquer toutes les zones et avoir l&#8217;auto complète.
 Puis :
   - dans coverage votre zone geographique (fr-idf, fr-ne, fr-&#8230;&#8203;)
