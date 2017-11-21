@@ -1,0 +1,95 @@
+= Configuration
+
+Le plugin dispose d'une page de configuration générale qui permet de définir les clefs API des services utilisés
+
+== Configuration des équipements
+
+Le premier élément spécifique de configuration détermine l'usage et les autres configurations. C'est le type et voici ceux qui sont disponibles :
+
+  - Localisation, permet de définir une 'adresse' fixe ou mobile
+
+  - Géofence, permet de savoir si les localisations sont dans une certaine zone
+
+  - Trajets, pour calculer les informations concernant un trajet entre deux points
+
+  - Arrêt de transports, pour les transports en commun afin de connaître les prochains horaires
+
+=== Localisation
+
+Pour un équipement de type localisation, deux champs d'option sont disponibles et une information
+
+  - Adresse : il est possible d'y saisir une adresse (la plus complète possible) qui sera utilisé pour déterminer les informations y compris les coordonnées (geocoding)
+
+  - Coordonnées : en saisissant les coordonnées, les informations se mettront à jour (reverse geocoding)
+
+  - Déterminer l'adresse : pour une localisation par coordonnées par défaut il y aura une création de l'adresse, si on veut l'éviter il faut décocher cette option (cela est nécessaire pour éviter qu'un point soit rapprocher d'une adresse physique existante)
+
+  - Par une info Jeedom : permet de se mettre à jour par rapport à la valeur provenant d'ailleurs dans Jeedom
+
+  - URL de mise à jour par API : s'utilise dans Tasker/Automate etc pour mettre à jour une localisation automatiquement, toutes les localisations sont ainsi disponibles
+
+[IMPORTANT]
+Il ne faut pas saisir adresse ET coordonnées, saisissez un seul des deux, celui que vous avez à disposition et sauvegarder l'équipement. Tout sera renseigné automatiquement.
+
+=== Géofence
+
+Les équipements Geofence dispose de 2 options de configuration :
+
+  - Localisation de référence : c'est celle qui est utilisée pour la distance et par défaut pour la présence (liste des équipements de type localisation du plugin)
+
+  - Distance de calcul (en mètres) : c'est la limite qui sera utilisée pour comparer la distance et dire si l'équipement "est présent"
+
+=== Trajets
+
+Les équipements trajets ont 3 options de configuration :
+
+  - Départ, une localisation à utiliser pour le départ (liste des équipements de type localisation du plugin)
+
+  - Arrivée, une seconde localisation à utiliser pour l'arrivée (liste des équipements de type localisation du plugin)
+
+  - Options, ce sont les options (non obligatoires) de l'API à utiliser pour les appels de cet équipement (il est possible de les préciser uniquement sur un appel de commande via le "rafraichir avec options")
+
+Les options possibles sont :
+
+  - mode : parmis (driving, walking, bicycling, transit), disponible link:https://developers.google.com/maps/documentation/directions/intro#TravelModes[dans l'API google maps]
+
+  - avoid : parmis (tolls, highways, ferries, indoor), voir link:https://developers.google.com/maps/documentation/directions/intro#Restrictions[les restrictions]
+
+  - waypoints : liste de points de passage, voir link:https://developers.google.com/maps/documentation/directions/intro#Waypoints[les waypoints]
+
+  - arrival_time : heure souhaitée d'arrivée, ne peut pas se cumuler avec l'heure de départ (en timestamp, mais en paramètre on passera une heure directement au format Jeedom comme 1820 pour 18h20)
+
+  - departure_time : heure de départ souhaitée (par défaut l'heure est celle du moment sinon) l'heure doit se noter au format classique Jeedom, par exemple 1720 pour 17h20
+
+  - transit_mode : si le mode choisi est transit, permet de sélectionner le mode de transport en commun (bus, subway, train, tram, rail)
+
+  - transit_routing_preference : si le mode choisi est transit, permet de sélectionner une option de trajet (less_walking, fewer_transfers)
+
+Les options doivent se remplir comme ceci : 'mode=walking departure_time=1111111'
+
+=== Arrêts de transport
+
+Ce type d'équipement dispose de 2 options de configuration :
+
+  - Localisation de l'arrêt, un équipement est à sélectionner qui servira pour la recherche
+
+  - Options, ce sont les options (non obligatoires) de l'API (voir link:http://doc.navitia.io/#departures[la doc API])
+
+À noter que pour l'heure doit se noter au format classique Jeedom, par exemple 1720 pour 17h20
+
+Les options prennent en compte stop_areas ou stop_points pour "forcer" l'utilisation d'une station.
+
+Pour filtrer certaines lignes (LINE dans navitia) ou destination (définit par un couple origine-destination appelé ROUTE dans navitia), utiliser le paramètre 'filter=line.code="nom de la ligne à garder"'. Voir le tuto link:https://www.jeedom.com/forum/viewtopic.php?f=138&t=31310[Tuto du forum Jeedom]
+
+[Astuce] 
+Pour déterminer les codes de ligne/route, utiliser le playground navitia :
+link:https://api.navitia.io/v1/coverage/sandbox/stop_points/stop_point%3ARAT%3ASP%3AHALLE2/lines?[Lien]
+Il faut indiquer votre clé API dans "token" pour débloquer toutes les zones et avoir l'auto complète.
+Puis :
+  - dans coverage votre zone geographique (fr-idf, fr-ne, fr-...)
+  - stop_points le nom de la station recherché (ou stop_areas pour une station avec plusieurs arrêts)
+  - dans features LINES ou ROUTES suivant l'info recherchée
+SUBMIT
+  -sélectionner la ROUTE/LINE désirée, le code sera indiqué
+
+Les options peuvent être testées dans 'parameters'

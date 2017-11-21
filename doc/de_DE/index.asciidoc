@@ -1,0 +1,5 @@
+= Localisation et Trajets
+
+Plugin permettant de gérer des localisations, la présence dans une zone, le temps de trajet entre 2 points ainsi que la distance et aussi les horaires de passage d'un arrêt de transport.
+
+include::configuration.asciidoc[]
