@@ -233,7 +233,9 @@ class geotrav extends eqLogic {
 			$url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG', 'geotrav');
 			$request_http = new com_http($url);
 			$data = $request_http->exec(30);
-			//$data = file_get_contents($url);
+			if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
+				log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
+			}
 			$jsondata = json_decode($data, true);
 			log::add('geotrav', 'debug', 'Resultat ' . $url . ' ' . print_r($jsondata, true));
 		} else {
@@ -255,7 +257,9 @@ class geotrav extends eqLogic {
 		$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . trim(config::byKey('keyGMG', 'geotrav'));
 		$request_http = new com_http($url);
 		$data = $request_http->exec(30);
-		//$data = file_get_contents($url);
+		if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
+			log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
+		}
 		$jsondata = json_decode($data, true);
 		log::add('geotrav', 'debug', 'Adresse ' . $address . ' ' . $data);
 		$this->updateLocation($jsondata);
@@ -346,6 +350,9 @@ class geotrav extends eqLogic {
 		$request_http = new com_http($url);
 		$data = $request_http->exec(30);
 		//$data = file_get_contents($url);
+		if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
+			log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
+		}
 		$jsondata = json_decode($data, true);
 		$request_http = new com_http($url2);
 		$data = $request_http->exec(30);
@@ -382,7 +389,6 @@ class geotrav extends eqLogic {
 			return;
 		}
 		$loc = urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'), 'location:longitude')->execCmd()) . ';' . urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'), 'location:latitude')->execCmd());
-		$url = 'https://' . trim(config::byKey('keyNavitia', 'geotrav')) . '@api.navitia.io/v1/coverage/' . $loc . '/coords/' . $loc;
 		$options = array();
 		if ($this->getConfiguration('stationOptions') != '') {
 			$options = arg2array($this->getConfiguration('stationOptions'));
@@ -391,12 +397,26 @@ class geotrav extends eqLogic {
 			$options = arg2array($param);
 		}
 		//log::add('geotrav', 'debug', 'Station:Options ' . print_r($options));
-		$urldepart = $url . '/departures?';
+		$url = 'https://' . trim(config::byKey('keyNavitia', 'geotrav')) . '@api.navitia.io/v1/coverage/' . $loc;
+
+		if (array_key_exists ('stop_point',$options) or array_key_exists ('stop_areas',$options) ){
+			foreach ($options as $key => $value) {
+				if ($key == 'stop_point' or $key == 'stop_areas') {
+					$url .=  '/' . $key . '/' . $value;
+				}
+			}
+		}else{
+			$url .= '/coords/' . $loc;
+		}
+		$urldepart = $url . '/departures?count=2&';
 		foreach ($options as $key => $value) {
 			if ($key == 'from_datetime') {
 				$value = substr_replace($value, ':', -2, 0);
 			}
+			if ($key == 'stop_point' or $key == 'stop_areas') {
+			}else{
 			$urldepart .= $key . '=' . $value . '&';
+			}
 		}
 		$request_http = new com_http($urldepart);
 		$data = $request_http->exec(30);
@@ -415,12 +435,15 @@ class geotrav extends eqLogic {
 			$this->checkAndUpdateCmd('station:2line', $jsondata['departures'][1]['display_informations']['code']);
 			$this->checkAndUpdateCmd('station:2stop', $jsondata['departures'][1]['stop_point']['name']);
 		}
-		$urldepart = $url . '/arrivals?';
+		$urldepart = $url . '/arrivals?count=2&';
 		foreach ($options as $key => $value) {
 			if ($key == 'from_datetime') {
 				$value = substr_replace($value, ':', -2, 0);
 			}
+			if ($key == 'stop_point' or $key == 'stop_areas') {
+			}else{
 			$urldepart .= $key . '=' . $value . '&';
+			}
 		}
 		$request_http = new com_http($urldepart);
 		$data = $request_http->exec(30);
@@ -441,6 +464,7 @@ class geotrav extends eqLogic {
 		}
 		$this->refreshWidget();
 	}
+
 
 	public function updateGeofenceValues($id, $coord) {
 		log::add('geotrav', 'debug', 'Calcul geofence ' . $this->getName() . ' ' . $this->getConfiguration('zoneOrigin') . ' pour ' . $id . ' ' . $coord);
