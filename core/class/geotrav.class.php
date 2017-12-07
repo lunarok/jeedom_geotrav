@@ -410,62 +410,95 @@ class geotrav extends eqLogic {
 		}else{
 			$url .= '/coords/' . $loc;
 		}
-		$urldepart = $url . '/departures?count=2&';
-		foreach ($options as $key => $value) {
-			if ($key == 'from_datetime') {
-				$value = substr_replace($value, ':', -2, 0);
+		if (!($this->getConfiguration('hideDepart'))) {
+			$urldepart = $url . '/departures?count=4&';
+			foreach ($options as $key => $value) {
+				if ($key == 'from_datetime') {
+					$value = substr_replace($value, ':', -2, 0);
+				}
+				if ($key == 'stop_point' or $key == 'stop_areas') {
+				}else{
+				$urldepart .= $key . '=' . $value . '&';
+				}
 			}
-			if ($key == 'stop_point' or $key == 'stop_areas') {
-			}else{
-			$urldepart .= $key . '=' . $value . '&';
+			$request_http = new com_http($urldepart);
+			$data = $request_http->exec(30);
+			//$data = file_get_contents($urldepart);
+			$jsondata = json_decode($data, true);
+			log::add('geotrav', 'debug', 'Station:Départs ' . $urldepart . print_r($jsondata, true));
+			if (isset($jsondata['departures'][0])) {
+				$this->checkAndUpdateCmd('station:1direction', $jsondata['departures'][0]['display_informations']['direction']);
+				$this->checkAndUpdateCmd('station:1time', substr($jsondata['departures'][0]['stop_date_time']['departure_date_time'], 9, 4));
+				$this->checkAndUpdateCmd('station:1line', $jsondata['departures'][0]['display_informations']['code']);
+				$this->checkAndUpdateCmd('station:1stop', $jsondata['departures'][0]['stop_point']['name']);
+			}
+			if (isset($jsondata['departures'][1])) {
+				$this->checkAndUpdateCmd('station:2direction', $jsondata['departures'][1]['display_informations']['direction']);
+				$this->checkAndUpdateCmd('station:2time', substr($jsondata['departures'][1]['stop_date_time']['departure_date_time'], 9, 4));
+				$this->checkAndUpdateCmd('station:2line', $jsondata['departures'][1]['display_informations']['code']);
+				$this->checkAndUpdateCmd('station:2stop', $jsondata['departures'][1]['stop_point']['name']);
+			}
+			if ($this->getConfiguration('hideArrivee')) {
+				if (isset($jsondata['departures'][2])) {
+					$this->checkAndUpdateCmd('station:arrival1direction', $jsondata['departures'][2]['display_informations']['direction']);
+					$this->checkAndUpdateCmd('station:arrival1time', substr($jsondata['departures'][2]['stop_date_time']['departure_date_time'], 9, 4));
+					$this->checkAndUpdateCmd('station:arrival1line', $jsondata['departures'][2]['display_informations']['code']);
+					$this->checkAndUpdateCmd('station:arrival1stop', $jsondata['departures'][2]['stop_point']['name']);
+				}
+				if (isset($jsondata['departures'][3])) {
+					$this->checkAndUpdateCmd('station:arrival2direction', $jsondata['departures'][3]['display_informations']['direction']);
+					$this->checkAndUpdateCmd('station:arrival2time', substr($jsondata['departures'][3]['stop_date_time']['departure_date_time'], 9, 4));
+					$this->checkAndUpdateCmd('station:arrival2line', $jsondata['departures'][3]['display_informations']['code']);
+					$this->checkAndUpdateCmd('station:arrival2stop', $jsondata['departures'][3]['stop_point']['name']);
+				}
 			}
 		}
-		$request_http = new com_http($urldepart);
-		$data = $request_http->exec(30);
-		//$data = file_get_contents($urldepart);
-		$jsondata = json_decode($data, true);
-		log::add('geotrav', 'debug', 'Station:Départs ' . $urldepart . print_r($jsondata, true));
-		if (isset($jsondata['departures'][0])) {
-			$this->checkAndUpdateCmd('station:1direction', $jsondata['departures'][0]['display_informations']['direction']);
-			$this->checkAndUpdateCmd('station:1time', substr($jsondata['departures'][0]['stop_date_time']['departure_date_time'], 9, 4));
-			$this->checkAndUpdateCmd('station:1line', $jsondata['departures'][0]['display_informations']['code']);
-			$this->checkAndUpdateCmd('station:1stop', $jsondata['departures'][0]['stop_point']['name']);
-		}
-		if (isset($jsondata['departures'][1])) {
-			$this->checkAndUpdateCmd('station:2direction', $jsondata['departures'][1]['display_informations']['direction']);
-			$this->checkAndUpdateCmd('station:2time', substr($jsondata['departures'][1]['stop_date_time']['departure_date_time'], 9, 4));
-			$this->checkAndUpdateCmd('station:2line', $jsondata['departures'][1]['display_informations']['code']);
-			$this->checkAndUpdateCmd('station:2stop', $jsondata['departures'][1]['stop_point']['name']);
-		}
-		$urldepart = $url . '/arrivals?count=2&';
-		foreach ($options as $key => $value) {
-			if ($key == 'from_datetime') {
-				$value = substr_replace($value, ':', -2, 0);
+		if (!($this->getConfiguration('hideArrivee'))) {
+			$urldepart = $url . '/arrivals?count=4&';
+			foreach ($options as $key => $value) {
+				if ($key == 'from_datetime') {
+					$value = substr_replace($value, ':', -2, 0);
+				}
+				if ($key == 'stop_point' or $key == 'stop_areas') {
+				}else{
+				$urldepart .= $key . '=' . $value . '&';
+				}
 			}
-			if ($key == 'stop_point' or $key == 'stop_areas') {
-			}else{
-			$urldepart .= $key . '=' . $value . '&';
+			$request_http = new com_http($urldepart);
+			$data = $request_http->exec(30);
+			//$data = file_get_contents($urldepart);
+			$jsondata = json_decode($data, true);
+			log::add('geotrav', 'debug', 'Station:Arrivées ' . $urldepart . print_r($jsondata, true));
+			if (isset($jsondata['arrivals'][0])) {
+				$this->checkAndUpdateCmd('station:arrival1direction', $jsondata['arrivals'][0]['display_informations']['direction']);
+				$this->checkAndUpdateCmd('station:arrival1time', substr($jsondata['arrivals'][0]['stop_date_time']['departure_date_time'], 9, 4));
+				$this->checkAndUpdateCmd('station:arrival1line', $jsondata['arrivals'][0]['display_informations']['code']);
+				$this->checkAndUpdateCmd('station:arrival1stop', $jsondata['arrivals'][0]['stop_point']['name']);
 			}
-		}
-		$request_http = new com_http($urldepart);
-		$data = $request_http->exec(30);
-		//$data = file_get_contents($urldepart);
-		$jsondata = json_decode($data, true);
-		log::add('geotrav', 'debug', 'Station:Arrivées ' . $urldepart . print_r($jsondata, true));
-		if (isset($jsondata['arrivals'][0])) {
-			$this->checkAndUpdateCmd('station:arrival1direction', $jsondata['arrivals'][0]['display_informations']['direction']);
-			$this->checkAndUpdateCmd('station:arrival1time', substr($jsondata['arrivals'][0]['stop_date_time']['departure_date_time'], 9, 4));
-			$this->checkAndUpdateCmd('station:arrival1line', $jsondata['arrivals'][0]['display_informations']['code']);
-			$this->checkAndUpdateCmd('station:arrival1stop', $jsondata['arrivals'][0]['stop_point']['name']);
-		}
-		if (isset($jsondata['arrivals'][1])) {
-			$this->checkAndUpdateCmd('station:arrival2direction', $jsondata['arrivals'][1]['display_informations']['direction']);
-			$this->checkAndUpdateCmd('station:arrival2time', substr($jsondata['arrivals'][1]['stop_date_time']['departure_date_time'], 9, 4));
-			$this->checkAndUpdateCmd('station:arrival2line', $jsondata['arrivals'][1]['display_informations']['code']);
-			$this->checkAndUpdateCmd('station:arrival2stop', $jsondata['arrivals'][1]['stop_point']['name']);
-		}
+			if (isset($jsondata['arrivals'][1])) {
+				$this->checkAndUpdateCmd('station:arrival2direction', $jsondata['arrivals'][1]['display_informations']['direction']);
+				$this->checkAndUpdateCmd('station:arrival2time', substr($jsondata['arrivals'][1]['stop_date_time']['departure_date_time'], 9, 4));
+				$this->checkAndUpdateCmd('station:arrival2line', $jsondata['arrivals'][1]['display_informations']['code']);
+				$this->checkAndUpdateCmd('station:arrival2stop', $jsondata['arrivals'][1]['stop_point']['name']);
+			}
+			if ($this->getConfiguration('hideDepart')) {
+				if (isset($jsondata['arrivals'][2])) {
+					$this->checkAndUpdateCmd('station:1direction', $jsondata['arrivals'][2]['display_informations']['direction']);
+					$this->checkAndUpdateCmd('station:1time', substr($jsondata['arrivals'][2]['stop_date_time']['departure_date_time'], 9, 4));
+					$this->checkAndUpdateCmd('station:1line', $jsondata['arrivals'][2]['display_informations']['code']);
+					$this->checkAndUpdateCmd('station:1stop', $jsondata['arrivals'][2]['stop_point']['name']);
+				}
+				if (isset($jsondata['arrivals'][3])) {
+					$this->checkAndUpdateCmd('station:2direction', $jsondata['arrivals'][3]['display_informations']['direction']);
+					$this->checkAndUpdateCmd('station:2time', substr($jsondata['arrivals'][3]['stop_date_time']['departure_date_time'], 9, 4));
+					$this->checkAndUpdateCmd('station:2line', $jsondata['arrivals'][3]['display_informations']['code']);
+					$this->checkAndUpdateCmd('station:2stop', $jsondata['arrivals'][3]['stop_point']['name']);
+				}
+			}
+		}	
 		$this->refreshWidget();
 	}
+
 
 
 	public function updateGeofenceValues($id, $coord) {
@@ -534,8 +567,10 @@ class geotrav extends eqLogic {
 		}
 		if ($this->getConfiguration('type') == 'station') {
 			$replace['#hideDepart#'] = ($this->getConfiguration('hideDepart')) ? ' style="display:none"':'';
+			$replace['#showDepart2#'] = !($this->getConfiguration('hideArrivee')) ? ' style="display:none"':'';
 			$replace['#hideArrivee#'] = ($this->getConfiguration('hideArrivee')) ? ' style="display:none"':'';
-	        }
+			$replace['#showArrivee2#'] = !($this->getConfiguration('hideDepart')) ? ' style="display:none"':'';			
+	    }
 		$templatename = $this->getConfiguration('type');
 		return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'geotrav')));
 	}
