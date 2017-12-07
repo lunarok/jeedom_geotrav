@@ -230,7 +230,7 @@ class geotrav extends eqLogic {
 			return true;
 		}
 		if ($this->getConfiguration('reverse')) {
-			$url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&key=' . config::byKey('keyGMG', 'geotrav');
+			$url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&language=fr&key=' . config::byKey('keyGMG', 'geotrav');
 			$request_http = new com_http($url);
 			$data = $request_http->exec(30);
 			if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
@@ -254,7 +254,7 @@ class geotrav extends eqLogic {
 			log::add('geotrav', 'debug', 'Vous devez remplir les clefs API Google pour les trajets');
 			return;
 		}
-		$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . trim(config::byKey('keyGMG', 'geotrav'));
+		$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&language=fr&key=' . trim(config::byKey('keyGMG', 'geotrav'));
 		$request_http = new com_http($url);
 		$data = $request_http->exec(30);
 		if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
