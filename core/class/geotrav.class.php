@@ -401,9 +401,9 @@ class geotrav extends eqLogic {
 		//log::add('geotrav', 'debug', 'Station:Options ' . print_r($options));
 		$url = 'https://' . trim(config::byKey('keyNavitia', 'geotrav')) . '@api.navitia.io/v1/coverage/' . $loc;
 
-		if (array_key_exists ('stop_point',$options) or array_key_exists ('stop_areas',$options) ){
+		if (array_key_exists ('stop_points',$options) or array_key_exists ('stop_areas',$options) ){
 			foreach ($options as $key => $value) {
-				if ($key == 'stop_point' or $key == 'stop_areas') {
+				if ($key == 'stop_points' or $key == 'stop_areas') {
 					$url .=  '/' . $key . '/' . $value;
 				}
 			}
@@ -416,7 +416,7 @@ class geotrav extends eqLogic {
 				if ($key == 'from_datetime') {
 					$value = substr_replace($value, ':', -2, 0);
 				}
-				if ($key == 'stop_point' or $key == 'stop_areas') {
+				if ($key == 'stop_points' or $key == 'stop_areas') {
 				}else{
 				$urldepart .= $key . '=' . $value . '&';
 				}
@@ -459,7 +459,7 @@ class geotrav extends eqLogic {
 				if ($key == 'from_datetime') {
 					$value = substr_replace($value, ':', -2, 0);
 				}
-				if ($key == 'stop_point' or $key == 'stop_areas') {
+				if ($key == 'stop_points' or $key == 'stop_areas') {
 				}else{
 				$urldepart .= $key . '=' . $value . '&';
 				}
