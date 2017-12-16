@@ -1,8 +1,8 @@
-= Configuration
+= Konfiguration
 
 Le plugin dispose d'une page de configuration générale qui permet de définir les clefs API des services utilisés
 
-== Configuration des équipements
+== Geräte Konfiguration
 
 Le premier élément spécifique de configuration détermine l'usage et les autres configurations. C'est le type et voici ceux qui sont disponibles :
 
