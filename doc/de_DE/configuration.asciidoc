@@ -1,6 +1,6 @@
 = Konfiguration
 
-Le plugin dispose d'une page de configuration générale qui permet de définir les clefs API des services utilisés
+Das Plugin hat eine allgemeine Konfigurationsseite, auf der die API-Schlüssel der verwendeten Dienste definiert werden können
 
 == Geräte Konfiguration
 
