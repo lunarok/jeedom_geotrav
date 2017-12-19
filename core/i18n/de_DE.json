@@ -1,9 +1,9 @@
 {
     "plugins\/geotrav\/desktop\/php\/geotrav.php": {
-        "Ajouter un équipement": "Ajouter un équipement",
-        "Rechercher": "Rechercher",
-        "Gestion": "Gestion",
-        "Configuration": "Configuration",
+        "Ajouter un équipement": "Gerät hinzufügen",
+        "Rechercher": "Suchen",
+        "Gestion": "Verwaltung",
+        "Configuration": "Konfiguration",
         "Localisations": "Localisations",
         "Trajets": "Trajets",
         "Geofence": "Geofence",
