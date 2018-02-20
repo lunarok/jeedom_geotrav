@@ -33,7 +33,7 @@ Il ne faut pas saisir adresse ET coordonnées, saisissez un seul des deux, celui
 
 === Géofence
 
-Les équipements Geofence dispose de 2 options de configuration :
+Les équipements Geofence disposent de 2 options de configuration :
 
   - Localisation de référence : c'est celle qui est utilisée pour la distance et par défaut pour la présence (liste des équipements de type localisation du plugin)
 
@@ -41,7 +41,7 @@ Les équipements Geofence dispose de 2 options de configuration :
 
 === Trajets
 
-Les équipements trajets ont 3 options de configuration :
+Les équipements trajets disposent de 3 options de configuration :
 
   - Départ, une localisation à utiliser pour le départ (liste des équipements de type localisation du plugin)
 
