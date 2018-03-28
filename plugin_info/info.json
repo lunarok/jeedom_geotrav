@@ -6,5 +6,7 @@
 	"require" : "3.0",
 	"category" : "organization",
 	"display" : "panel",
-	"mobile" : "panel"
+	"mobile" : "panel",
+  "changelog" : "https://lunarok.github.io/jeedom_docs/plugins/geotrav/changelog.html",
+  "documentation" : "https://lunarok.github.io/jeedom_docs/plugins/geotrav/"
 }
