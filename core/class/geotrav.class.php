@@ -264,6 +264,9 @@ class geotrav extends eqLogic {
 		}
 		$jsondata = json_decode($data, true);
 		log::add('geotrav', 'debug', 'Adresse ' . $address . ' ' . $data);
+		if (!isset($jsondata['results'][0])) {
+			return;
+		}
 		$this->updateLocation($jsondata);
 	}
 
@@ -361,6 +364,9 @@ class geotrav extends eqLogic {
 		//$data = file_get_contents($url2);
 		$jsondata2 = json_decode($data, true);
 		log::add('geotrav', 'debug', 'Travel ' . $url);
+		if (!isset($jsondata['routes'][0])) {
+			return;
+		}
 		if (isset($jsondata['routes'][0]['legs'][0]['duration_in_traffic']['value'])) {
 			$duration = round($jsondata['routes'][0]['legs'][0]['duration_in_traffic']['value'] / 60);
 		} else {
