@@ -1,12 +1,15 @@
 {
 	"id" : "geotrav",
 	"name" : "Localisation et Trajet",
+	"description" : "Plugin permettant de gérer ses positions et les informations liées (adresse, département, coordonnées ...) Mais aussi les trajets en voiture, vélo, à pied, transports. Les prochains départs et arrivées à une station de transports. Et enfin le geofencing.",
 	"licence" : "AGPL",
 	"author" : "lunarok",
 	"require" : "3.0",
 	"category" : "organization",
 	"display" : "panel",
 	"mobile" : "panel",
-  "changelog" : "https://lunarok.github.io/jeedom_docs/plugins/geotrav/changelog.html",
-  "documentation" : "https://lunarok.github.io/jeedom_docs/plugins/geotrav/"
+	"language" : ["fr_FR","en_US"],
+	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"],
+	"changelog" : "https://lunarok.github.io/jeedom_docs/plugins/geotrav/changelog.html",
+	"documentation" : "https://lunarok.github.io/jeedom_docs/plugins/geotrav/"
 }

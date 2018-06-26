@@ -20,12 +20,7 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class geotrav extends eqLogic {
-
-	/*     * *************************Attributs****************************** */
-
 	public static $_widgetPossibility = array('custom' => true);
-
-	/*     * ***********************Methode static*************************** */
 
 	public static function cron15() {
 		foreach (eqLogic::byType('geotrav', true) as $location) {
@@ -501,7 +496,7 @@ class geotrav extends eqLogic {
 					$this->checkAndUpdateCmd('station:2stop', $jsondata['arrivals'][3]['stop_point']['name']);
 				}
 			}
-		}	
+		}
 		$this->refreshWidget();
 	}
 
@@ -575,7 +570,7 @@ class geotrav extends eqLogic {
 			$replace['#hideDepart#'] = ($this->getConfiguration('hideDepart')) ? ' style="display:none"':'';
 			$replace['#showDepart2#'] = !($this->getConfiguration('hideArrivee')) ? ' style="display:none"':'';
 			$replace['#hideArrivee#'] = ($this->getConfiguration('hideArrivee')) ? ' style="display:none"':'';
-			$replace['#showArrivee2#'] = !($this->getConfiguration('hideDepart')) ? ' style="display:none"':'';			
+			$replace['#showArrivee2#'] = !($this->getConfiguration('hideDepart')) ? ' style="display:none"':'';
 	    }
 		$templatename = $this->getConfiguration('type');
 		return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'geotrav')));
