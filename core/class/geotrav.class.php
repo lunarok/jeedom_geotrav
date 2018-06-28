@@ -236,8 +236,8 @@ class geotrav extends eqLogic {
 			log::add('geotrav', 'debug', 'Resultat ' . $url . ' ' . print_r($jsondata, true));
 		} else {
 			$geoexpl = explode(',', $geoloc);
-			$jsondata['results']['locations'][0]['displayLatLng']['lat'] = $geoexpl[0];
-			$jsondata['results']['locations'][0]['displayLatLng']['lng'] = $geoexpl[1];
+			$jsondata['results'][0]['locations'][0]['displayLatLng']['lat'] = $geoexpl[0];
+			$jsondata['results'][0]['locations'][0]['displayLatLng']['lng'] = $geoexpl[1];
 		}
 		$this->updateLocation($jsondata);
 	}
@@ -278,14 +278,14 @@ class geotrav extends eqLogic {
 	}
 
 	public function updateLocation($jsondata) {
-		$street = isset($jsondata['results']['locations'][0]['street']) ? $jsondata['results']['locations'][0]['street'] : 'NA';
-		$country = isset($jsondata['results']['locations'][0]['adminArea1']) ? $jsondata['results']['locations'][0]['adminArea1'] : 'NA';
-		$zipm = isset($jsondata['results']['locations'][0]['postalCode']) ? explode(";", $jsondata['results']['locations'][0]['postalCode']) : '000000';
+		$street = isset($jsondata['results'][0]['locations'][0]['street']) ? $jsondata['results'][0]['locations'][0]['street'] : 'NA';
+		$country = isset($jsondata['results'][0]['locations'][0]['adminArea1']) ? $jsondata['results'][0]['locations'][0]['adminArea1'] : 'NA';
+		$zipm = isset($jsondata['results'][0]['locations'][0]['postalCode']) ? explode(";", $jsondata['results'][0]['locations'][0]['postalCode']) : '000000';
 		$zip = $zipm[0];
-		$city = isset($jsondata['results']['locations'][0]['adminArea5']) ? $jsondata['results']['locations'][0]['adminArea5'] : 'NA';
-		$district = isset($jsondata['results']['locations'][0]['adminArea3']) ? $jsondata['results']['locations'][0]['adminArea3'] : 'NA';
-		$lat = $jsondata['results']['locations'][0]['displayLatLng']['lat'];
-		$lng = $jsondata['results']['locations'][0]['displayLatLng']['lng'];
+		$city = isset($jsondata['results'][0]['locations'][0]['adminArea5']) ? $jsondata['results'][0]['locations'][0]['adminArea5'] : 'NA';
+		$district = isset($jsondata['results'][0]['locations'][0]['adminArea3']) ? $jsondata['results'][0]['locations'][0]['adminArea3'] : 'NA';
+		$lat = $jsondata['results'][0]['locations'][0]['displayLatLng']['lat'];
+		$lng = $jsondata['results'][0]['locations'][0]['displayLatLng']['lng'];
 		$geoloc = $lat . ',' . $lng;
 		$this->checkAndUpdateCmd('location:address', $street . ', ' . $zip . ' ' . $city . ', ' . $country);
 		$this->checkAndUpdateCmd('location:street', $street);
@@ -316,7 +316,7 @@ class geotrav extends eqLogic {
 		$this->setConfiguration('fieldcoordinate', $geoloc);
 		$this->setConfiguration('address', $address);
 		$this->setConfiguration('fieldaddress', $address);
-		$this->setConfiguration('mapURL', $jsondata['results']['locations'][0]['mapUrl']);
+		$this->setConfiguration('mapURL', $jsondata['results'][0]['locations'][0]['mapUrl']);
 		$this->save();
 		$this->updateElevation($geoloc);
 		$this->refreshWidget();
