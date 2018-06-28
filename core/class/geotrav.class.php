@@ -226,7 +226,7 @@ class geotrav extends eqLogic {
 		}
 		if ($this->getConfiguration('reverse')) {
 			$lang = explode('_',config::byKey('language'));
-			$url = 'http://open.mapquestapi.com/geocoding/v1/reverse?key=' . config::byKey('keyOSM', 'geotrav') . '&location=' . $geoloc;
+			$url = 'http://open.mapquestapi.com/geocoding/v1/reverse?key=' . config::byKey('keyMapQuest', 'geotrav') . '&location=' . $geoloc;
 			$request_http = new com_http($url);
 			$data = $request_http->exec(30);
 			if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
@@ -248,7 +248,7 @@ class geotrav extends eqLogic {
 			return;
 		}
 		$lang = explode('_',config::byKey('language'));
-		$url = 'http://open.mapquestapi.com/geocoding/v1/address?key=' . trim(config::byKey('keyOSM', 'geotrav') . '&location=' . urlencode($address));
+		$url = 'http://open.mapquestapi.com/geocoding/v1/address?key=' . trim(config::byKey('keyMapQuest', 'geotrav') . '&location=' . urlencode($address));
 		$request_http = new com_http($url);
 		$data = $request_http->exec(30);
 		if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
