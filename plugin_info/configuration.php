@@ -34,9 +34,9 @@ if (!isConnect()) {
                     <fieldset>
 
                         <div class="form-group">
-                            <label class="col-lg-4 control-label"><a href='https://openrouteservice.org/dev/' target="_blank">API Open Route Service</a></label>
+                            <label class="col-lg-4 control-label"><a href='https://developer.mapquest.com/plan_purchase/steps/business_edition/business_edition_free/register' target="_blank">API MapQuest</a></label>
                             <div class="col-lg-4">
-                                <input class="configKey form-control" data-l1key="keyORS" style="margin-top:5px" placeholder=""/>
+                                <input class="configKey form-control" data-l1key="keyMapQuest" style="margin-top:5px" placeholder=""/>
                             </div>
                         </div>
 

@@ -32,7 +32,7 @@
         {
             "name": "Longitude",
             "type": "info",
-            "subtype": "string",
+            "subtype": "numeric",
             "display": {
 				"generic_type": "DONT"
             },
@@ -44,7 +44,7 @@
         {
             "name": "Latitude",
             "type": "info",
-            "subtype": "string",
+            "subtype": "numeric",
             "display": {
 				"generic_type": "DONT"
             },
