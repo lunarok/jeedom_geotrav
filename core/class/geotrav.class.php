@@ -214,8 +214,8 @@ class geotrav extends eqLogic {
 	}
 
 	public function updateGeocodingReverse($geoloc) {
-		if (config::byKey('keyGMG', 'geotrav') == '') {
-			log::add('geotrav', 'debug', 'Vous devez remplir les clefs API Google pour les localisations');
+		if (config::byKey('keyORS', 'geotrav') == '') {
+			log::add('geotrav', 'debug', 'Vous devez remplir la clef API OpenStreetRoute');
 			return;
 		}
 		$geoloc = str_replace(' ', '', $geoloc);
@@ -226,7 +226,7 @@ class geotrav extends eqLogic {
 		}
 		if ($this->getConfiguration('reverse')) {
 			$lang = explode('_',config::byKey('language'));
-			$url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&language=' . $lang[0] . '&key=' . config::byKey('keyGMG', 'geotrav');
+			$url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&language=' . $lang[0] . '&key=' . config::byKey('keyOSM', 'geotrav');
 			$request_http = new com_http($url);
 			$data = $request_http->exec(30);
 			if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
@@ -246,12 +246,12 @@ class geotrav extends eqLogic {
 	}
 
 	public function updateGeocoding($address) {
-		if (config::byKey('keyGMG', 'geotrav') == '') {
-			log::add('geotrav', 'debug', 'Vous devez remplir les clefs API Google pour les trajets');
+		if (config::byKey('keyORS', 'geotrav') == '') {
+			log::add('geotrav', 'debug', 'Vous devez remplir la clef API OpenStreetRoute');
 			return;
 		}
 		$lang = explode('_',config::byKey('language'));
-		$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&language=' . $lang[0] . '&key=' . trim(config::byKey('keyGMG', 'geotrav'));
+		$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&language=' . $lang[0] . '&key=' . trim(config::byKey('keyOSM', 'geotrav'));
 		$request_http = new com_http($url);
 		$data = $request_http->exec(30);
 		if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
@@ -263,6 +263,21 @@ class geotrav extends eqLogic {
 			return;
 		}
 		$this->updateLocation($jsondata);
+	}
+
+	public function updateElevation($address) {
+		$url = 'https://api.open-elevation.com/api/v1/lookup?locations=' . urlencode($address);
+		$request_http = new com_http($url);
+		$data = $request_http->exec(30);
+		if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
+			log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
+		}
+		$jsondata = json_decode($data, true);
+		log::add('geotrav', 'debug', 'Adresse ' . $address . ' ' . $data);
+		if (!isset($jsondata['results'][0])) {
+			return;
+		}
+		$this->checkAndUpdateCmd('location:elevation', $jsondata['results'][0]['elevation']);
 	}
 
 	public function updateLocation($jsondata) {
@@ -319,18 +334,19 @@ class geotrav extends eqLogic {
 		$this->setConfiguration('address', $jsondata['results'][0]['formatted_address']);
 		$this->setConfiguration('fieldaddress', $jsondata['results'][0]['formatted_address']);
 		$this->save();
+		$this->updateElevation($jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
 		$this->refreshWidget();
 	}
 
 	public function refreshTravel($param = 'none') {
-		if (config::byKey('keyGMG', 'geotrav') == '') {
-			log::add('geotrav', 'debug', 'Vous devez remplir les clefs API Google pour les trajets');
+		if (config::byKey('keyORS', 'geotrav') == '') {
+			log::add('geotrav', 'debug', 'Vous devez remplir la clef API OpenStreetRoute');
 			return;
 		}
 		$departureEq = geotrav::byId($this->getConfiguration('travelDeparture'));
 		$arrivalEq = geotrav::byId($this->getConfiguration('travelArrival'));
-		$url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('coordinate')) . '&destination=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyGMG', 'geotrav'));
-		$url2 = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&destination=' . urlencode($departureEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyGMG', 'geotrav'));
+		$url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('coordinate')) . '&destination=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyORS', 'geotrav'));
+		$url2 = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&destination=' . urlencode($departureEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyORS', 'geotrav'));
 		$options = array();
 		$options['departure_time'] = date('Hi');
 		if ($this->getConfiguration('travelOptions') != '') {

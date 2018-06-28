@@ -148,6 +148,18 @@
 				"type": "location"
             },
             "logicalId": "location:country"
+        },
+        {
+            "name": "Altitude",
+            "type": "info",
+            "subtype": "numeric",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:elevation"
         }
     ]
 }
