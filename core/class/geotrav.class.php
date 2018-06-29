@@ -282,19 +282,6 @@ class geotrav extends eqLogic {
 		$country = isset($jsondata['results'][0]['locations'][0]['adminArea1']) ? $jsondata['results'][0]['locations'][0]['adminArea1'] : 'NA';
 		$zipm = isset($jsondata['results'][0]['locations'][0]['postalCode']) ? explode(";", $jsondata['results'][0]['locations'][0]['postalCode']) : '000000';
 		$zip = $zipm[0];
-		$city = isset($jsondata['results'][0]['locations'][0]['adminArea5']) ? $jsondata['results'][0]['locations'][0]['adminArea5'] : 'NA';
-		$district = isset($jsondata['results'][0]['locations'][0]['adminArea3']) ? $jsondata['results'][0]['locations'][0]['adminArea3'] : 'NA';
-		$lat = $jsondata['results'][0]['locations'][0]['displayLatLng']['lat'];
-		$lng = $jsondata['results'][0]['locations'][0]['displayLatLng']['lng'];
-		$geoloc = $lat . ',' . $lng;
-		$this->checkAndUpdateCmd('location:address', $street . ', ' . $zip . ' ' . $city . ', ' . $country);
-		$this->checkAndUpdateCmd('location:street', $street);
-		$this->checkAndUpdateCmd('location:city', $city);
-		$this->checkAndUpdateCmd('location:district', $district);
-		$this->checkAndUpdateCmd('location:zip', $zip[0]);
-		$this->checkAndUpdateCmd('location:latitude', $lat);
-		$this->checkAndUpdateCmd('location:longitude', $lng);
-		$this->checkAndUpdateCmd('location:coordinate', $geoloc);
 		if ($country == 'France') {
 			$department = substr($zip, 0, 2);
 			if ($department == '20') {
@@ -310,6 +297,20 @@ class geotrav extends eqLogic {
 		} else {
 			$department = 'NA';
 		}
+		$city = isset($jsondata['results'][0]['locations'][0]['adminArea5']) ? $jsondata['results'][0]['locations'][0]['adminArea5'] : 'NA';
+		$district = isset($jsondata['results'][0]['locations'][0]['adminArea3']) ? $jsondata['results'][0]['locations'][0]['adminArea3'] : 'NA';
+		$lat = $jsondata['results'][0]['locations'][0]['displayLatLng']['lat'];
+		$lng = $jsondata['results'][0]['locations'][0]['displayLatLng']['lng'];
+		$geoloc = $lat . ',' . $lng;
+		$address = $street . ', ' . $zip . ' ' . $city . ', ' . $country;
+		$this->checkAndUpdateCmd('location:address', $address);
+		$this->checkAndUpdateCmd('location:street', $street);
+		$this->checkAndUpdateCmd('location:city', $city);
+		$this->checkAndUpdateCmd('location:district', $district);
+		$this->checkAndUpdateCmd('location:zip', $zip[0]);
+		$this->checkAndUpdateCmd('location:latitude', $lat);
+		$this->checkAndUpdateCmd('location:longitude', $lng);
+		$this->checkAndUpdateCmd('location:coordinate', $geoloc);
 		$this->checkAndUpdateCmd('location:department', $department);
 		$this->checkAndUpdateCmd('location:country', $country);
 		$this->setConfiguration('coordinate', $geoloc);
