@@ -330,8 +330,10 @@ class geotrav extends eqLogic {
 		}
 		$departureEq = geotrav::byId($this->getConfiguration('travelDeparture'));
 		$arrivalEq = geotrav::byId($this->getConfiguration('travelArrival'));
-		$url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('coordinate')) . '&destination=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyMapQuest', 'geotrav'));
-		$url2 = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&destination=' . urlencode($departureEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyMapQuest', 'geotrav'));
+		$url = 'http://open.mapquestapi.com/directions/v2/route?key=' . config::byKey('keyMapQuest', 'geotrav') . '&from=' . urlencode($departureEq->getConfiguration('address')) . '&to=' . urlencode($arrivalEq->getConfiguration('address'));
+		$url = 'http://open.mapquestapi.com/directions/v2/route?key=' . config::byKey('keyMapQuest', 'geotrav') . '&from=' . urlencode($arrivalEq->getConfiguration('address')) . '&to=' . urlencode($departureEq->getConfiguration('address'));
+		//$url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('address')) . '&destination=' . urlencode($arrivalEq->getConfiguration('address')) . '&language=fr&key=' . trim(config::byKey('keyMapQuest', 'geotrav'));
+		//$url2 = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($arrivalEq->getConfiguration('address')) . '&destination=' . urlencode($departureEq->getConfiguration('address')) . '&language=fr&key=' . trim(config::byKey('keyMapQuest', 'geotrav'));
 		$options = array();
 		$options['departure_time'] = date('Hi');
 		if ($this->getConfiguration('travelOptions') != '') {
