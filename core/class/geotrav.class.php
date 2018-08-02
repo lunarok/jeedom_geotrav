@@ -214,8 +214,8 @@ class geotrav extends eqLogic {
 	}
 
 	public function updateGeocodingReverse($geoloc) {
-		if (config::byKey('keyMapQuest', 'geotrav') == '') {
-			log::add('geotrav', 'debug', 'Vous devez remplir la clef API MapQuest');
+		if (config::byKey('keyGMG', 'geotrav') == '') {
+			log::add('geotrav', 'debug', 'Vous devez remplir les clefs API Google pour les localisations');
 			return;
 		}
 		$geoloc = str_replace(' ', '', $geoloc);
@@ -226,7 +226,7 @@ class geotrav extends eqLogic {
 		}
 		if ($this->getConfiguration('reverse')) {
 			$lang = explode('_',config::byKey('language'));
-			$url = 'http://open.mapquestapi.com/geocoding/v1/reverse?key=' . config::byKey('keyMapQuest', 'geotrav') . '&location=' . $geoloc;
+			$url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&language=' . $lang[0] . '&key=' . config::byKey('keyGMG', 'geotrav');
 			$request_http = new com_http($url);
 			$data = $request_http->exec(30);
 			if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
@@ -236,19 +236,22 @@ class geotrav extends eqLogic {
 			log::add('geotrav', 'debug', 'Resultat ' . $url . ' ' . print_r($jsondata, true));
 		} else {
 			$geoexpl = explode(',', $geoloc);
-			$jsondata['results'][0]['locations'][0]['displayLatLng']['lat'] = $geoexpl[0];
-			$jsondata['results'][0]['locations'][0]['displayLatLng']['lng'] = $geoexpl[1];
+			$jsondata['results'][0]['geometry']['location']['lat'] = $geoexpl[0];
+			$jsondata['results'][0]['geometry']['location']['lng'] = $geoexpl[1];
+			$jsondata['results'][0]['formatted_address'] = 'NA';
+			$jsondata['results'][0]['address_components'][0]['types'][0] = "locality";
+			$jsondata['results'][0]['address_components'][3]['long_name'] = "NA";
 		}
 		$this->updateLocation($jsondata);
 	}
 
 	public function updateGeocoding($address) {
-		if (config::byKey('keyMapQuest', 'geotrav') == '') {
-			log::add('geotrav', 'debug', 'Vous devez remplir la clef API MapQuest');
+		if (config::byKey('keyGMG', 'geotrav') == '') {
+			log::add('geotrav', 'debug', 'Vous devez remplir les clefs API Google pour les trajets');
 			return;
 		}
 		$lang = explode('_',config::byKey('language'));
-		$url = 'http://open.mapquestapi.com/geocoding/v1/address?key=' . trim(config::byKey('keyMapQuest', 'geotrav') . '&location=' . urlencode($address));
+		$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&language=' . $lang[0] . '&key=' . trim(config::byKey('keyGMG', 'geotrav'));
 		$request_http = new com_http($url);
 		$data = $request_http->exec(30);
 		if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
@@ -262,26 +265,38 @@ class geotrav extends eqLogic {
 		$this->updateLocation($jsondata);
 	}
 
-	public function updateElevation($address) {
-		$url = 'https://api.open-elevation.com/api/v1/lookup?locations=' . urlencode($address);
-		$request_http = new com_http($url);
-		$data = $request_http->exec(30);
-		if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
-			log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
-		}
-		$jsondata = json_decode($data, true);
-		log::add('geotrav', 'debug', 'Adresse ' . $address . ' ' . $data);
-		if (!isset($jsondata['results'][0])) {
+	public function updateLocation($jsondata) {
+		if ($jsondata['results'][0]['address_components'][0]['types'][0] == "street_number") {
+			$this->checkAndUpdateCmd('location:address', isset($jsondata['results'][0]['formatted_address']) ? $jsondata['results'][0]['formatted_address'] : 'NA');
+			$this->checkAndUpdateCmd('location:street', isset($jsondata['results'][0]['address_components'][0]['long_name']) ? $jsondata['results'][0]['address_components'][0]['long_name'] . ' ' . $jsondata['results'][0]['address_components'][1]['long_name'] : 'NA');
+			$this->checkAndUpdateCmd('location:city', isset($jsondata['results'][0]['address_components'][2]['long_name']) ? $jsondata['results'][0]['address_components'][2]['long_name'] : 'NA');
+			$this->checkAndUpdateCmd('location:district', isset($jsondata['results'][0]['address_components'][3]['long_name']) ? $jsondata['results'][0]['address_components'][3]['long_name'] : 'NA');
+			$country = $jsondata['results'][0]['address_components'][5]['long_name'];
+			$zip = $jsondata['results'][0]['address_components'][6]['long_name'];
+			$this->checkAndUpdateCmd('location:zip', $zip);
+		} else if ($jsondata['results'][0]['address_components'][0]['types'][0] == "route") {
+			$this->checkAndUpdateCmd('location:address', isset($jsondata['results'][0]['formatted_address']) ? $jsondata['results'][0]['formatted_address'] : 'NA');
+			$this->checkAndUpdateCmd('location:street', isset($jsondata['results'][0]['address_components'][0]['long_name']) ? $jsondata['results'][0]['address_components'][0]['long_name'] : 'NA');
+			$this->checkAndUpdateCmd('location:city', isset($jsondata['results'][0]['address_components'][1]['long_name']) ? $jsondata['results'][0]['address_components'][1]['long_name'] : 'NA');
+			$this->checkAndUpdateCmd('location:district', isset($jsondata['results'][0]['address_components'][2]['long_name']) ? $jsondata['results'][0]['address_components'][2]['long_name'] : 'NA');
+			$country = $jsondata['results'][0]['address_components'][4]['long_name'];
+			$zip = $jsondata['results'][0]['address_components'][5]['long_name'];
+			$this->checkAndUpdateCmd('location:zip', $zip);
+		} else if ($jsondata['results'][0]['address_components'][0]['types'][0] == "locality") {
+			$this->checkAndUpdateCmd('location:address', 'NA');
+			$this->checkAndUpdateCmd('location:street', 'NA');
+			$this->checkAndUpdateCmd('location:city', isset($jsondata['results'][0]['address_components'][0]['long_name']) ? $jsondata['results'][0]['address_components'][0]['long_name'] : 'NA');
+			$this->checkAndUpdateCmd('location:district', isset($jsondata['results'][0]['address_components'][1]['long_name']) ? $jsondata['results'][0]['address_components'][1]['long_name'] : 'NA');
+			$country = $jsondata['results'][0]['address_components'][3]['long_name'];
+			$zip = 'NA';
+			$this->checkAndUpdateCmd('location:zip', $zip);
+		} else {
+			log::add('geotrav', 'debug', 'Problème avec adresse');
 			return;
 		}
-		$this->checkAndUpdateCmd('location:elevation', $jsondata['results'][0]['elevation']);
-	}
-
-	public function updateLocation($jsondata) {
-		$street = isset($jsondata['results'][0]['locations'][0]['street']) ? $jsondata['results'][0]['locations'][0]['street'] : 'NA';
-		$country = isset($jsondata['results'][0]['locations'][0]['adminArea1']) ? $jsondata['results'][0]['locations'][0]['adminArea1'] : 'NA';
-		$zipm = isset($jsondata['results'][0]['locations'][0]['postalCode']) ? explode(";", $jsondata['results'][0]['locations'][0]['postalCode']) : '000000';
-		$zip = $zipm[0];
+		$this->checkAndUpdateCmd('location:latitude', $jsondata['results'][0]['geometry']['location']['lat']);
+		$this->checkAndUpdateCmd('location:longitude', $jsondata['results'][0]['geometry']['location']['lng']);
+		$this->checkAndUpdateCmd('location:coordinate', $jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
 		if ($country == 'France') {
 			$department = substr($zip, 0, 2);
 			if ($department == '20') {
@@ -292,48 +307,30 @@ class geotrav extends eqLogic {
 				}
 			}
 			if ($department == '97') {
-				$department = substr($zip, 0, 3);
+				$department = substr($jsondata['results'][0]['address_components'][6]['long_name'], 0, 3);
 			}
 		} else {
 			$department = 'NA';
 		}
-		$city = isset($jsondata['results'][0]['locations'][0]['adminArea5']) ? $jsondata['results'][0]['locations'][0]['adminArea5'] : 'NA';
-		$district = isset($jsondata['results'][0]['locations'][0]['adminArea3']) ? $jsondata['results'][0]['locations'][0]['adminArea3'] : 'NA';
-		$lat = $jsondata['results'][0]['locations'][0]['displayLatLng']['lat'];
-		$lng = $jsondata['results'][0]['locations'][0]['displayLatLng']['lng'];
-		$geoloc = $lat . ',' . $lng;
-		$address = $street . ', ' . $zip . ' ' . $city . ', ' . $country;
-		$this->checkAndUpdateCmd('location:address', $address);
-		$this->checkAndUpdateCmd('location:street', $street);
-		$this->checkAndUpdateCmd('location:city', $city);
-		$this->checkAndUpdateCmd('location:district', $district);
-		$this->checkAndUpdateCmd('location:zip', $zip[0]);
-		$this->checkAndUpdateCmd('location:latitude', $lat);
-		$this->checkAndUpdateCmd('location:longitude', $lng);
-		$this->checkAndUpdateCmd('location:coordinate', $geoloc);
 		$this->checkAndUpdateCmd('location:department', $department);
 		$this->checkAndUpdateCmd('location:country', $country);
-		$this->setConfiguration('coordinate', $geoloc);
-		$this->setConfiguration('fieldcoordinate', $geoloc);
-		$this->setConfiguration('address', $address);
-		$this->setConfiguration('fieldaddress', $address);
-		$this->setConfiguration('mapURL', $jsondata['results'][0]['locations'][0]['mapUrl']);
+		$this->setConfiguration('coordinate', $jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
+		$this->setConfiguration('fieldcoordinate', $jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
+		$this->setConfiguration('address', $jsondata['results'][0]['formatted_address']);
+		$this->setConfiguration('fieldaddress', $jsondata['results'][0]['formatted_address']);
 		$this->save();
-		$this->updateElevation($geoloc);
 		$this->refreshWidget();
 	}
 
 	public function refreshTravel($param = 'none') {
-		if (config::byKey('keyMapQuest', 'geotrav') == '') {
-			log::add('geotrav', 'debug', 'Vous devez remplir la clef API MapQuest');
+		if (config::byKey('keyGMG', 'geotrav') == '') {
+			log::add('geotrav', 'debug', 'Vous devez remplir les clefs API Google pour les trajets');
 			return;
 		}
 		$departureEq = geotrav::byId($this->getConfiguration('travelDeparture'));
 		$arrivalEq = geotrav::byId($this->getConfiguration('travelArrival'));
-		$url = 'http://open.mapquestapi.com/directions/v2/route?key=' . config::byKey('keyMapQuest', 'geotrav') . '&from=' . urlencode($departureEq->getConfiguration('address')) . '&to=' . urlencode($arrivalEq->getConfiguration('address'));
-		$url = 'http://open.mapquestapi.com/directions/v2/route?key=' . config::byKey('keyMapQuest', 'geotrav') . '&from=' . urlencode($arrivalEq->getConfiguration('address')) . '&to=' . urlencode($departureEq->getConfiguration('address'));
-		//$url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('address')) . '&destination=' . urlencode($arrivalEq->getConfiguration('address')) . '&language=fr&key=' . trim(config::byKey('keyMapQuest', 'geotrav'));
-		//$url2 = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($arrivalEq->getConfiguration('address')) . '&destination=' . urlencode($departureEq->getConfiguration('address')) . '&language=fr&key=' . trim(config::byKey('keyMapQuest', 'geotrav'));
+		$url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('coordinate')) . '&destination=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyGMG', 'geotrav'));
+		$url2 = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&destination=' . urlencode($departureEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyGMG', 'geotrav'));
 		$options = array();
 		$options['departure_time'] = date('Hi');
 		if ($this->getConfiguration('travelOptions') != '') {
