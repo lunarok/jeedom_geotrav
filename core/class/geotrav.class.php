@@ -28,7 +28,7 @@ class geotrav extends eqLogic {
 		}
 	}
 
-	public static function refresh($_param = 'none') {
+	public function refresh($_param = 'none') {
 		if ($location->getConfiguration('type') == 'station') {
 			$location->refreshStation($_param);
 		}
@@ -593,16 +593,16 @@ class geotravCmd extends cmd {
 				$eqLogic->updateGeocoding($_options['message']);
 				break;
 			case 'travel:refresh':
-				$eqLogic->refreshTravel();
+				$eqLogic->refresh();
 				break;
 			case 'travel:refreshOptions':
-				$eqLogic->refreshTravel($_options['message']);
+				$eqLogic->refresh($_options['message']);
 				break;
 			case 'station:refresh':
-				$eqLogic->refreshStation();
+				$eqLogic->refresh();
 				break;
 			case 'station:refreshOptions':
-				$eqLogic->refreshStation($_options['message']);
+				$eqLogic->refresh($_options['message']);
 				break;
 		}
 	}
