@@ -29,25 +29,25 @@ class geotrav extends eqLogic {
 	}
 
 	public function refresh($_param = 'none') {
-		if ($location->getConfiguration('type') == 'station') {
-			$location->refreshStation($_param);
+		if ($this->getConfiguration('type') == 'station') {
+			$this->refreshStation($_param);
 		}
-		if ($location->getConfiguration('type') == 'travel') {
-			$location->refreshTravel($_param);
+		if ($this->getConfiguration('type') == 'travel') {
+			$this->refreshTravel($_param);
 		}
-		if ($location->getConfiguration('type') == 'location') {
+		if ($this->getConfiguration('type') == 'location') {
 			foreach (eqLogic::byType('geotrav', true) as $geotrav) {
-				if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $location->getId()) == 1) {
-					$geotrav->updateGeofenceValues($location->getId(), $location->getConfiguration('coordinate'));
+				if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $this->getId()) == 1) {
+					$geotrav->updateGeofenceValues($location->getId(), $this->getConfiguration('coordinate'));
 				}
 			}
 			$geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($location->getId(), 'location:coordinate');
 			if ($geotravcmd->execute() == '') {
-				if ($location->getConfiguration('typeConfLoc') == 'address') {
-					$location->updateGeocoding($location->getConfiguration('fieldaddress'));
+				if ($this->getConfiguration('typeConfLoc') == 'address') {
+					$this->updateGeocoding($location->getConfiguration('fieldaddress'));
 				}
-				if ($location->getConfiguration('typeConfLoc') == 'coordinate') {
-					$location->updateGeocodingReverse($location->getConfiguration('fieldcoordinate'));
+				if ($this->getConfiguration('typeConfLoc') == 'coordinate') {
+					$this->updateGeocodingReverse($this->getConfiguration('fieldcoordinate'));
 				}
 			}
 		}
