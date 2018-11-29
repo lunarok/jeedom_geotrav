@@ -38,13 +38,13 @@ class geotrav extends eqLogic {
 		if ($this->getConfiguration('type') == 'location') {
 			foreach (eqLogic::byType('geotrav', true) as $geotrav) {
 				if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $this->getId()) == 1) {
-					$geotrav->updateGeofenceValues($location->getId(), $this->getConfiguration('coordinate'));
+					$geotrav->updateGeofenceValues($this->getId(), $this->getConfiguration('coordinate'));
 				}
 			}
-			$geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($location->getId(), 'location:coordinate');
+			$geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($this->getId(), 'location:coordinate');
 			if ($geotravcmd->execute() == '') {
 				if ($this->getConfiguration('typeConfLoc') == 'address') {
-					$this->updateGeocoding($location->getConfiguration('fieldaddress'));
+					$this->updateGeocoding($this->getConfiguration('fieldaddress'));
 				}
 				if ($this->getConfiguration('typeConfLoc') == 'coordinate') {
 					$this->updateGeocodingReverse($this->getConfiguration('fieldcoordinate'));
