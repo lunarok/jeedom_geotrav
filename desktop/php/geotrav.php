@@ -230,6 +230,12 @@ $eqLogics = eqLogic::byType('geotrav');
 									</div>
 								</div>
 								<div class="form-group">
+									<label class="col-sm-2 control-label"></label>
+									<div class="col-sm-9">
+										<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoRefresh" checked/>{{Rafraichissement automatique}}</label>
+									</div>
+								</div>
+								<div class="form-group">
 									<label class="col-sm-2 control-label">{{URL à utiliser}}</label>
 									<div class="col-sm-10">
 										<span class="eqLogicAttr" data-l1key="configuration" data-l2key="url"></span>

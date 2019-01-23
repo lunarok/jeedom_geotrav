@@ -36,13 +36,15 @@ class geotrav extends eqLogic {
 			$this->refreshTravel($_param);
 		}
 		if ($this->getConfiguration('type') == 'location') {
+			//check if the location is in any geofence eqLogic
+			//if yes, refresh the distance value
 			foreach (eqLogic::byType('geotrav', true) as $geotrav) {
 				if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $this->getId()) == 1) {
 					$geotrav->updateGeofenceValues($this->getId(), $this->getConfiguration('coordinate'));
 				}
 			}
 			$geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($this->getId(), 'location:coordinate');
-			if ($geotravcmd->execute() == '') {
+			if ($this->getConfiguration('autoRefresh') == true) {
 				if ($this->getConfiguration('typeConfLoc') == 'address') {
 					$this->updateGeocoding($this->getConfiguration('fieldaddress'));
 				}
