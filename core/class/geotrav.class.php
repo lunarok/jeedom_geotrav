@@ -28,31 +28,48 @@ class geotrav extends eqLogic {
 		}
 	}
 
-	public function refresh($_param = 'none') {
-		if ($this->getConfiguration('type') == 'station') {
-			$this->refreshStation($_param);
+	public function preSave() {
+		if ($this->getConfiguration('type') == 'location') {
+			$url = network::getNetworkAccess('external') . '/plugins/geotrav/core/api/jeeGeotrav.php?apikey=' . jeedom::getApiKey('geotrav') . '&id=' . $this->getId() . '&value=%LOCN';
+			$this->setConfiguration('url', $url);
 		}
-		if ($this->getConfiguration('type') == 'travel') {
-			$this->refreshTravel($_param);
+	}
+
+	public function postAjax() {
+		$this->loadCmdFromConf($this->getConfiguration('type'));
+		if ($this->getConfiguration('type') == 'geofence') {
+			$this->updateGeofencingCmd();
 		}
 		if ($this->getConfiguration('type') == 'location') {
-			//check if the location is in any geofence eqLogic
-			//if yes, refresh the distance value
-			foreach (eqLogic::byType('geotrav', true) as $geotrav) {
-				if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $this->getId()) == 1) {
-					$geotrav->updateGeofenceValues($this->getId(), $this->getConfiguration('coordinate'));
+			if ($this->getConfiguration('typeConfLoc') == 'cmdinfo') {
+				$listener = listener::byClassAndFunction('geotrav', 'trackGeoloc', array('geotrav' => $this->getId()));
+				if (!is_object($listener)) {
+					$listener = new listener();
 				}
-			}
-			$geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($this->getId(), 'location:coordinate');
-			if ($this->getConfiguration('autoRefresh') == true) {
-				if ($this->getConfiguration('typeConfLoc') == 'address') {
-					$this->updateGeocoding($this->getConfiguration('fieldaddress'));
-				}
-				if ($this->getConfiguration('typeConfLoc') == 'coordinate') {
-					$this->updateGeocodingReverse($this->getConfiguration('fieldcoordinate'));
-				}
+				$listener->setClass('geotrav');
+				$listener->setFunction('trackGeoloc');
+				$listener->setOption(array('geotrav' => $this->getId()));
+				$listener->emptyEvent();
+				$listener->addEvent(str_replace('#', '', $this->getConfiguration('cmdgeoloc')));
+				$listener->save();
+				log::add('geotrav', 'debug', 'Tracking ' . $this->getConfiguration('cmdgeoloc') . ' for ' . $this->getId());
 			}
 		}
+		geotrav::triggerGlobal();
+		$this->refresh(true);
+	}
+
+	public function refresh($_force = false) {
+		switch ($this->getConfiguration('type')) {
+			case 'station':
+			$this->refreshStation();
+			break;
+			case 'travel':
+			$this->refreshTravel();
+			break;
+			case 'location':
+			$this->refreshLocation($_force);
+			break;
 	}
 
 	public static function triggerGlobal() {
@@ -103,26 +120,6 @@ public static function trackGeoloc($geoloc) {
 	}
 }
 
-
-public function postSave() {
-	if ($this->getConfiguration('type') == 'location') {
-		if ($this->getConfiguration('typeConfLoc') == 'cmdinfo') {
-			$listener = listener::byClassAndFunction('geotrav', 'trackGeoloc', array('geotrav' => $this->getId()));
-			if (!is_object($listener)) {
-				$listener = new listener();
-			}
-			$listener->setClass('geotrav');
-			$listener->setFunction('trackGeoloc');
-			$listener->setOption(array('geotrav' => $this->getId()));
-			$listener->emptyEvent();
-			$listener->addEvent(str_replace('#', '', $this->getConfiguration('cmdgeoloc')));
-			$listener->save();
-			log::add('geotrav', 'debug', 'Tracking ' . $this->getConfiguration('cmdgeoloc') . ' for ' . $this->getId());
-		}
-	}
-	$this->refresh();
-}
-
 public function loadCmdFromConf($type) {
 	if ($type == 'geofence') {
 		return true;
@@ -154,29 +151,6 @@ public function loadCmdFromConf($type) {
 			$cmd->save();
 		}
 	}
-}
-
-public function preSave() {
-	if ($this->getConfiguration('type') == 'location') {
-		$url = network::getNetworkAccess('external') . '/plugins/geotrav/core/api/jeeGeotrav.php?apikey=' . jeedom::getApiKey('geotrav') . '&id=' . $this->getId() . '&value=%LOCN';
-		$this->setConfiguration('url', $url);
-	}
-}
-
-public function postAjax() {
-	$this->loadCmdFromConf($this->getConfiguration('type'));
-	if ($this->getConfiguration('type') == 'geofence') {
-		$this->updateGeofencingCmd();
-	}
-	if ($this->getConfiguration('type') == 'location') {
-		if ($this->getConfiguration('typeConfLoc') == 'address') {
-			$this->updateGeocoding($this->getConfiguration('fieldaddress'));
-		}
-		if ($this->getConfiguration('typeConfLoc') == 'coordinate') {
-			$this->updateGeocodingReverse($this->getConfiguration('fieldcoordinate'));
-		}
-	}
-	geotrav::triggerGlobal();
 }
 
 public function updateGeofencingCmd() {
@@ -320,6 +294,24 @@ public function updateLocation($jsondata) {
 	$this->setConfiguration('fieldaddress', $jsondata['results'][0]['formatted_address']);
 	$this->save();
 	$this->refreshWidget();
+}
+
+public function refreshLocation($_force = false) {
+	//check if the location is in any geofence eqLogic
+	//if yes, refresh the distance value
+	foreach (eqLogic::byType('geotrav', true) as $geotrav) {
+		if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $this->getId()) == 1) {
+			$geotrav->updateGeofenceValues($this->getId(), $this->getConfiguration('coordinate'));
+		}
+	}
+	if ($this->getConfiguration('autoRefresh') == true || $_force == false) {
+		if ($this->getConfiguration('typeConfLoc') == 'address') {
+			$this->updateGeocoding($this->getConfiguration('fieldaddress'));
+		}
+		if ($this->getConfiguration('typeConfLoc') == 'coordinate') {
+			$this->updateGeocodingReverse($this->getConfiguration('fieldcoordinate'));
+		}
+	}
 }
 
 public function refreshTravel($param = 'none') {
@@ -592,13 +584,13 @@ class geotravCmd extends cmd {
 			$eqLogic->refresh();
 			break;
 			case 'travel:refreshOptions':
-			$eqLogic->refresh($_options['message']);
+			$eqLogic->refreshTravel($_options['message']);
 			break;
 			case 'station:refresh':
 			$eqLogic->refresh();
 			break;
 			case 'station:refreshOptions':
-			$eqLogic->refresh($_options['message']);
+			$eqLogic->refreshStation($_options['message']);
 			break;
 		}
 	}
