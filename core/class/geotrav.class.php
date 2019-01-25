@@ -71,41 +71,42 @@ class geotrav extends eqLogic {
 			$this->refreshLocation($_force);
 			break;
 		}
+	}
 
-		public static function triggerGlobal() {
-			$listener = listener::byClassAndFunction('geotrav', 'triggerGeo', array('geotrav' => 'global'));
-			if (!is_object($listener)) {
-				$listener = new listener();
-			}
-			$listener->setClass('geotrav');
-			$listener->setFunction('triggerGeo');
-			$listener->setOption(array('geotrav' => 'global'));
-			$listener->emptyEvent();
-			foreach (eqLogic::byType('geotrav', true) as $location) {
-				if ($location->getConfiguration('type') == 'location') {
-					$locationcmd = geotravCmd::byEqLogicIdAndLogicalId($location->getId(), 'location:coordinate');
-					$listener->addEvent($locationcmd->getId());
-				}
-			}
-			$listener->save();
+	public static function triggerGlobal() {
+		$listener = listener::byClassAndFunction('geotrav', 'triggerGeo', array('geotrav' => 'global'));
+		if (!is_object($listener)) {
+			$listener = new listener();
 		}
+		$listener->setClass('geotrav');
+		$listener->setFunction('triggerGeo');
+		$listener->setOption(array('geotrav' => 'global'));
+		$listener->emptyEvent();
+		foreach (eqLogic::byType('geotrav', true) as $location) {
+			if ($location->getConfiguration('type') == 'location') {
+				$locationcmd = geotravCmd::byEqLogicIdAndLogicalId($location->getId(), 'location:coordinate');
+				$listener->addEvent($locationcmd->getId());
+			}
+		}
+		$listener->save();
+	}
 
-		public static function triggerGeo($_option) {
-			$id = geotravCmd::byId($_option['event_id'])->getEqLogic()->getId();
-			log::add('geotrav', 'debug', 'Trigger cmd ' . $_option['event_id'] . ' valeur ' . $_option['value'] . ' de ' . geotravCmd::byId($_option['event_id'])->getEqLogic()->getName() . '(' . $id . ')');
-			foreach (eqLogic::byType('geotrav', true) as $geotrav) {
-				if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $id) == 1) {
-					$geotrav->updateGeofenceValues($id, $_option['value']);
-					log::add('geotrav', 'debug', 'Geofence eqlogic ' . $id);
-				}
-				/*if ($geotrav->getConfiguration('type') == 'travel') {
-				if ($geotrav->getConfiguration('travelDeparture') == $id || $geotrav->getConfiguration('travelArrival') == $id) {
-				$geotrav->refreshTravel();
-				log::add('geotrav', 'debug', 'Travel eqlogic ' . $id);
-			} else {
-			log::add('geotrav', 'debug', 'Not travel for this location ' . $id);
-		}
-	}*/
+	public static function triggerGeo($_option) {
+		$id = geotravCmd::byId($_option['event_id'])->getEqLogic()->getId();
+		log::add('geotrav', 'debug', 'Trigger cmd ' . $_option['event_id'] . ' valeur ' . $_option['value'] . ' de ' . geotravCmd::byId($_option['event_id'])->getEqLogic()->getName() . '(' . $id . ')');
+		foreach (eqLogic::byType('geotrav', true) as $geotrav) {
+			if ($geotrav->getConfiguration('type') == 'geofence' && $geotrav->getConfiguration('geofence:' . $id) == 1) {
+				$geotrav->updateGeofenceValues($id, $_option['value']);
+				log::add('geotrav', 'debug', 'Geofence eqlogic ' . $id);
+			}
+			/*if ($geotrav->getConfiguration('type') == 'travel') {
+			if ($geotrav->getConfiguration('travelDeparture') == $id || $geotrav->getConfiguration('travelArrival') == $id) {
+			$geotrav->refreshTravel();
+			log::add('geotrav', 'debug', 'Travel eqlogic ' . $id);
+		} else {
+		log::add('geotrav', 'debug', 'Not travel for this location ' . $id);
+	}
+}*/
 }
 }
 
