@@ -32,6 +32,7 @@
      $('#autoRefresh').show();
      $('#static').hide();
      $('#urlapi').show();
+     $('#noteType').text('Ce type utilise les API Google pour récupérer les informations');
    }
    if (text == 'address') {
      $('#coordinate').hide();
@@ -41,6 +42,7 @@
      $('#autoRefresh').show();
      $('#static').hide();
      $('#urlapi').show();
+     $('#noteType').text('Ce type utilise les API Google pour récupérer les informations');
    }
    if (text == 'cmdinfo') {
      $('#coordinate').hide();
@@ -50,6 +52,7 @@
      $('#autoRefresh').show();
      $('#static').hide();
      $('#urlapi').show();
+     $('#noteType').text('Ce type utilise les API Google pour récupérer les informations');
    }
    if (text == 'static') {
      $('#coordinate').hide();
@@ -59,6 +62,7 @@
      $('#autoRefresh').hide();
      $('#static').show();
      $('#urlapi').hide();
+     $('#noteType').text('Ce type utilise aucune API pour récupérer les informations');
    }
  });
 
@@ -74,30 +78,35 @@
          $('#geofence').show();
          $('#station').hide();
          $('#travel').hide();
+         $('#noteType').text('Ce type aucune API pour récupérer les informations');
      }
      else if ($('#typeEq').value() == 'station') {
          $('#location').hide();
          $('#geofence').hide();
          $('#station').show();
          $('#travel').hide();
+         $('#noteType').text('Ce type utilise les API Navitia pour récupérer les informations');
      }
      else if ($('#typeEq').value() == 'travel') {
          $('#location').hide();
          $('#geofence').hide();
          $('#station').hide();
          $('#travel').show();
+         $('#noteType').text('Ce type utilise les API Google pour récupérer les informations');
      }
      else if ($('#typeEq').value() == 'iCloud') {
          $('#location').hide();
          $('#geofence').hide();
          $('#station').hide();
          $('#travel').hide();
+         $('#noteType').text('Ce type utilise les API iCloud pour récupérer les informations');
      }
      else if ($('#typeEq').value() == 'googleShared') {
          $('#location').hide();
          $('#geofence').hide();
          $('#station').hide();
          $('#travel').hide();
+         $('#noteType').text('Ce type utilise les informations Google Shared pour récupérer les informations');
      }
  });
 
