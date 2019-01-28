@@ -238,44 +238,44 @@ $eqLogics = eqLogic::byType('geotrav');
 								</div>
 								<div class="form-group" id="autoRefresh">
 									<label class="col-sm-2 control-label"></label>
-									<div class="col-sm-9">
+									<div class="col-sm-3">
 										<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoRefresh" checked/>{{Rafraichissement automatique}}</label>
 									</div>
 								</div>
 								<div class="form-group" id="urlapi">
 									<label class="col-sm-2 control-label">{{URL à utiliser}}</label>
-									<div class="col-sm-10">
+									<div class="col-sm-3">
 										<span class="eqLogicAttr" data-l1key="configuration" data-l2key="url"></span>
 									</div>
 								</div>
 								<div class="form-group" id="static">
 									<div class="form-group">
 										<label class="col-sm-2 control-label">{{Coordonnées}}</label>
-										<div class="col-sm-10">
+										<div class="col-sm-3">
 											<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticGps" type="text" placeholder="{{saisir les coordonnées GPS}}"></span>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-2 control-label">{{Rue}}</label>
-										<div class="col-sm-10">
+										<div class="col-sm-3">
 											<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticStreet" type="text" placeholder="{{saisir le nuémro et rue}}"></span>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-2 control-label">{{Code Postal}}</label>
-										<div class="col-sm-10">
+										<div class="col-sm-3">
 											<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticPostal" type="text" placeholder="{{saisir le code postal}}"></span>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-2 control-label">{{Ville}}</label>
-										<div class="col-sm-10">
+										<div class="col-sm-3">
 											<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticCity"  type="text" placeholder="{{saisir la ville}}"></span>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-2 control-label">{{Pays}}</label>
-										<div class="col-sm-10">
+										<div class="col-sm-3">
 											<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticCountry" type="text" placeholder="{{saisir le pays}}"></span>
 										</div>
 									</div>
