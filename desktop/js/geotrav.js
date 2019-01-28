@@ -31,6 +31,7 @@
      $('#cmdgeoloc').hide();
      $('#autoRefresh').show();
      $('#static').hide();
+     $('#urlapi').show();
    }
    if (text == 'address') {
      $('#coordinate').hide();
@@ -39,6 +40,7 @@
      $('#cmdgeoloc').hide();
      $('#autoRefresh').show();
      $('#static').hide();
+     $('#urlapi').show();
    }
    if (text == 'cmdinfo') {
      $('#coordinate').hide();
@@ -47,6 +49,7 @@
      $('#cmdgeoloc').show();
      $('#autoRefresh').show();
      $('#static').hide();
+     $('#urlapi').show();
    }
    if (text == 'static') {
      $('#coordinate').hide();
@@ -55,6 +58,7 @@
      $('#cmdgeoloc').hide();
      $('#autoRefresh').hide();
      $('#static').show();
+     $('#urlapi').hide();
    }
  });
 
@@ -82,6 +86,18 @@
          $('#geofence').hide();
          $('#station').hide();
          $('#travel').show();
+     }
+     else if ($('#typeEq').value() == 'iCloud') {
+         $('#location').hide();
+         $('#geofence').hide();
+         $('#station').hide();
+         $('#travel').hide();
+     }
+     else if ($('#typeEq').value() == 'googleShared') {
+         $('#location').hide();
+         $('#geofence').hide();
+         $('#station').hide();
+         $('#travel').hide();
      }
  });
 
