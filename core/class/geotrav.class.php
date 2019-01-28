@@ -285,16 +285,16 @@ public function updateLocationFinal($jsondata = array()) {
 	$jsondata['location:latitude'] = $geoexpl[0];
 	$jsondata['location:longitude'] = $geoexpl[1];
 	if ($jsondata['location:country'] == 'France') {
-		$department = substr($zip, 0, 2);
+		$department = substr($jsondata['location:zip'], 0, 2);
 		if ($department == '20') {
-			if ((int) $zip >= 20200) {
+			if ((int) $jsondata['location:zip'] >= 20200) {
 				$department = '2B';
 			} else {
 				$department = '2A';
 			}
 		}
 		if ($department == '97') {
-			$department = substr($jsondata['results'][0]['address_components'][6]['long_name'], 0, 3);
+			$department = substr($jsondata['location:zip'], 0, 3);
 		}
 	} else {
 		$department = 'NA';
@@ -304,10 +304,10 @@ public function updateLocationFinal($jsondata = array()) {
 		$this->checkAndUpdateCmd($key, $value);
 	}
 	log::add('geotrav', 'debug', 'Update location : ' . print_r($jsondata, true));
-	$this->setConfiguration('coordinate', $jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
-	$this->setConfiguration('fieldcoordinate', $jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
-	$this->setConfiguration('address', $jsondata['results'][0]['formatted_address']);
-	$this->setConfiguration('fieldaddress', $jsondata['results'][0]['formatted_address']);
+	$this->setConfiguration('coordinate', $jsondata['location:coordinate']);
+	$this->setConfiguration('fieldcoordinate', $jsondata['location:coordinate']);
+	$this->setConfiguration('address', $jsondata['location:address']);
+	$this->setConfiguration('fieldaddress', $jsondata['location:address']);
 	$this->save();
 }
 
