@@ -198,6 +198,7 @@ $eqLogics = eqLogic::byType('geotrav');
 										<option value="coordinate" selected>{{Par Coordonnées}}</option>
 										<option value="address">{{Par Adresse}}</option>
 										<option value="cmdinfo">{{Par commande Jeedom}}</option>
+										<option value="static">{{Manuelle}}</option>
 									</select>
 								</div>
 							</div>
@@ -229,16 +230,48 @@ $eqLogics = eqLogic::byType('geotrav');
 										</div>
 									</div>
 								</div>
-								<div class="form-group">
+								<div class="form-group" id="autoRefresh">
 									<label class="col-sm-2 control-label"></label>
 									<div class="col-sm-9">
 										<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoRefresh" checked/>{{Rafraichissement automatique}}</label>
 									</div>
 								</div>
-								<div class="form-group">
+								<div class="form-group" id="urlapi">
 									<label class="col-sm-2 control-label">{{URL à utiliser}}</label>
 									<div class="col-sm-10">
 										<span class="eqLogicAttr" data-l1key="configuration" data-l2key="url"></span>
+									</div>
+								</div>
+								<div class="form-group" id="static">
+									<div class="form-group">
+										<label class="col-sm-2 control-label">{{Coordonnées}}</label>
+										<div class="col-sm-10">
+											<span class="eqLogicAttr" data-l1key="configuration" data-l2key="staticGps"></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">{{Rue}}</label>
+										<div class="col-sm-10">
+											<span class="eqLogicAttr" data-l1key="configuration" data-l2key="staticRoad"></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">{{Code Postal}}</label>
+										<div class="col-sm-10">
+											<span class="eqLogicAttr" data-l1key="configuration" data-l2key="staticPostal"></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">{{Ville}}</label>
+										<div class="col-sm-10">
+											<span class="eqLogicAttr" data-l1key="configuration" data-l2key="staticCity"></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">{{Pays}}</label>
+										<div class="col-sm-10">
+											<span class="eqLogicAttr" data-l1key="configuration" data-l2key="staticCountry"></span>
+										</div>
 									</div>
 								</div>
 

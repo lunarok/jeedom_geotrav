@@ -29,18 +29,32 @@
      $('#noreverse').show();
      $('#address').hide();
      $('#cmdgeoloc').hide();
+     $('#autoRefresh').show();
+     $('#static').hide();
    }
    if (text == 'address') {
      $('#coordinate').hide();
      $('#noreverse').hide();
      $('#address').show();
      $('#cmdgeoloc').hide();
+     $('#autoRefresh').show();
+     $('#static').hide();
    }
    if (text == 'cmdinfo') {
      $('#coordinate').hide();
      $('#noreverse').hide();
      $('#address').hide();
      $('#cmdgeoloc').show();
+     $('#autoRefresh').show();
+     $('#static').hide();
+   }
+   if (text == 'static') {
+     $('#coordinate').hide();
+     $('#noreverse').hide();
+     $('#address').hide();
+     $('#cmdgeoloc').hide();
+     $('#autoRefresh').hide();
+     $('#static').show();
    }
  });
 
