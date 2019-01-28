@@ -243,29 +243,29 @@ public function updateGeocoding($address) {
 
 public function updateLocationGoogle($jsondata) {
 	if ($jsondata['results'][0]['address_components'][0]['types'][0] == "street_number") {
-		$jsondata['location:street'] = isset($jsondata['results'][0]['address_components'][0]['long_name']) ? $jsondata['results'][0]['address_components'][0]['long_name'] . ' ' . $jsondata['results'][0]['address_components'][1]['long_name'] : 'NA';
-		$jsondata['location:city'] = isset($jsondata['results'][0]['address_components'][2]['long_name']) ? $jsondata['results'][0]['address_components'][2]['long_name'] : 'NA';
-		$jsondata['location:district'] = isset($jsondata['results'][0]['address_components'][3]['long_name']) ? $jsondata['results'][0]['address_components'][3]['long_name'] : 'NA';
-		$jsondata['location:zip'] = $jsondata['results'][0]['address_components'][6]['long_name'];
-		$jsondata['location:country'] = $jsondata['results'][0]['address_components'][5]['long_name'];
+		$json['location:street'] = isset($jsondata['results'][0]['address_components'][0]['long_name']) ? $jsondata['results'][0]['address_components'][0]['long_name'] . ' ' . $jsondata['results'][0]['address_components'][1]['long_name'] : 'NA';
+		$json['location:city'] = isset($jsondata['results'][0]['address_components'][2]['long_name']) ? $jsondata['results'][0]['address_components'][2]['long_name'] : 'NA';
+		$json['location:district'] = isset($jsondata['results'][0]['address_components'][3]['long_name']) ? $jsondata['results'][0]['address_components'][3]['long_name'] : 'NA';
+		$json['location:zip'] = $jsondata['results'][0]['address_components'][6]['long_name'];
+		$json['location:country'] = $jsondata['results'][0]['address_components'][5]['long_name'];
 	} else if ($jsondata['results'][0]['address_components'][0]['types'][0] == "route") {
-		$jsondata['location:street'] = isset($jsondata['results'][0]['address_components'][0]['long_name']) ? $jsondata['results'][0]['address_components'][0]['long_name'] : 'NA';
-		$jsondata['location:city'] = isset($jsondata['results'][0]['address_components'][1]['long_name']) ? $jsondata['results'][0]['address_components'][1]['long_name'] : 'NA';
-		$jsondata['location:district'] = isset($jsondata['results'][0]['address_components'][2]['long_name']) ? $jsondata['results'][0]['address_components'][2]['long_name'] : 'NA';
-		$jsondata['location:zip'] = $jsondata['results'][0]['address_components'][5]['long_name'];
-		$jsondata['location:country'] = $jsondata['results'][0]['address_components'][4]['long_name'];
+		$json['location:street'] = isset($jsondata['results'][0]['address_components'][0]['long_name']) ? $jsondata['results'][0]['address_components'][0]['long_name'] : 'NA';
+		$json['location:city'] = isset($jsondata['results'][0]['address_components'][1]['long_name']) ? $jsondata['results'][0]['address_components'][1]['long_name'] : 'NA';
+		$json['location:district'] = isset($jsondata['results'][0]['address_components'][2]['long_name']) ? $jsondata['results'][0]['address_components'][2]['long_name'] : 'NA';
+		$json['location:zip'] = $jsondata['results'][0]['address_components'][5]['long_name'];
+		$json['location:country'] = $jsondata['results'][0]['address_components'][4]['long_name'];
 	} else if ($jsondata['results'][0]['address_components'][0]['types'][0] == "locality") {
-		$jsondata['location:street'] = 'NA';
-		$jsondata['location:city'] = isset($jsondata['results'][0]['address_components'][0]['long_name']) ? $jsondata['results'][0]['address_components'][0]['long_name'] : 'NA';
-		$jsondata['location:district'] = isset($jsondata['results'][0]['address_components'][1]['long_name']) ? $jsondata['results'][0]['address_components'][1]['long_name'] : 'NA';
-		$jsondata['location:zip'] = 'NA';
-		$jsondata['location:country'] = $jsondata['results'][0]['address_components'][3]['long_name'];
+		$json['location:street'] = 'NA';
+		$json['location:city'] = isset($jsondata['results'][0]['address_components'][0]['long_name']) ? $jsondata['results'][0]['address_components'][0]['long_name'] : 'NA';
+		$json['location:district'] = isset($jsondata['results'][0]['address_components'][1]['long_name']) ? $jsondata['results'][0]['address_components'][1]['long_name'] : 'NA';
+		$json['location:zip'] = 'NA';
+		$json['location:country'] = $jsondata['results'][0]['address_components'][3]['long_name'];
 	} else {
 		log::add('geotrav', 'debug', 'Problème avec adresse');
 		return;
 	}
-	$jsondata['location:coordinate'] = $jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng'];
-	$this->updateLocationFinal($jsondata);
+	$json['location:coordinate'] = $jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng'];
+	$this->updateLocationFinal($json);
 }
 
 public function updateStaticLoc() {
@@ -303,6 +303,7 @@ public function updateLocationFinal($jsondata = array()) {
 	foreach ($jsondata as $key => $value) {
 		$this->checkAndUpdateCmd($key, $value);
 	}
+	log::add('geotrav', 'debug', 'Update location : ' . print_r($jsondata, true));
 	$this->setConfiguration('coordinate', $jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
 	$this->setConfiguration('fieldcoordinate', $jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng']);
 	$this->setConfiguration('address', $jsondata['results'][0]['formatted_address']);
