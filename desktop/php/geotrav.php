@@ -193,7 +193,7 @@ $eqLogics = eqLogic::byType('geotrav');
 						<div class="form-group">
 							<label class="col-sm-2 control-label">{{Note sur ce type d'équipement}}</label>
 							<div class="col-sm-10">
-								<span id="noteType"></span>
+								<span id="noteType">{{Sélectionnez un type d'équipement}}</span>
 							</div>
 						</div>
 						<div id="location" style="display:none">

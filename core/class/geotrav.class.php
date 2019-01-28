@@ -318,13 +318,16 @@ public function refreshLocation($_force = false) {
 			$geotrav->updateGeofenceValues($this->getId(), $this->getConfiguration('coordinate'));
 		}
 	}
-	if ($this->getConfiguration('autoRefresh') == true || $_force == false) {
+	if ($this->getConfiguration('autoRefresh') == true || $_force == true) {
 		if ($this->getConfiguration('typeConfLoc') == 'address') {
 			$this->updateGeocoding($this->getConfiguration('fieldaddress'));
 		}
 		if ($this->getConfiguration('typeConfLoc') == 'coordinate') {
 			$this->updateGeocodingReverse($this->getConfiguration('fieldcoordinate'));
 		}
+	}
+	if ($this->getConfiguration('typeConfLoc') == 'static') {
+		$this->updateStaticLoc();
 	}
 }
 
