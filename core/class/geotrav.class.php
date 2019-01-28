@@ -560,7 +560,7 @@ public function toHtml($_version = 'dashboard') {
 			$replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
 		}
 	}
-	$replace['#keyGMW#'] = trim(config::byKey('keyGMW', 'geotrav'));
+	$replace['#keyGMG#'] = trim(config::byKey('keyGMG', 'geotrav'));
 	if ($this->getConfiguration('type') == 'travel') {
 		$replace['#options#'] = '';
 		if ($this->getConfiguration('travelOptions') != '') {

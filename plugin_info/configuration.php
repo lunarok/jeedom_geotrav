@@ -34,16 +34,9 @@ if (!isConnect()) {
                     <fieldset>
 
                         <div class="form-group">
-                            <label class="col-lg-4 control-label"><a href='https://developers.google.com/maps/documentation/geocoding/start#get-a-key' target="_blank">API Google Maps Geocoding</a></label>
+                            <label class="col-lg-4 control-label"><a href='https://cloud.google.com/maps-platform/#get-started' target="_blank">API Google Maps</a></label>
                             <div class="col-lg-4">
                                 <input class="configKey form-control" data-l1key="keyGMG" style="margin-top:5px" placeholder=""/>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-lg-4 control-label"><a href='https://developers.google.com/maps/documentation/embed/get-api-key' target="_blank">API Google Maps Widget</a></label>
-                            <div class="col-lg-4">
-                                <input class="configKey form-control" data-l1key="keyGMW" style="margin-top:5px" placeholder=""/>
                             </div>
                         </div>
 
