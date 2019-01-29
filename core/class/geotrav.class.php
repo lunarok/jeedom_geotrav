@@ -18,6 +18,9 @@
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+if (!class_exists('FindMyiPhone')) {
+	require_once dirname(__FILE__) . '/../../3rdparty/class.findmyiphone.php';
+}
 
 class geotrav extends eqLogic {
 	public static $_widgetPossibility = array('custom' => true);
