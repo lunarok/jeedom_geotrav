@@ -70,6 +70,9 @@ class geotrav extends eqLogic {
 			case 'location':
 			$this->refreshLocation($_force);
 			break;
+			case 'iCloud':
+			$this->refreshICloud($_force);
+			break;
 		}
 		$this->refreshWidget();
 	}
@@ -330,6 +333,20 @@ public function refreshLocation($_force = false) {
 	if ($this->getConfiguration('typeConfLoc') == 'static') {
 		$this->updateStaticLoc();
 	}
+}
+
+public function refreshICloud($_force = false) {
+	try {
+		$fmi = new FindMyiPhone($this->getConfiguration('username'), $this->getConfiguration('password'));
+		$location = $fmi->locate($this->getConfiguration('device'));
+	} catch (Exception $e) {
+		print "Error: ".$e->getMessage();
+		exit;
+	}
+	if ($this->getConfiguration('autoIRefresh') == true || $_force == true) {
+			$this->updateGeocodingReverse($location->latitude.','.$location->longitude);
+	}
+	$this->checkAndUpdateCmd('location:coordinate',$location->latitude.','.$location->longitude);
 }
 
 public function refreshTravel($param = 'none') {

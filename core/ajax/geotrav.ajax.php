@@ -40,6 +40,13 @@ try {
 		ajax::success($return);
 	}
 
+	if (init('action') == 'getDevicesList') {
+		$geoloc = geoloc::getDevicesListIos(init('id'),init('username'),init('password'));
+		$return['cmd'] = array();
+		$return['cmd'] = $geoloc;
+		ajax::success($return);
+	}
+
 	if (init('action') == 'getGeotrav') {
 		$return['location'] = array();
 		$return['travel'] = array();
