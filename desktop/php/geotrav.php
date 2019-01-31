@@ -6,7 +6,7 @@ sendVarToJS('eqType', 'geotrav');
 $eqLogics = eqLogic::byType('geotrav');
 ?>
 <div class="row row-overflow">
-	<div class="col-lg-2 col-md-3 col-sm-4">
+	<div class="col-lg-2 col-sm-3 col-sm-4">
 		<div class="bs-sidebar">
 			<ul id="ul_eqLogic" class="nav nav-list bs-sidenav">
 				<a class="btn btn-default eqLogicAction" style="width : 100%;margin-top : 5px;margin-bottom: 5px;" data-action="add"><i class="fa fa-plus-circle"></i> {{Ajouter un équipement}}</a>
@@ -124,7 +124,7 @@ $eqLogics = eqLogic::byType('geotrav');
 		<div class="eqLogicThumbnailContainer">
 			<?php
 			foreach ($eqLogics as $eqLogic) {
-				if ($eqLogic->getConfiguration('type') == 'station') {
+				if ($eqLogic->getConfiguration('type') == 'googleShared') {
 					$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
 					echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff ; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
 					echo "<center>";
@@ -146,7 +146,7 @@ $eqLogics = eqLogic::byType('geotrav');
 			</div>
 			<?php
 			foreach ($eqLogics as $eqLogic) {
-				if ($eqLogic->getConfiguration('type') == 'station') {
+				if ($eqLogic->getConfiguration('type') == 'iCloud') {
 					$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
 					echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff ; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
 					echo "<center>";
@@ -226,7 +226,7 @@ $eqLogics = eqLogic::byType('geotrav');
 									<option value="station">{{Arrêt Transports}}</option>
 									<option value="travel">{{Trajet}}</option>
 									<option value="iCloud">{{iCloud}}</option>
-									<option value="googleShared">{{Google Shared}}</option>
+									<option value="googleShared" disabled>{{Google Shared}}</option>
 								</select>
 							</div>
 						</div>
@@ -427,27 +427,27 @@ $eqLogics = eqLogic::byType('geotrav');
 
 						<div id="icloud" style="display:none">
 							<div class="form-group ios" style="display:none;">
-								<label class="col-md-2 control-label">{{Login iCloud}}</label>
-								<div class="col-md-3">
+								<label class="col-sm-2 control-label">{{Login iCloud}}</label>
+								<div class="col-sm-3">
 									<input type="text" id="username_icloud" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="username" placeholder="Login iCloud"/>
 								</div>
 							</div>
 							<div class="form-group ios" style="display:none;">
-								<label class="col-md-2 control-label">{{Password iCloud}}</label>
-								<div class="col-md-3">
+								<label class="col-sm-2 control-label">{{Password iCloud}}</label>
+								<div class="col-sm-3">
 									<input type="password" id="password_icloud" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="password" placeholder="Client Secret"/>
 								</div>
 							</div>
 							<div class="form-group ios" style="display:none;">
-								<label class="col-md-2 control-label">{{Device}}</label>
-								<div class="col-md-3">
+								<label class="col-sm-2 control-label">{{Device}}</label>
+								<div class="col-sm-3">
 									<input type="text" id="device" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="device" placeholder="device"/>
 								</div>
-								<div class="col-md-3 ios" style="display:none">
+								<div class="col-sm-3 ios" style="display:none">
 									<select id="sel_device" class="eqLogicAttr configuration form-control" disabled>
 									</select>
 								</div>
-								<div class="col-md-3 ios" style="display:none">
+								<div class="col-sm-3 ios" style="display:none">
 									<a class="btn btn-default" id="searchDevices">{{Charger les devices}}</a>
 								</div>
 							</div>
@@ -466,6 +466,7 @@ $eqLogics = eqLogic::byType('geotrav');
 					</fieldset>
 				</form>
 			</div>
+		</div>
 
 			<div role="tabpanel" class="tab-pane" id="commandtab">
 				<br/>
