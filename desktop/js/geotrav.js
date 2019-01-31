@@ -30,7 +30,7 @@ $('#typeLoc').change(function(){
     $('#address').hide();
     $('#cmdgeoloc').hide();
     $('#autoRefresh').show();
-    $('#static').hide();
+    $('.static').hide();
     $('#urlapi').show();
     $('#noteType').text('Ce type utilise les API Google pour récupérer les informations');
   }
@@ -40,7 +40,7 @@ $('#typeLoc').change(function(){
     $('#address').show();
     $('#cmdgeoloc').hide();
     $('#autoRefresh').show();
-    $('#static').hide();
+    $('.static').hide();
     $('#urlapi').show();
     $('#noteType').text('Ce type utilise les API Google pour récupérer les informations');
   }
@@ -50,7 +50,7 @@ $('#typeLoc').change(function(){
     $('#address').hide();
     $('#cmdgeoloc').show();
     $('#autoRefresh').show();
-    $('#static').hide();
+    $('.static').hide();
     $('#urlapi').show();
     $('#noteType').text('Ce type utilise les API Google pour récupérer les informations');
   }
@@ -60,7 +60,7 @@ $('#typeLoc').change(function(){
     $('#address').hide();
     $('#cmdgeoloc').hide();
     $('#autoRefresh').hide();
-    $('#static').show();
+    $('.static').show();
     $('#urlapi').hide();
     $('#noteType').text('Ce type utilise aucune API pour récupérer les informations');
   }

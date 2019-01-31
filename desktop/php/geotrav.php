@@ -232,7 +232,7 @@ $eqLogics = eqLogic::byType('geotrav');
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">{{Note sur ce type d'équipement}}</label>
-							<div class="col-sm-10">
+							<div class="col-sm-3">
 								<span id="noteType">{{Sélectionnez un type d'équipement}}</span>
 							</div>
 						</div>
@@ -288,36 +288,34 @@ $eqLogics = eqLogic::byType('geotrav');
 										<span class="eqLogicAttr" data-l1key="configuration" data-l2key="url"></span>
 									</div>
 								</div>
-								<div class="form-group" id="static">
-									<div class="form-group">
-										<label class="col-sm-2 control-label">{{Coordonnées}}</label>
-										<div class="col-sm-3">
-											<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticGps" type="text" placeholder="{{saisir les coordonnées GPS}}"></span>
-										</div>
+								<div class="form-group static">
+									<label class="col-sm-2 control-label">{{Coordonnées}}</label>
+									<div class="col-sm-3">
+										<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticGps" type="text" placeholder="{{saisir les coordonnées GPS}}"></span>
 									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">{{Rue}}</label>
-										<div class="col-sm-3">
-											<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticStreet" type="text" placeholder="{{saisir le nuémro et rue}}"></span>
-										</div>
+								</div>
+								<div class="form-group static">
+									<label class="col-sm-2 control-label">{{Rue}}</label>
+									<div class="col-sm-3">
+										<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticStreet" type="text" placeholder="{{saisir le nuémro et rue}}"></span>
 									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">{{Code Postal}}</label>
-										<div class="col-sm-3">
-											<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticPostal" type="text" placeholder="{{saisir le code postal}}"></span>
-										</div>
+								</div>
+								<div class="form-group static">
+									<label class="col-sm-2 control-label">{{Code Postal}}</label>
+									<div class="col-sm-3">
+										<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticPostal" type="text" placeholder="{{saisir le code postal}}"></span>
 									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">{{Ville}}</label>
-										<div class="col-sm-3">
-											<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticCity"  type="text" placeholder="{{saisir la ville}}"></span>
-										</div>
+								</div>
+								<div class="form-group static">
+									<label class="col-sm-2 control-label">{{Ville}}</label>
+									<div class="col-sm-3">
+										<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticCity"  type="text" placeholder="{{saisir la ville}}"></span>
 									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">{{Pays}}</label>
-										<div class="col-sm-3">
-											<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticCountry" type="text" placeholder="{{saisir le pays}}"></span>
-										</div>
+								</div>
+								<div class="form-group static">
+									<label class="col-sm-2 control-label">{{Pays}}</label>
+									<div class="col-sm-3">
+										<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticCountry" type="text" placeholder="{{saisir le pays}}"></span>
 									</div>
 								</div>
 
@@ -468,25 +466,25 @@ $eqLogics = eqLogic::byType('geotrav');
 			</div>
 		</div>
 
-			<div role="tabpanel" class="tab-pane" id="commandtab">
-				<br/>
-				<table id="table_cmd" class="table table-bordered table-condensed">
-					<thead>
-						<tr>
-							<th style="width: 50px;">#</th>
-							<th style="width: 200px;">{{Nom}}</th>
-							<th style="width: 200px;">{{Type}}</th>
-							<th style="width: 100px;">{{Paramètres}}</th>
-							<th style="width: 150px;"></th>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
+		<div role="tabpanel" class="tab-pane" id="commandtab">
+			<br/>
+			<table id="table_cmd" class="table table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th style="width: 50px;">#</th>
+						<th style="width: 200px;">{{Nom}}</th>
+						<th style="width: 200px;">{{Type}}</th>
+						<th style="width: 100px;">{{Paramètres}}</th>
+						<th style="width: 150px;"></th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
 
-			</div>
 		</div>
 	</div>
+</div>
 </div>
 
 <?php include_file('desktop', 'geotrav', 'js', 'geotrav');?>
