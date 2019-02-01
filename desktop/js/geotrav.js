@@ -72,7 +72,7 @@ $( "#typeEq" ).change(function(){
     $('#geofence').hide();
     $('#station').hide();
     $('#travel').hide();
-    $('#icloud').hide();
+    $('.ios').hide();
     $('#googleshared').hide();
   }
   else if ($('#typeEq').value() == 'geofence') {
@@ -80,7 +80,7 @@ $( "#typeEq" ).change(function(){
     $('#geofence').show();
     $('#station').hide();
     $('#travel').hide();
-    $('#icloud').hide();
+    $('.ios').hide();
     $('#googleshared').hide();
     $('#noteType').text('Ce type aucune API pour récupérer les informations');
   }
@@ -89,7 +89,7 @@ $( "#typeEq" ).change(function(){
     $('#geofence').hide();
     $('#station').show();
     $('#travel').hide();
-    $('#icloud').hide();
+    $('.ios').hide();
     $('#googleshared').hide();
     $('#noteType').text('Ce type utilise les API Navitia pour récupérer les informations');
   }
@@ -98,7 +98,7 @@ $( "#typeEq" ).change(function(){
     $('#geofence').hide();
     $('#station').hide();
     $('#travel').show();
-    $('#icloud').hide();
+    $('.ios').hide();
     $('#googleshared').hide();
     $('#noteType').text('Ce type utilise les API Google pour récupérer les informations');
   }
@@ -107,7 +107,7 @@ $( "#typeEq" ).change(function(){
     $('#geofence').hide();
     $('#station').hide();
     $('#travel').hide();
-    $('#icloud').show();
+    $('.ios').show();
     $('#googleshared').hide();
     $('#noteType').text('Ce type utilise les API iCloud pour récupérer les informations');
   }
@@ -116,7 +116,7 @@ $( "#typeEq" ).change(function(){
     $('#geofence').hide();
     $('#station').hide();
     $('#travel').hide();
-    $('#icloud').hide();
+    $('.ios').hide();
     $('#googleshared').show();
     $('#noteType').text('Ce type utilise les informations Google Shared pour récupérer les informations');
   }
