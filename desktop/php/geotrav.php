@@ -421,71 +421,69 @@ $eqLogics = eqLogic::byType('geotrav');
 									</div>
 								</div>
 							</div>
-						</div>
 
-						<div id="icloud" style="display:none">
-							<div class="form-group ios" style="display:none;">
-								<label class="col-sm-2 control-label">{{Login iCloud}}</label>
-								<div class="col-sm-3">
-									<input type="text" id="username_icloud" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="username" placeholder="Login iCloud"/>
+							<div id="icloud" style="display:none">
+								<div class="form-group ios" style="display:none;">
+									<label class="col-sm-2 control-label">{{Login iCloud}}</label>
+									<div class="col-sm-3">
+										<input type="text" id="username_icloud" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="username" placeholder="Login iCloud"/>
+									</div>
+								</div>
+								<div class="form-group ios" style="display:none;">
+									<label class="col-sm-2 control-label">{{Password iCloud}}</label>
+									<div class="col-sm-3">
+										<input type="password" id="password_icloud" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="password" placeholder="Client Secret"/>
+									</div>
+								</div>
+								<div class="form-group ios" style="display:none;">
+									<label class="col-sm-2 control-label">{{Device}}</label>
+									<div class="col-sm-3">
+										<input type="text" id="device" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="device" placeholder="device"/>
+									</div>
+									<div class="col-sm-3 ios" style="display:none">
+										<select id="sel_device" class="eqLogicAttr configuration form-control" disabled>
+										</select>
+									</div>
+									<div class="col-sm-3 ios" style="display:none">
+										<a class="btn btn-default" id="searchDevices">{{Charger les devices}}</a>
+									</div>
+								</div>
+								<div class="form-group" id="autoIRefresh">
+									<label class="col-sm-2 control-label"></label>
+									<div class="col-sm-3">
+										<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoRefresh" checked/>{{Rafraichissement automatique}}</label>
+									</div>
 								</div>
 							</div>
-							<div class="form-group ios" style="display:none;">
-								<label class="col-sm-2 control-label">{{Password iCloud}}</label>
-								<div class="col-sm-3">
-									<input type="password" id="password_icloud" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="password" placeholder="Client Secret"/>
-								</div>
-							</div>
-							<div class="form-group ios" style="display:none;">
-								<label class="col-sm-2 control-label">{{Device}}</label>
-								<div class="col-sm-3">
-									<input type="text" id="device" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="device" placeholder="device"/>
-								</div>
-								<div class="col-sm-3 ios" style="display:none">
-									<select id="sel_device" class="eqLogicAttr configuration form-control" disabled>
-									</select>
-								</div>
-								<div class="col-sm-3 ios" style="display:none">
-									<a class="btn btn-default" id="searchDevices">{{Charger les devices}}</a>
-								</div>
-							</div>
-							<div class="form-group" id="autoIRefresh">
-								<label class="col-sm-2 control-label"></label>
-								<div class="col-sm-3">
-									<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoRefresh" checked/>{{Rafraichissement automatique}}</label>
-								</div>
-							</div>
-						</div>
 
-						<div id="googleshared" style="display:none">
-							//
-						</div>
+							<div id="googleshared" style="display:none">
+								//
+							</div>
 
-					</fieldset>
-				</form>
+						</fieldset>
+					</form>
+				</div>
+
+				<div role="tabpanel" class="tab-pane" id="commandtab">
+					<br/>
+					<table id="table_cmd" class="table table-bordered table-condensed">
+						<thead>
+							<tr>
+								<th style="width: 50px;">#</th>
+								<th style="width: 200px;">{{Nom}}</th>
+								<th style="width: 200px;">{{Type}}</th>
+								<th style="width: 100px;">{{Paramètres}}</th>
+								<th style="width: 150px;"></th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+
+				</div>
 			</div>
 		</div>
-
-		<div role="tabpanel" class="tab-pane" id="commandtab">
-			<br/>
-			<table id="table_cmd" class="table table-bordered table-condensed">
-				<thead>
-					<tr>
-						<th style="width: 50px;">#</th>
-						<th style="width: 200px;">{{Nom}}</th>
-						<th style="width: 200px;">{{Type}}</th>
-						<th style="width: 100px;">{{Paramètres}}</th>
-						<th style="width: 150px;"></th>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
-
-		</div>
 	</div>
-</div>
-</div>
 
-<?php include_file('desktop', 'geotrav', 'js', 'geotrav');?>
-<?php include_file('core', 'plugin.template', 'js');?>
+	<?php include_file('desktop', 'geotrav', 'js', 'geotrav');?>
+	<?php include_file('core', 'plugin.template', 'js');?>
