@@ -40,8 +40,8 @@ try {
 		ajax::success($return);
 	}
 
-	if (init('action') == 'getDevicesList') {
-		$geoloc = geoloc::getDevicesListIos(init('id'),init('username'),init('password'));
+	if (init('action') == 'getDevicesListIos') {
+		$geoloc = geotrav::getDevicesListIos(init('id'),init('username'),init('password'));
 		$return['cmd'] = array();
 		$return['cmd'] = $geoloc;
 		ajax::success($return);

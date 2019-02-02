@@ -136,7 +136,7 @@ function searchDevices(_geoloc_iosEq_id,username,password) {
   type: "POST", // methode de transmission des données au fichier php
   url: "plugins/geoloc/core/ajax/geoloc.ajax.php", // url du fichier php
   data: {
-    action: "getDevicesList",
+    action: "getDevicesListIos",
     username: username,
     password: password
   },

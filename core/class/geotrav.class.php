@@ -347,9 +347,28 @@ public function refreshICloud($_force = false) {
 		exit;
 	}
 	if ($this->getConfiguration('autoIRefresh') == true || $_force == true) {
-			$this->updateGeocodingReverse($location->latitude.','.$location->longitude);
+		$this->updateGeocodingReverse($location->latitude.','.$location->longitude);
 	}
 	$this->checkAndUpdateCmd('location:coordinate',$location->latitude.','.$location->longitude);
+}
+
+public static function getDevicesListIos($_id, $_username, $_password) {
+	try {
+		$fmi = new FindMyiPhone($_username, $_password);
+	} catch (Exception $e) {
+		print "Error: ".$e->getMessage();
+		exit;
+	}
+	$devicelist= array() ;
+	$i=0;
+	if (sizeof($fmi->devices) == 0) $fmi->getDevices();
+	foreach($fmi->devices as $device){
+		$devicelist['devices'][$i]['name']=$device->name;
+		$devicelist['devices'][$i]['id']=$device->ID;
+		$devicelist['devices'][$i]['deviceClass']=$device->class;
+		$i++;
+	}
+	return $devicelist;
 }
 
 public function refreshTravel($param = 'none') {
