@@ -134,7 +134,7 @@ $("#sel_device").on('change', function() {
 function searchDevices(_geoloc_iosEq_id,username,password) {
   $.ajax({// fonction permettant de faire de l'ajax
   type: "POST", // methode de transmission des données au fichier php
-  url: "plugins/geoloc/core/ajax/geoloc.ajax.php", // url du fichier php
+  url: "plugins/geotrav/core/ajax/geotrav.ajax.php", // url du fichier php
   data: {
     action: "getDevicesListIos",
     username: username,
