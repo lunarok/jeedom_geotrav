@@ -1,0 +1,149 @@
+{
+    "name": "location",
+    "commands": [
+        {
+            "name": "Longitude",
+            "type": "info",
+            "subtype": "numeric",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:longitude"
+        },
+        {
+            "name": "Latitude",
+            "type": "info",
+            "subtype": "numeric",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:latitude"
+        },
+        {
+            "name": "Coordonnées",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:coordinate"
+        },
+        {
+            "name": "Adresse",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:address"
+        },
+        {
+            "name": "Rue",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:street"
+        },
+        {
+            "name": "Code Postal",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:zip"
+        },
+        {
+            "name": "Département",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:department"
+        },
+        {
+            "name": "Ville",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:city"
+        },
+        {
+            "name": "Département",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:district"
+        },
+        {
+            "name": "Pays",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:country"
+        },
+        {
+            "name": "Altitude",
+            "type": "info",
+            "subtype": "numeric",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:elevation"
+        },
+        {
+            "name": "Battery",
+            "type": "info",
+            "subtype": "numeric",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "location"
+            },
+            "logicalId": "location:battery"
+        }
+    ]
+}

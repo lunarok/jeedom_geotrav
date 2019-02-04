@@ -47,6 +47,20 @@ if (!isConnect()) {
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Compte Google Shared</label>
+                            <div class="col-lg-4">
+                                <input class="configKey form-control" data-l1key="google_user" style="margin-top:5px" placeholder=""/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Mot de passe compte Google Shared</label>
+                            <div class="col-lg-4">
+                                <input class="configKey form-control" data-l1key="google_password" style="margin-top:5px" type="password"/>
+                            </div>
+                        </div>
+
                     </div>
                 </fieldset>
             </div>
