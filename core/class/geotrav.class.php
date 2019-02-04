@@ -29,6 +29,7 @@ class geotrav extends eqLogic {
 		foreach (eqLogic::byType('geotrav', true) as $location) {
 			$location->refresh();
 		}
+		geotrav::refreshGoogle();
 	}
 
 	public function preSave() {
@@ -386,7 +387,7 @@ public function refreshGoogle($_force = false) {
 		}
 		$eqLogic->checkAndUpdateCmd('location:coordinate', $location['coordinated']);
 		$eqLogic->checkAndUpdateCmd('location:battery', $location['battery']);
-		if ($eqLogic->getConfiguration('autoIRefresh') == true || $_force == true) {
+		if ($eqLogic->getConfiguration('autoGRefresh') == true || $_force == true) {
 			$eqLogic->updateGeocodingReverse($location['coordinated']);
 		}
 	}

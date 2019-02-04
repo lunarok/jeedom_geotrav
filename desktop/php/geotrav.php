@@ -450,12 +450,15 @@ $eqLogics = eqLogic::byType('geotrav');
 								<div class="form-group ios" style="display:none">
 									<label class="col-sm-2 control-label"></label>
 									<div class="col-sm-3">
-										<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoRefresh" checked/>{{Rafraichissement automatique}}</label>
+										<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoIRefresh" checked/>{{Rafraichissement automatique}}</label>
 									</div>
 								</div>
 
 							<div id="googleshared" style="display:none">
-								//
+								<label class="col-sm-2 control-label"></label>
+								<div class="col-sm-3">
+									<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoGRefresh" checked/>{{Rafraichissement automatique}}</label>
+								</div>
 							</div>
 
 						</fieldset>
