@@ -374,12 +374,13 @@ public static function getDevicesListIos($_id, $_username, $_password) {
 
 public function refreshGoogle($_force = false) {
 	foreach (self::google_locationData() as $location) {
-		$eqLogic = eqLogic::byLogicalId($location['id'], 'gsl');
+		log::add('geotrav', 'debug', 'Update google shared : ' . print_r($location, true));
+		$eqLogic = eqLogic::byLogicalId($location['id'], 'geotrav');
 		if (!is_object($eqLogic)) {
-			$eqLogic = new gsl();
+			$eqLogic = new geotrav();
 			$eqLogic->setName($location['name']);
 			$eqLogic->setLogicalId($location['id']);
-			$eqLogic->setEqType_name('gsl');
+			$eqLogic->setEqType_name('geotrav');
 			$eqLogic->setIsVisible(1);
 			$eqLogic->setIsEnable(1);
 			$eqLogic->setConfiguration('type', 'googleShared');
@@ -395,8 +396,8 @@ public function refreshGoogle($_force = false) {
 
 public static function google_callLocationUrl() {
 	$ch = curl_init('https://www.google.com/maps/preview/locationsharing/read?authuser=0&pb=');
-	curl_setopt($ch, CURLOPT_COOKIEJAR, jeedom::getTmpFolder('gsl') . '/cookies.txt');
-	curl_setopt($ch, CURLOPT_COOKIEFILE, jeedom::getTmpFolder('gsl') . '/cookies.txt');
+	curl_setopt($ch, CURLOPT_COOKIEJAR, jeedom::getTmpFolder('geotrav') . '/cookies.txt');
+	curl_setopt($ch, CURLOPT_COOKIEFILE, jeedom::getTmpFolder('geotrav') . '/cookies.txt');
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 3);
 	curl_setopt($ch, CURLOPT_HEADER, 1);
@@ -404,7 +405,7 @@ public static function google_callLocationUrl() {
 	$info = curl_getinfo($ch);
 	curl_close($ch);
 	$headers = self::get_headers_from_curl_response($response);
-	log::add('gsl', 'debug', __('Location data : Connection réussie, reponse : ', __FILE__) . $info['http_code']);
+	log::add('geotrav', 'debug', __('Location data : Connection réussie, reponse : ', __FILE__) . $info['http_code']);
 	if (empty($info['http_code']) || $info['http_code'] != 200) {
 		throw new Exception(__('Erreur données de localisation code retour invalide : ', __FILE__) . $info['http_code'] . ' => ' . json_encode($headers));
 	}
@@ -420,7 +421,7 @@ public static function google_callLocationUrl() {
 }
 
 public static function google_locationData() {
-	if (!file_exists(jeedom::getTmpFolder('gsl') . '/cookies.txt')) {
+	if (!file_exists(jeedom::getTmpFolder('geotrav') . '/cookies.txt')) {
 		self::google_connect();
 	}
 	try {
@@ -446,26 +447,26 @@ public static function google_locationData() {
 }
 
 public static function google_logout() {
-	if (!file_exists(jeedom::getTmpFolder('gsl') . '/cookies.txt')) {
+	if (!file_exists(jeedom::getTmpFolder('geotrav') . '/cookies.txt')) {
 		return;
 	}
-	unlink(jeedom::getTmpFolder('gsl') . '/cookies.txt');
+	unlink(jeedom::getTmpFolder('geotrav') . '/cookies.txt');
 }
 
 public static function google_connect() {
 	self::google_logout();
 	$data = array();
 	/*************************STAGE 1*******************************/
-	log::add('gsl', 'debug', __('Stage 1 : Connection à google', __FILE__));
+	log::add('geotrav', 'debug', __('Stage 1 : Connection à google', __FILE__));
 	$ch = curl_init('https://accounts.google.com/ServiceLogin?rip=1&nojavascript=1');
-	curl_setopt($ch, CURLOPT_COOKIEJAR, jeedom::getTmpFolder('gsl') . '/cookies.txt');
-	curl_setopt($ch, CURLOPT_COOKIEFILE, jeedom::getTmpFolder('gsl') . '/cookies.txt');
+	curl_setopt($ch, CURLOPT_COOKIEJAR, jeedom::getTmpFolder('geotrav') . '/cookies.txt');
+	curl_setopt($ch, CURLOPT_COOKIEFILE, jeedom::getTmpFolder('geotrav') . '/cookies.txt');
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 3);
 	curl_setopt($ch, CURLOPT_HEADER, 1);
 	$response = curl_exec($ch);
 	$info = curl_getinfo($ch);
-	log::add('gsl', 'debug', __('Stage 1 : Connection réussie, reponse : ', __FILE__) . $info['http_code']);
+	log::add('geotrav', 'debug', __('Stage 1 : Connection réussie, reponse : ', __FILE__) . $info['http_code']);
 	if (!empty($info['http_code']) && $info['http_code'] == 302) {
 		return true;
 	}
@@ -483,13 +484,13 @@ public static function google_connect() {
 		throw new Exception(__('Erreur stage 1 : champs gfx non trouvé', __FILE__));
 	}
 	$data['gfx'] = $matches[1][0];
-	log::add('gsl', 'debug', __('Stage 1 : Connection réussie, sauvegarde du cookie', __FILE__));
+	log::add('geotrav', 'debug', __('Stage 1 : Connection réussie, sauvegarde du cookie', __FILE__));
 
 	/*************************STAGE 2*******************************/
-	log::add('gsl', 'debug', __('Stage 2 : envoi du mail', __FILE__));
+	log::add('geotrav', 'debug', __('Stage 2 : envoi du mail', __FILE__));
 	$ch = curl_init("https://accounts.google.com/signin/v1/lookup");
-	curl_setopt($ch, CURLOPT_COOKIEJAR, jeedom::getTmpFolder('gsl') . '/cookies.txt');
-	curl_setopt($ch, CURLOPT_COOKIEFILE, jeedom::getTmpFolder('gsl') . '/cookies.txt');
+	curl_setopt($ch, CURLOPT_COOKIEJAR, jeedom::getTmpFolder('geotrav') . '/cookies.txt');
+	curl_setopt($ch, CURLOPT_COOKIEFILE, jeedom::getTmpFolder('geotrav') . '/cookies.txt');
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 3);
 	curl_setopt($ch, CURLOPT_HEADER, 1);
@@ -505,7 +506,7 @@ public static function google_connect() {
 		'pstMsg' => '0',
 		'checkConnection' => '',
 		'checkedDomains' => 'youtube',
-		'Email' => config::byKey('google_user', 'gsl'),
+		'Email' => config::byKey('google_user', 'geotrav'),
 		'identifiertoken' => '',
 		'identifiertoken_audio' => '',
 		'identifier-captcha-input' => '',
@@ -515,7 +516,7 @@ public static function google_connect() {
 	));
 	$response = curl_exec($ch);
 	$info = curl_getinfo($ch);
-	log::add('gsl', 'debug', __('Stage 2 : Connection réussie, reponse : ', __FILE__) . $info['http_code']);
+	log::add('geotrav', 'debug', __('Stage 2 : Connection réussie, reponse : ', __FILE__) . $info['http_code']);
 	if (empty($info['http_code']) || $info['http_code'] != 200) {
 		throw new Exception(__('Erreur stage 2 : code retour invalide : ', __FILE__) . $info['http_code']);
 	}
@@ -536,14 +537,14 @@ public static function google_connect() {
 		throw new Exception(__('Erreur stage 2 : champs SessionState non trouvé', __FILE__));
 	}
 	$data['SessionState'] = $matches[1][0];
-	log::add('gsl', 'debug', __('Stage 2 : Connection réussie, sauvegarde du cookie', __FILE__));
+	log::add('geotrav', 'debug', __('Stage 2 : Connection réussie, sauvegarde du cookie', __FILE__));
 
 	/*************************STAGE 3*******************************/
-	log::add('gsl', 'debug', __('Stage 3 : envoi du mot de passe', __FILE__));
+	log::add('geotrav', 'debug', __('Stage 3 : envoi du mot de passe', __FILE__));
 
 	$ch = curl_init("https://accounts.google.com/signin/challenge/sl/password");
-	curl_setopt($ch, CURLOPT_COOKIEJAR, jeedom::getTmpFolder('gsl') . '/cookies.txt');
-	curl_setopt($ch, CURLOPT_COOKIEFILE, jeedom::getTmpFolder('gsl') . '/cookies.txt');
+	curl_setopt($ch, CURLOPT_COOKIEJAR, jeedom::getTmpFolder('geotrav') . '/cookies.txt');
+	curl_setopt($ch, CURLOPT_COOKIEFILE, jeedom::getTmpFolder('geotrav') . '/cookies.txt');
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 3);
 	curl_setopt($ch, CURLOPT_HEADER, 1);
@@ -566,15 +567,15 @@ public static function google_connect() {
 		'_utf8' => '☃',
 		'bgresponse' => 'js_disabled',
 		'checkConnection' => '',
-		'Email' => config::byKey('google_user', 'gsl'),
+		'Email' => config::byKey('google_user', 'geotrav'),
 		'signIn' => 'Weiter',
-		'Passwd' => config::byKey('google_password', 'gsl'),
+		'Passwd' => config::byKey('google_password', 'geotrav'),
 		'PersistentCookie' => 'yes',
 		'rmShown' => '1',
 	));
 	$response = curl_exec($ch);
 	$info = curl_getinfo($ch);
-	log::add('gsl', 'debug', 'Stage 3 : Connection réussie, reponse : ' . $info['http_code']);
+	log::add('geotrav', 'debug', 'Stage 3 : Connection réussie, reponse : ' . $info['http_code']);
 	if (empty($info['http_code']) || $info['http_code'] != 302) {
 		throw new Exception(__('Erreur stage 3 : connection etablie mais echec de l\'autentification, code 302 attendu : ', __FILE__) . $info['http_code']);
 	}
