@@ -373,6 +373,9 @@ public static function getDevicesListIos($_id, $_username, $_password) {
 }
 
 public function refreshGoogle($_force = false) {
+	if (config::byKey('google_user', 'geotrav', '') == '' || config::byKey('google_password', 'geotrav', '') == '') {
+		return;
+	}
 	foreach (self::google_locationData() as $location) {
 		log::add('geotrav', 'debug', 'Update google shared : ' . print_r($location, true));
 		$eqLogic = eqLogic::byLogicalId($location['id'], 'geotrav');
