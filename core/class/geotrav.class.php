@@ -277,7 +277,6 @@ public function updateLocationGoogle($jsondata) {
 }
 
 public function getElevation($_coordinate) {
-	$lang = explode('_',config::byKey('language'));
 	$url = 'https://maps.googleapis.com/maps/api/elevation/json?&key=' . trim(config::byKey('keyGMG', 'geotrav')) . '&locations=' . $_coordinate;
 	$request_http = new com_http($url);
 	$data = $request_http->exec(30);
@@ -285,6 +284,7 @@ public function getElevation($_coordinate) {
 		log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 	}
 	$jsondata = json_decode($data, true);
+	log::add('geotrav', 'debug', 'Altitude ' . print_r($jsondata,true));
 	return $jsondata['results'][0]['elevation'];
 }
 
