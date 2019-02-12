@@ -361,6 +361,9 @@ public function refreshICloud($_force = false) {
 		log::add('geotrav', 'debug', "Error: ".$e->getMessage());
 		return;
 	}
+	if ($location->latitude == '') {
+		return;
+	}
 	if ($this->getConfiguration('autoIRefresh') == true || $_force == true) {
 		$this->updateGeocodingReverse($location->latitude.','.$location->longitude);
 	}
