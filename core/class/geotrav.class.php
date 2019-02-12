@@ -284,7 +284,7 @@ public function getElevation($_coordinate) {
 		log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 	}
 	$jsondata = json_decode($data, true);
-	log::add('geotrav', 'debug', 'Altitude ' . print_r($jsondata,true));
+	//log::add('geotrav', 'debug', 'Altitude ' . print_r($jsondata,true));
 	return $jsondata['results'][0]['elevation'];
 }
 

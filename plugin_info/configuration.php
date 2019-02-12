@@ -46,7 +46,7 @@ if (!isConnect()) {
                                 <input class="configKey form-control" data-l1key="keyNavitia" style="margin-top:5px" placeholder=""/>
                             </div>
                         </div>
-
+<!---
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Compte Google Shared</label>
                             <div class="col-lg-4">
@@ -60,6 +60,7 @@ if (!isConnect()) {
                                 <input class="configKey form-control" data-l1key="google_password" style="margin-top:5px" type="password"/>
                             </div>
                         </div>
+--->
 
                     </div>
                 </fieldset>
