@@ -272,7 +272,20 @@ public function updateLocationGoogle($jsondata) {
 		return;
 	}
 	$json['location:coordinate'] = $jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng'];
+	$json['location:elevation'] = $this->getElevation($json['location:coordinate']);
 	$this->updateLocationFinal($json);
+}
+
+public function getElevation($_coordinate) {
+	$lang = explode('_',config::byKey('language'));
+	$url = 'https://maps.googleapis.com/maps/api/elevation/json?&key=' . trim(config::byKey('keyGMG', 'geotrav')) . '&locations=' . $_coordinate;
+	$request_http = new com_http($url);
+	$data = $request_http->exec(30);
+	if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
+		log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
+	}
+	$jsondata = json_decode($data, true);
+	return $jsondata['results'][0]['elevation'];
 }
 
 public function updateStaticLoc() {
@@ -283,6 +296,7 @@ public function updateStaticLoc() {
 	$jsondata['location:zip'] = $this->getConfiguration('staticPostal');
 	$jsondata['location:country'] = $this->getConfiguration('staticCountry');
 	$jsondata['location:coordinate'] = $this->getConfiguration('staticGps');
+	$jsondata['location:elevation'] = $this->getConfiguration('staticElevation');
 	$this->updateLocationFinal($jsondata);
 }
 
@@ -859,7 +873,17 @@ public function toHtml($_version = 'dashboard') {
 		$replace['#hideArrivee#'] = ($this->getConfiguration('hideArrivee')) ? ' style="display:none"':'';
 		$replace['#showArrivee2#'] = !($this->getConfiguration('hideDepart')) ? ' style="display:none"':'';
 	}
-	$templatename = $this->getConfiguration('type');
+	switch ($this->getConfiguration('type')) {
+		case 'station':
+			$templatename = 'station';
+			break;
+		case 'travel':
+			$templatename = 'travel';
+			break;
+		default:
+			$templatename = 'location';
+			break;
+	}
 	return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'geotrav')));
 }
 }

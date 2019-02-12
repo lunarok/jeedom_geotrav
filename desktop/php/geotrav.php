@@ -318,6 +318,12 @@ $eqLogics = eqLogic::byType('geotrav');
 										<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticCountry" type="text" placeholder="{{saisir le pays}}"></span>
 									</div>
 								</div>
+								<div class="form-group static">
+									<label class="col-sm-2 control-label">{{Altitude}}</label>
+									<div class="col-sm-3">
+										<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticElevation" type="text" placeholder="{{saisir l'altitude}}"></span>
+									</div>
+								</div>
 
 							</div>
 							<div id="geofence" style="display:none">
