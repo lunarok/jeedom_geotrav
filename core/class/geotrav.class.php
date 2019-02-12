@@ -358,8 +358,8 @@ public function refreshICloud($_force = false) {
 		$fmi = new FindMyiPhone($this->getConfiguration('username'), $this->getConfiguration('password'));
 		$location = $fmi->locate($this->getConfiguration('device'));
 	} catch (Exception $e) {
-		print "Error: ".$e->getMessage();
-		exit;
+		log::add('geotrav', 'debug', "Error: ".$e->getMessage());
+		return;
 	}
 	if ($this->getConfiguration('autoIRefresh') == true || $_force == true) {
 		$this->updateGeocodingReverse($location->latitude.','.$location->longitude);
@@ -371,8 +371,8 @@ public static function getDevicesListIos($_id, $_username, $_password) {
 	try {
 		$fmi = new FindMyiPhone($_username, $_password);
 	} catch (Exception $e) {
-		print "Error: ".$e->getMessage();
-		exit;
+		log::add('geotrav', 'debug', "Error: ".$e->getMessage());
+		return;
 	}
 	$devicelist= array() ;
 	$i=0;
