@@ -228,7 +228,7 @@ $eqLogics = eqLogic::byType('geotrav');
 										<option value="coordinate" selected>{{Par Coordonnées}}</option>
 										<option value="address">{{Par Adresse}}</option>
 										<option value="cmdinfo">{{Par commande Jeedom}}</option>
-										<option value="static">{{Manuelle}}</option>
+										<option value="static">{{Manuel}}</option>
 									</select>
 								</div>
 							</div>
@@ -275,13 +275,13 @@ $eqLogics = eqLogic::byType('geotrav');
 								<div class="form-group static">
 									<label class="col-sm-2 control-label">{{Coordonnées}}</label>
 									<div class="col-sm-3">
-										<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticGps" type="text" placeholder="{{saisir les coordonnées GPS}}"></span>
+										<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticGps" type="text" placeholder="{{latitude,longitude}}"></span>
 									</div>
 								</div>
 								<div class="form-group static">
 									<label class="col-sm-2 control-label">{{Rue}}</label>
 									<div class="col-sm-3">
-										<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticStreet" type="text" placeholder="{{saisir le nuémro et rue}}"></span>
+										<input class="eqLogicAttr" data-l1key="configuration" data-l2key="staticStreet" type="text" placeholder="{{saisir le numéro et la rue}}"></span>
 									</div>
 								</div>
 								<div class="form-group static">
@@ -336,7 +336,7 @@ $eqLogics = eqLogic::byType('geotrav');
 									<div class="col-sm-3">
 										<?php
 										foreach (eqLogic::byType('geotrav', true) as $location) {
-											if ($location->getConfiguration('type') == 'location') {
+											if ($location->getConfiguration('type') == 'location' || $location->getConfiguration('type') == 'iCloud') {
 												echo '<label class="checkbox-inline">';
 												echo '<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="geofence:' . $location->getId() . '" />' . $location->getName();
 												echo '</label>';
