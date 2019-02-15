@@ -6,6 +6,7 @@ $location = array();
 $travel = array();
 $geofence = array();
 $station = array();
+$iCloud = array();
 foreach (eqLogic::byType('geotrav') as $eqLogic) {
 	if ($eqLogic->getIsEnable() == 0 || $eqLogic->getIsVisible() == 0) {
 		continue;
@@ -21,6 +22,9 @@ foreach (eqLogic::byType('geotrav') as $eqLogic) {
 	}
 	if ($eqLogic->getConfiguration('type') == 'station') {
 		$station[] = $eqLogic;
+	}
+	if ($eqLogic->getConfiguration('type') == 'iCloud') {
+		iCloud[] = $eqLogic;
 	}
 }
 ?>
