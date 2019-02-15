@@ -382,7 +382,7 @@ $eqLogics = eqLogic::byType('geotrav');
 										<select class="form-control eqLogicAttr configuration" data-l1key="configuration" data-l2key="travelDeparture">
 											<?php
 											foreach (eqLogic::byType('geotrav', true) as $location) {
-												if ($location->getConfiguration('type') == 'location') {
+												if ($location->getConfiguration('type') == 'location' || $eqLogic->getConfiguration('type') == 'iCloud') {
 													echo '<option value="' . $location->getId() . '">' . $location->getName() . '</option>';
 												}
 											}
@@ -396,7 +396,7 @@ $eqLogics = eqLogic::byType('geotrav');
 										<select class="form-control eqLogicAttr configuration" data-l1key="configuration" data-l2key="travelArrival">
 											<?php
 											foreach (eqLogic::byType('geotrav', true) as $location) {
-												if ($location->getConfiguration('type') == 'location') {
+												if ($location->getConfiguration('type') == 'location' || $eqLogic->getConfiguration('type') == 'iCloud') {
 													echo '<option value="' . $location->getId() . '">' . $location->getName() . '</option>';
 												}
 											}
