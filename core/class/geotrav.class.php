@@ -670,25 +670,51 @@ public function refreshTravel($param = 'none') {
 	if (!isset($jsondata['routes'][0])) {
 		return;
 	}
-	if (isset($jsondata['routes'][0]['legs'][0]['duration_in_traffic']['value'])) {
-		$duration = round($jsondata['routes'][0]['legs'][0]['duration_in_traffic']['value'] / 60);
-	} else {
-		$duration = round($jsondata['routes'][0]['legs'][0]['duration']['value'] / 60);
+
+	/*********************************/
+	$duration = 0;
+	$distance = 0;
+	$etapes = '';
+	foreach ($jsondata['routes'][0]['legs'] as $legs) {
+		if (isset($legs['duration_in_traffic']['value'])) {
+			$duration += $legs['duration_in_traffic']['value'];
+		} else {
+			$duration += $legs['duration']['value'];
+		}
+
+		$distance += $legs['distance']['value'];
+
+		foreach ($legs['steps'] as $elt) {
+			$etapes .= $elt['html_instructions'] . '(' . $elt['distance']['text'] . ' ' . $elt['duration']['text'] . ')';
+		}
 	}
-	$this->checkAndUpdateCmd('travel:distance', round($jsondata['routes'][0]['legs'][0]['distance']['value'] / 1000, 2));
+	$duration = round($duration / 60);
+	$distance = round($distance / 1000, 2);
+
+	$this->checkAndUpdateCmd('travel:distance', $distance);
 	$this->checkAndUpdateCmd('travel:time', $duration);
-	$etapes = '';
-	foreach ($jsondata['routes'][0]['legs'][0]['steps'] as $elt) {
-		$etapes .= $elt['html_instructions'] . '(' . $elt['distance']['text'] . ' ' . $elt['duration']['text'] . ')';
-	}
 	$this->checkAndUpdateCmd('travel:steps', $etapes);
-	$this->checkAndUpdateCmd('travel:distanceback', round($jsondata2['routes'][0]['legs'][0]['distance']['value'] / 1000, 2));
-	$this->checkAndUpdateCmd('travel:timeback', round($jsondata2['routes'][0]['legs'][0]['duration']['value'] / 60));
-	$etapes = '';
-	foreach ($jsondata2['routes'][0]['legs'][0]['steps'] as $elt) {
-		$etapes .= $elt['html_instructions'] . '(' . $elt['distance']['text'] . ' ' . $elt['duration']['text'] . ')';
+
+	/*********************************/
+	$durationBack = 0;
+	$distanceback = 0;
+	$etapesBack = '';
+	foreach ($jsondata2['routes'][0]['legs'] as $legs) {
+		$durationBack += $legs['duration']['value'];
+		$distanceback += $legs['distance']['value'];
+
+		foreach ($legs['steps'] as $elt) {
+			$etapesBack .= $elt['html_instructions'] . '(' . $elt['distance']['text'] . ' ' . $elt['duration']['text'] . ')';
+		}
 	}
-	$this->checkAndUpdateCmd('travel:stepsback', $etapes);
+	$durationBack = round($durationBack / 60);
+	$distanceback = round($distanceback / 1000, 2);
+
+	$this->checkAndUpdateCmd('travel:distanceback', $distanceback);
+	$this->checkAndUpdateCmd('travel:timeback', $durationBack);
+	$this->checkAndUpdateCmd('travel:stepsback', $etapesBack);
+
+	/*********************************/
 	$this->checkAndUpdateCmd('travel:departureCoordinate', $departureEq->getConfiguration('coordinate'));
 	$this->checkAndUpdateCmd('travel:arrivalCoordinate', $arrivalEq->getConfiguration('coordinate'));
 }
