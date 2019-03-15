@@ -24,7 +24,7 @@ foreach (eqLogic::byType('geotrav') as $eqLogic) {
 		$station[] = $eqLogic;
 	}
 	if ($eqLogic->getConfiguration('type') == 'iCloud') {
-		iCloud[] = $eqLogic;
+		$iCloud[] = $eqLogic;
 	}
 }
 ?>
