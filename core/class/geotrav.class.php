@@ -305,7 +305,7 @@ public function updateLocationFinal($jsondata = array()) {
 	$geoexpl = explode(',', $jsondata['location:coordinate']);
 	$jsondata['location:latitude'] = $geoexpl[0];
 	$jsondata['location:longitude'] = $geoexpl[1];
-	if ($jsondata['location:country'] == 'France') {
+	if (!strcasecmp($jsondata['location:country'] , 'France')) {
 		$department = substr($jsondata['location:zip'], 0, 2);
 		if ($department == '20') {
 			if ((int) $jsondata['location:zip'] >= 20200) {
