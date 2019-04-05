@@ -637,6 +637,10 @@ public function refreshTravel($param = 'none') {
 	}
 	$departureEq = geotrav::byId($this->getConfiguration('travelDeparture'));
 	$arrivalEq = geotrav::byId($this->getConfiguration('travelArrival'));
+	/*********************************/
+	$this->checkAndUpdateCmd('travel:departureCoordinate', $departureEq->getConfiguration('coordinate'));
+	$this->checkAndUpdateCmd('travel:arrivalCoordinate', $arrivalEq->getConfiguration('coordinate'));
+	/*********************************/
 	$url = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($departureEq->getConfiguration('coordinate')) . '&destination=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyGMG', 'geotrav'));
 	$url2 = 'https://maps.googleapis.com/maps/api/directions/json?origin=' . urlencode($arrivalEq->getConfiguration('coordinate')) . '&destination=' . urlencode($departureEq->getConfiguration('coordinate')) . '&language=fr&key=' . trim(config::byKey('keyGMG', 'geotrav'));
 	$options = array();
@@ -668,6 +672,7 @@ public function refreshTravel($param = 'none') {
 	$jsondata2 = json_decode($data, true);
 	log::add('geotrav', 'debug', 'Travel ' . $url);
 	if (!isset($jsondata['routes'][0])) {
+		log::add('geotrav', 'debug', __FUNCTION__ .' No route');
 		return;
 	}
 
@@ -713,10 +718,6 @@ public function refreshTravel($param = 'none') {
 	$this->checkAndUpdateCmd('travel:distanceback', $distanceback);
 	$this->checkAndUpdateCmd('travel:timeback', $durationBack);
 	$this->checkAndUpdateCmd('travel:stepsback', $etapesBack);
-
-	/*********************************/
-	$this->checkAndUpdateCmd('travel:departureCoordinate', $departureEq->getConfiguration('coordinate'));
-	$this->checkAndUpdateCmd('travel:arrivalCoordinate', $arrivalEq->getConfiguration('coordinate'));
 }
 
 public function refreshStation($param = 'none') {
