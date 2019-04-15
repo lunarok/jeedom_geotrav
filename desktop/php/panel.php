@@ -34,7 +34,7 @@ foreach (eqLogic::byType('geotrav') as $eqLogic) {
 	if (count($travel) > 0) {
 		echo '<div class="col-md-6">';
 	} else {
-		echo '<div class="col-md-12"><i class="fa fa-pencil pull-right cursor reportModeHidden" id="bt_editDashboardWidgetOrder" data-mode="0" style="margin-right : 10px;margin-top:7px;"></i>';
+		echo '<div class="col-md-12"><i class="fas fa-pencil pull-right cursor reportModeHidden" id="bt_editDashboardWidgetOrder" data-mode="0" style="margin-right : 10px;margin-top:7px;"></i>';
 	}
 	?>
       <legend><i class="icon nature-planet5"></i> {{Localisations}}</legend>
@@ -49,7 +49,7 @@ foreach ($location as $eqLogic) {
 <?php }?>
 <?php if (count($travel) > 0) {
 	if (count($location) > 0) {
-		echo '<div class="col-md-6"><i class="fa fa-pencil pull-right cursor reportModeHidden" id="bt_editDashboardWidgetOrder" data-mode="0" style="margin-right : 10px;margin-top:7px;"></i>';
+		echo '<div class="col-md-6"><i class="fas fa-pencil pull-right cursor reportModeHidden" id="bt_editDashboardWidgetOrder" data-mode="0" style="margin-right : 10px;margin-top:7px;"></i>';
 	} else {
 		echo '<div class="col-md-12">';
 	}
