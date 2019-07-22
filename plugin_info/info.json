@@ -4,7 +4,7 @@
 	"description" : "Plugin permettant de gérer ses positions et les informations liées (adresse, département, coordonnées ...) Mais aussi les trajets en voiture, vélo, à pied, transports. Les prochains départs et arrivées à une station de transports. Et enfin le geofencing.",
 	"licence" : "AGPL",
 	"author" : "lunarok",
-	"require" : "3.0",
+	"require" : "3.3.24",
 	"category" : "organization",
 	"display" : "panel",
 	"mobile" : "panel",
