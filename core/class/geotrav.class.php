@@ -25,6 +25,15 @@ if (!class_exists('FindMyiPhone')) {
 class geotrav extends eqLogic {
 	public static $_widgetPossibility = array('custom' => true);
 
+	public static function start() {
+		foreach (eqLogic::byType('geotrav', true) as $location) {
+			if ($location->getConfiguration('type') == 'location') {
+				$location->refresh(true);
+			}
+		}
+		geotrav::refreshGoogle();
+	}
+	
 	public static function cron15() {
 		foreach (eqLogic::byType('geotrav', true) as $location) {
 			$location->refresh();
