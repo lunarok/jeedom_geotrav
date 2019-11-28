@@ -218,8 +218,12 @@ public function updateGeocodingReverse($geoloc) {
 	if ($this->getConfiguration('reverse')) {
 		$lang = explode('_',config::byKey('language'));
 		$url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&language=' . $lang[0] . '&key=' . config::byKey('keyGMG', 'geotrav');
-		$request_http = new com_http($url);
-		$data = $request_http->exec(30);
+    $request_http = new com_http($url);
+    $request_http->setNoReportError(true);
+    $data = $request_http->exec(8);
+    if ($data == '') {
+      return;
+    }
 		if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
 			log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 			return;
@@ -244,8 +248,12 @@ public function updateGeocoding($address) {
 	}
 	$lang = explode('_',config::byKey('language'));
 	$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&language=' . $lang[0] . '&key=' . trim(config::byKey('keyGMG', 'geotrav'));
-	$request_http = new com_http($url);
-	$data = $request_http->exec(30);
+  $request_http = new com_http($url);
+  $request_http->setNoReportError(true);
+  $data = $request_http->exec(8);
+  if ($data == '') {
+    return;
+  }
 	if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
 		log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 	}
@@ -287,8 +295,12 @@ public function updateLocationGoogle($jsondata) {
 
 public function getElevation($_coordinate) {
 	$url = 'https://maps.googleapis.com/maps/api/elevation/json?&key=' . trim(config::byKey('keyGMG', 'geotrav')) . '&locations=' . $_coordinate;
-	$request_http = new com_http($url);
-	$data = $request_http->exec(30);
+  $request_http = new com_http($url);
+  $request_http->setNoReportError(true);
+  $data = $request_http->exec(8);
+  if ($data == '') {
+    return;
+  }
 	if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
 		log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 	}
@@ -668,15 +680,23 @@ public function refreshTravel($param = 'none') {
 		$url .= '&' . $key . '=' . $value;
 		$url2 .= '&' . $key . '=' . $value;
 	}
-	$request_http = new com_http($url);
-	$data = $request_http->exec(30);
+  $request_http = new com_http($url);
+  $request_http->setNoReportError(true);
+  $data = $request_http->exec(8);
+  if ($data == '') {
+    return;
+  }
 	//$data = file_get_contents($url);
 	if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
 		log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 	}
 	$jsondata = json_decode($data, true);
-	$request_http = new com_http($url2);
-	$data = $request_http->exec(30);
+  $request_http = new com_http($url2);
+  $request_http->setNoReportError(true);
+  $data = $request_http->exec(8);
+  if ($data == '') {
+    return;
+  }
 	//$data = file_get_contents($url2);
 	$jsondata2 = json_decode($data, true);
 	log::add('geotrav', 'debug', 'Travel ' . $url);
@@ -765,9 +785,12 @@ public function refreshStation($param = 'none') {
 				$urldepart .= $key . '=' . $value . '&';
 			}
 		}
-		$request_http = new com_http($urldepart);
-		$data = $request_http->exec(30);
-		//$data = file_get_contents($urldepart);
+    $request_http = new com_http($urldepart);
+    $request_http->setNoReportError(true);
+    $data = $request_http->exec(8);
+    if ($data == '') {
+      return;
+    }
 		$jsondata = json_decode($data, true);
 		log::add('geotrav', 'debug', 'Station:Départs ' . $urldepart . print_r($jsondata, true));
 		if (isset($jsondata['departures'][0])) {
@@ -808,8 +831,12 @@ public function refreshStation($param = 'none') {
 				$urldepart .= $key . '=' . $value . '&';
 			}
 		}
-		$request_http = new com_http($urldepart);
-		$data = $request_http->exec(30);
+    $request_http = new com_http($urldepart);
+    $request_http->setNoReportError(true);
+    $data = $request_http->exec(8);
+    if ($data == '') {
+      return;
+    }
 		//$data = file_get_contents($urldepart);
 		$jsondata = json_decode($data, true);
 		log::add('geotrav', 'debug', 'Station:Arrivées ' . $urldepart . print_r($jsondata, true));
