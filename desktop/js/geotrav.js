@@ -46,7 +46,7 @@ $('#typeLoc').change(function(){
   }
   if (text == 'cmdinfo') {
     $('#coordinate').hide();
-    $('#noreverse').hide();
+    $('#noreverse').show();
     $('#address').hide();
     $('#cmdgeoloc').show();
     $('#autoRefresh').show();
