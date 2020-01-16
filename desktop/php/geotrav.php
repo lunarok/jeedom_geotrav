@@ -24,15 +24,15 @@ $eqLogics = eqLogic::byType('geotrav');
     <legend><i class="fas fa-cog"></i>  {{Gestion}}</legend>
     <div class="eqLogicThumbnailContainer">
       <div class="cursor eqLogicAction" data-action="add">
-          <i class="fas fa-plus-circle" style="color:#00979c;"></i>
+          <i class="fas fa-plus-circle"></i>
           <br/>
-        <span style="color:#00979c">{{Ajouter}}</span>
+        <span>{{Ajouter}}</span>
       </div>
 
       <div class="cursor eqLogicAction" data-action="gotoPluginConf">
-          <i class="fas fa-wrench" style="font-size : 6em;color:#00979c;"></i>
+          <i class="fas fa-wrench"></i>
           <br/>
-        <span style="color:#00979c">{{Configuration}}></span>
+        <span>{{Configuration}}</span>
       </div>  <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
 
 
