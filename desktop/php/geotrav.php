@@ -19,8 +19,21 @@ $eqLogics = eqLogic::byType('geotrav');
     </div>
   </div>
 
-  <div class="col-lg-12 eqLogicThumbnailDisplay" id="listCol">
-  <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
+	<div class="col-lg-12 eqLogicThumbnailDisplay" id="listCol">
+
+    <legend><i class="fas fa-cog"></i>  {{Gestion}}</legend>
+    <div class="eqLogicThumbnailContainer">
+      <div class="cursor eqLogicAction" data-action="add">
+          <i class="fas fa-plus-circle" style="color:#00979c;"></i>
+          <br/>
+        <span style="color:#00979c">{{Ajouter}}</span>
+      </div>
+
+      <div class="cursor eqLogicAction" data-action="gotoPluginConf">
+          <i class="fas fa-wrench" style="font-size : 6em;color:#00979c;"></i>
+          <br/>
+        <span style="color:#00979c">{{Configuration}}></span>
+      </div>  <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
 
 
 		<legend><i class="fas fa-cog"></i>  {{Gestion}}</legend>
@@ -41,18 +54,16 @@ $eqLogics = eqLogic::byType('geotrav');
 				<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>Ajouter</center></span>
 			</div>
 			<?php
-			foreach ($eqLogics as $eqLogic) {
-				if ($eqLogic->getConfiguration('type') == 'location') {
-					$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
-					echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff ; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
-					echo "<center>";
-					echo '<img src="plugins/geotrav/plugin_info/geotrav_location.png" height="105" width="95" />';
-					echo "</center>";
-					echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
-					echo '</div>';
-				}
-			}
-			?>
+      foreach ($eqLogics as $eqLogic) {
+        $opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
+        echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff ; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
+        echo "<center>";
+        echo '<img src="plugins/geotrav/plugin_info/geotrav_icon.png" height="105" width="95" />';
+        echo "</center>";
+        echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
+        echo '</div>';
+      }
+      ?>
 		</div>
 		<legend><i class="icon nature-planet5"></i> {{Trajets entre localisations}}</legend>
 		<div class="eqLogicThumbnailContainer">
