@@ -28,6 +28,7 @@ $eqLogics = eqLogic::byType('geotrav');
           <br/>
         <span>{{Ajouter}}</span>
       </div>
+	    </div>
 
       <div class="cursor eqLogicAction" data-action="gotoPluginConf">
           <i class="fas fa-wrench"></i>
