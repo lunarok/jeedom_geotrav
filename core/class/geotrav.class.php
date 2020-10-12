@@ -179,7 +179,7 @@ public function updateGeofencingCmd() {
 				$geotravcmd = geotravCmd::byEqLogicIdAndLogicalId($this->getId(), 'geofence:' . $geotrav->getId() . ':presence');
 				if (!is_object($geotravcmd)) {
 					$geotravcmd = new geotravCmd();
-					$geotravcmd->setName(__('PrÃ©sence ' . $geotrav->getName(), __FILE__));
+					$geotravcmd->setName(__('Présence ' . $geotrav->getName(), __FILE__));
 					$geotravcmd->setEqLogic_id($this->id);
 					$geotravcmd->setLogicalId('geofence:' . $geotrav->getId() . ':presence');
 					$geotravcmd->setType('info');
@@ -213,7 +213,7 @@ public function updateGeocodingReverse($geoloc) {
 		return;
 	}
 	if ($geoloc == '' || strrpos($geoloc, ',') === false) {
-		log::add('geotrav', 'error', 'CoordonnÃ©es invalides ' . $geoloc);
+		log::add('geotrav', 'error', 'Coordonnées invalides ' . $geoloc);
 		return;
 	}
 	if ($this->getConfiguration('reverse')) {
@@ -226,11 +226,11 @@ public function updateGeocodingReverse($geoloc) {
       return;
     }
 		if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
-			log::add('geotrav', 'debug', 'Erreur sur la rÃ©cupÃ©ration API ' . $url);
+			log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 			return;
 		}
 		$jsondata = json_decode($data, true);
-		log::add('geotrav', 'debug', 'Resultat ' . $url . ' ' . print_r($jsondata, true));
+		log::add('geotrav', 'debug', 'Résultat ' . $url . ' ' . print_r($jsondata, true));
 	} else {
 		$geoexpl = explode(',', $geoloc);
 		$jsondata['results'][0]['geometry']['location']['lat'] = $geoexpl[0];
@@ -256,7 +256,7 @@ public function updateGeocoding($address) {
     return;
   }
 	if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
-		log::add('geotrav', 'debug', 'Erreur sur la rÃ©cupÃ©ration API ' . $url);
+		log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 	}
 	$jsondata = json_decode($data, true);
 	log::add('geotrav', 'debug', 'Adresse ' . $address . ' ' . $data);
@@ -286,7 +286,7 @@ public function updateLocationGoogle($jsondata) {
 		$json['location:zip'] = 'NA';
 		$json['location:country'] = $jsondata['results'][0]['address_components'][3]['long_name'];
 	} else {
-		log::add('geotrav', 'debug', 'ProblÃ¨me avec adresse');
+		log::add('geotrav', 'debug', 'Problème avec adresse');
 		return;
 	}
 	$json['location:coordinate'] = $jsondata['results'][0]['geometry']['location']['lat'] . ',' . $jsondata['results'][0]['geometry']['location']['lng'];
@@ -303,7 +303,7 @@ public function getElevation($_coordinate) {
     return;
   }
 	if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
-		log::add('geotrav', 'debug', 'Erreur sur la rÃ©cupÃ©ration API ' . $url);
+		log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 	}
 	$jsondata = json_decode($data, true);
 	//log::add('geotrav', 'debug', 'Altitude ' . print_r($jsondata,true));
@@ -448,17 +448,17 @@ public static function google_callLocationUrl() {
 	$info = curl_getinfo($ch);
 	curl_close($ch);
 	$headers = self::get_headers_from_curl_response($response);
-	log::add('geotrav', 'debug', __('Location data : Connection rÃ©ussie, reponse : ', __FILE__) . $info['http_code']);
+	log::add('geotrav', 'debug', __('Location data : Connection réussie, reponse : ', __FILE__) . $info['http_code']);
 	if (empty($info['http_code']) || $info['http_code'] != 200) {
-		throw new Exception(__('Erreur donnÃ©es de localisation code retour invalide : ', __FILE__) . $info['http_code'] . ' => ' . json_encode($headers));
+		throw new Exception(__('Erreur données de localisation code retour invalide : ', __FILE__) . $info['http_code'] . ' => ' . json_encode($headers));
 	}
 	$result = substr($response, $info['header_size'] + 4);
 	if (!is_json($result)) {
-		throw new Exception(__('Erreur donnÃ©es de localisation n\'est pas un json valide : ', __FILE__) . $result);
+		throw new Exception(__('Erreur données de localisation n\'est pas un json valide : ', __FILE__) . $result);
 	}
 	$result = json_decode($result, true);
 	if (!isset($result[0])) {
-		throw new Exception(__('Erreur donnÃ©es de localisation invalide ou vide : ', __FILE__) . json_encode($result));
+		throw new Exception(__('Erreur données de localisation invalide ou vide : ', __FILE__) . json_encode($result));
 	}
 	return $result;
 }
@@ -509,7 +509,7 @@ public static function google_connect() {
 	curl_setopt($ch, CURLOPT_HEADER, 1);
 	$response = curl_exec($ch);
 	$info = curl_getinfo($ch);
-	log::add('geotrav', 'debug', __('Stage 1 : Connection rÃ©ussie, reponse : ', __FILE__) . $info['http_code']);
+	log::add('geotrav', 'debug', __('Stage 1 : Connection réussie, réponse : ', __FILE__) . $info['http_code']);
 	if (!empty($info['http_code']) && $info['http_code'] == 302) {
 		return true;
 	}
@@ -524,10 +524,10 @@ public static function google_connect() {
 	$data['cookie'] = array('google.com' => self::processCookies($headers['Set-Cookie']));
 	preg_match_all('/<input type="hidden" name="gxf" value="(.*?)">/m', $response, $matches);
 	if (!isset($matches[1]) || !isset($matches[1][0])) {
-		throw new Exception(__('Erreur stage 1 : champs gfx non trouvÃ©', __FILE__));
+		throw new Exception(__('Erreur stage 1 : champs gfx non trouvé', __FILE__));
 	}
 	$data['gfx'] = $matches[1][0];
-	log::add('geotrav', 'debug', __('Stage 1 : Connection rÃ©ussie, sauvegarde du cookie', __FILE__));
+	log::add('geotrav', 'debug', __('Stage 1 : Connection réussie, sauvegarde du cookie', __FILE__));
 
 	/*************************STAGE 2*******************************/
 	log::add('geotrav', 'debug', __('Stage 2 : envoi du mail', __FILE__));
@@ -559,7 +559,7 @@ public static function google_connect() {
 	));
 	$response = curl_exec($ch);
 	$info = curl_getinfo($ch);
-	log::add('geotrav', 'debug', __('Stage 2 : Connection rÃ©ussie, reponse : ', __FILE__) . $info['http_code']);
+	log::add('geotrav', 'debug', __('Stage 2 : Connection réussie, réponse : ', __FILE__) . $info['http_code']);
 	if (empty($info['http_code']) || $info['http_code'] != 200) {
 		throw new Exception(__('Erreur stage 2 : code retour invalide : ', __FILE__) . $info['http_code']);
 	}
@@ -571,16 +571,16 @@ public static function google_connect() {
 
 	preg_match_all('/<input id="profile-information" name="ProfileInformation" type="hidden" value="(.*?)">/m', $response, $matches);
 	if (!isset($matches[1]) || !isset($matches[1][0])) {
-		throw new Exception(__('Erreur stage 2 : champs ProfileInformation non trouvÃ©', __FILE__));
+		throw new Exception(__('Erreur stage 2 : champs ProfileInformation non trouvé', __FILE__));
 	}
 	$data['ProfileInformation'] = $matches[1][0];
 
 	preg_match_all('/<input id="session-state" name="SessionState" type="hidden" value="(.*?)">/m', $response, $matches);
 	if (!isset($matches[1]) || !isset($matches[1][0])) {
-		throw new Exception(__('Erreur stage 2 : champs SessionState non trouvÃ©', __FILE__));
+		throw new Exception(__('Erreur stage 2 : champs SessionState non trouvé', __FILE__));
 	}
 	$data['SessionState'] = $matches[1][0];
-	log::add('geotrav', 'debug', __('Stage 2 : Connection rÃ©ussie, sauvegarde du cookie', __FILE__));
+	log::add('geotrav', 'debug', __('Stage 2 : Connection réussie, sauvegarde du cookie', __FILE__));
 
 	/*************************STAGE 3*******************************/
 	log::add('geotrav', 'debug', __('Stage 3 : envoi du mot de passe', __FILE__));
@@ -618,7 +618,7 @@ public static function google_connect() {
 	));
 	$response = curl_exec($ch);
 	$info = curl_getinfo($ch);
-	log::add('geotrav', 'debug', 'Stage 3 : Connection rÃ©ussie, reponse : ' . $info['http_code']);
+	log::add('geotrav', 'debug', 'Stage 3 : Connection réussie, reponse : ' . $info['http_code']);
 	if (empty($info['http_code']) || $info['http_code'] != 302) {
 		throw new Exception(__('Erreur stage 3 : connection etablie mais echec de l\'autentification, code 302 attendu : ', __FILE__) . $info['http_code']);
 	}
@@ -689,7 +689,7 @@ public function refreshTravel($param = 'none') {
   }
 	//$data = file_get_contents($url);
 	if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
-		log::add('geotrav', 'debug', 'Erreur sur la rÃ©cupÃ©ration API ' . $url);
+		log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 	}
 	$jsondata = json_decode($data, true);
   $request_http = new com_http($url2);
@@ -752,7 +752,7 @@ public function refreshTravel($param = 'none') {
 
 public function refreshStation($param = 'none') {
 	if (config::byKey('keyNavitia', 'geotrav') == '') {
-		log::add('geotrav', 'debug', 'Vous devez remplir la clef API Navitia pour les Ã©quipements transports en commun');
+		log::add('geotrav', 'debug', 'Vous devez remplir la clef API Navitia pour les équipements transports en commun');
 		return;
 	}
 	$loc = urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'), 'location:longitude')->execCmd()) . ';' . urlencode(geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('stationPoint'), 'location:latitude')->execCmd());
@@ -793,7 +793,7 @@ public function refreshStation($param = 'none') {
       return;
     }
 		$jsondata = json_decode($data, true);
-		log::add('geotrav', 'debug', 'Station:DÃ©parts ' . $urldepart . print_r($jsondata, true));
+		log::add('geotrav', 'debug', 'Station:Départs ' . $urldepart . print_r($jsondata, true));
 		if (isset($jsondata['departures'][0])) {
 			$this->checkAndUpdateCmd('station:1direction', $jsondata['departures'][0]['display_informations']['direction']);
 			$this->checkAndUpdateCmd('station:1time', substr($jsondata['departures'][0]['stop_date_time']['departure_date_time'], 9, 4));
@@ -840,7 +840,7 @@ public function refreshStation($param = 'none') {
     }
 		//$data = file_get_contents($urldepart);
 		$jsondata = json_decode($data, true);
-		log::add('geotrav', 'debug', 'Station:ArrivÃ©es ' . $urldepart . print_r($jsondata, true));
+		log::add('geotrav', 'debug', 'Station:Arrivées ' . $urldepart . print_r($jsondata, true));
 		if (isset($jsondata['arrivals'][0])) {
 			$this->checkAndUpdateCmd('station:arrival1direction', $jsondata['arrivals'][0]['display_informations']['direction']);
 			$this->checkAndUpdateCmd('station:arrival1time', substr($jsondata['arrivals'][0]['stop_date_time']['departure_date_time'], 9, 4));
@@ -877,7 +877,7 @@ public function updateGeofenceValues($id, $coord) {
 	$origin = geotrav::byId($this->getConfiguration('zoneOrigin'));
 	$coordinate1 = explode(',', $coord);
 	$coordinate2 = explode(',', $origin->getConfiguration('coordinate'));
-	$earth_radius = 6378137; // Terre = sphÃ¨re de 6378km de rayon
+	$earth_radius = 6378137; // Terre = sphère de 6378km de rayon
 	$rlo1 = deg2rad($coordinate1[1]);
 	$rla1 = deg2rad($coordinate1[0]);
 	$rlo2 = deg2rad($coordinate2[1]);
@@ -980,7 +980,7 @@ class geotravCmd extends cmd {
 			$eqLogic->refreshStation($_options['message']);
 			break;
 			case 'location:refreshiCloud':
-			$eqLogic->refreshICloud(true);// ($_options['message']);
+			$eqLogic->refreshICloud(true);
 			break;
       
 		}
