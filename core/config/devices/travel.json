@@ -1,7 +1,7 @@
 {
     "name": "travel",
     "commands": [
-        {
+	 {
             "name": "Rafraichir",
             "type": "action",
             "subtype": "other",
@@ -9,11 +9,11 @@
 				"generic_type": "DONT"
             },
             "configuration": {
-				"type": "travel"
+				"type": "location"
             },
-            "logicalId": "travel:refresh"
+            "logicalId": "location:refreshiCloud"
         },
-        {
+	{
             "name": "Rafraichir avec options",
             "type": "action",
             "subtype": "message",
