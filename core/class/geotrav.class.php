@@ -673,6 +673,7 @@ public function refreshTravel($param = 'none') {
 	if ($param != 'none') {
 		$options = arg2array($param);
 	}
+	$optionsURL='';
 	foreach ($options as $key => $value) {
 		if ($key == 'departure_time' || $key == 'arrival_time') {
 			$value = substr_replace($value, ':', -2, 0);
@@ -680,13 +681,20 @@ public function refreshTravel($param = 'none') {
 		}
 		$url .= '&' . $key . '=' . $value;
 		$url2 .= '&' . $key . '=' . $value;
+		$optionsURL .= '&' . $key . '=' . $value;
+		log::add('geotrav', 'debug', 'key : ' . $key . ' ==> ' . $value);
 	}
+
+	$this->checkAndUpdateCmd('travel:optionsURL', $optionsURL);
+	log::add('geotrav','debug','Option URL : ' . $optionsURL);
+
   $request_http = new com_http($url);
   $request_http->setNoReportError(true);
   $data = $request_http->exec(8);
   if ($data == '') {
     return;
   }
+
 	//$data = file_get_contents($url);
 	if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
 		log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);

@@ -126,6 +126,18 @@
 				"type": "travel"
             },
             "logicalId": "travel:arrivalCoordinate"
+        },
+        {
+            "name": "Options de voyage",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "travel"
+            },
+            "logicalId": "travel:optionsURL"
         }
     ]
 }
