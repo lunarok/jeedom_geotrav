@@ -25,6 +25,15 @@ if (!class_exists('FindMyiPhone')) {
 class geotrav extends eqLogic {
 	public static $_widgetPossibility = array('custom' => true);
 
+	public static function start() {
+		foreach (eqLogic::byType('geotrav', true) as $location) {
+			if ($location->getConfiguration('type') == 'location') {
+				$location->refresh(true);
+			}
+		}
+		geotrav::refreshGoogle();
+	}
+	
 	public static function cron15() {
 		foreach (eqLogic::byType('geotrav', true) as $location) {
 			$location->refresh();
@@ -64,6 +73,7 @@ class geotrav extends eqLogic {
 	}
 
 	public function refresh($_force = false) {
+   
 		switch ($this->getConfiguration('type')) {
 			case 'station':
 			$this->refreshStation();
@@ -209,14 +219,18 @@ public function updateGeocodingReverse($geoloc) {
 	if ($this->getConfiguration('reverse')) {
 		$lang = explode('_',config::byKey('language'));
 		$url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $geoloc . '&language=' . $lang[0] . '&key=' . config::byKey('keyGMG', 'geotrav');
-		$request_http = new com_http($url);
-		$data = $request_http->exec(30);
+    $request_http = new com_http($url);
+    $request_http->setNoReportError(true);
+    $data = $request_http->exec(8);
+    if ($data == '') {
+      return;
+    }
 		if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
 			log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 			return;
 		}
 		$jsondata = json_decode($data, true);
-		log::add('geotrav', 'debug', 'Resultat ' . $url . ' ' . print_r($jsondata, true));
+		log::add('geotrav', 'debug', 'Résultat ' . $url . ' ' . print_r($jsondata, true));
 	} else {
 		$geoexpl = explode(',', $geoloc);
 		$jsondata['results'][0]['geometry']['location']['lat'] = $geoexpl[0];
@@ -235,8 +249,12 @@ public function updateGeocoding($address) {
 	}
 	$lang = explode('_',config::byKey('language'));
 	$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&language=' . $lang[0] . '&key=' . trim(config::byKey('keyGMG', 'geotrav'));
-	$request_http = new com_http($url);
-	$data = $request_http->exec(30);
+  $request_http = new com_http($url);
+  $request_http->setNoReportError(true);
+  $data = $request_http->exec(8);
+  if ($data == '') {
+    return;
+  }
 	if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
 		log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 	}
@@ -278,8 +296,12 @@ public function updateLocationGoogle($jsondata) {
 
 public function getElevation($_coordinate) {
 	$url = 'https://maps.googleapis.com/maps/api/elevation/json?&key=' . trim(config::byKey('keyGMG', 'geotrav')) . '&locations=' . $_coordinate;
-	$request_http = new com_http($url);
-	$data = $request_http->exec(30);
+  $request_http = new com_http($url);
+  $request_http->setNoReportError(true);
+  $data = $request_http->exec(8);
+  if ($data == '') {
+    return;
+  }
 	if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
 		log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 	}
@@ -478,7 +500,7 @@ public static function google_connect() {
 	self::google_logout();
 	$data = array();
 	/*************************STAGE 1*******************************/
-	log::add('geotrav', 'debug', __('Stage 1 : Connection à google', __FILE__));
+	log::add('geotrav', 'debug', __('Stage 1 : Connection Ã  google', __FILE__));
 	$ch = curl_init('https://accounts.google.com/ServiceLogin?rip=1&nojavascript=1');
 	curl_setopt($ch, CURLOPT_COOKIEJAR, jeedom::getTmpFolder('geotrav') . '/cookies.txt');
 	curl_setopt($ch, CURLOPT_COOKIEFILE, jeedom::getTmpFolder('geotrav') . '/cookies.txt');
@@ -487,7 +509,7 @@ public static function google_connect() {
 	curl_setopt($ch, CURLOPT_HEADER, 1);
 	$response = curl_exec($ch);
 	$info = curl_getinfo($ch);
-	log::add('geotrav', 'debug', __('Stage 1 : Connection réussie, reponse : ', __FILE__) . $info['http_code']);
+	log::add('geotrav', 'debug', __('Stage 1 : Connection réussie, réponse : ', __FILE__) . $info['http_code']);
 	if (!empty($info['http_code']) && $info['http_code'] == 302) {
 		return true;
 	}
@@ -537,7 +559,7 @@ public static function google_connect() {
 	));
 	$response = curl_exec($ch);
 	$info = curl_getinfo($ch);
-	log::add('geotrav', 'debug', __('Stage 2 : Connection réussie, reponse : ', __FILE__) . $info['http_code']);
+	log::add('geotrav', 'debug', __('Stage 2 : Connection réussie, réponse : ', __FILE__) . $info['http_code']);
 	if (empty($info['http_code']) || $info['http_code'] != 200) {
 		throw new Exception(__('Erreur stage 2 : code retour invalide : ', __FILE__) . $info['http_code']);
 	}
@@ -585,7 +607,7 @@ public static function google_connect() {
 		'rip' => '1',
 		'ProfileInformation' => $data['ProfileInformation'],
 		'SessionState' => $data['SessionState'],
-		'_utf8' => '☃',
+		'_utf8' => 'â˜ƒ',
 		'bgresponse' => 'js_disabled',
 		'checkConnection' => '',
 		'Email' => config::byKey('google_user', 'geotrav'),
@@ -666,15 +688,24 @@ public function refreshTravel($param = 'none') {
 	$this->checkAndUpdateCmd('travel:optionsURL', $optionsURL);
 	log::add('geotrav','debug','Option URL : ' . $optionsURL);
 
-	$request_http = new com_http($url);
-	$data = $request_http->exec(30);
+  $request_http = new com_http($url);
+  $request_http->setNoReportError(true);
+  $data = $request_http->exec(8);
+  if ($data == '') {
+    return;
+  }
+
 	//$data = file_get_contents($url);
 	if (!is_string($data) || !is_array(json_decode($data, true)) || (json_last_error() !== JSON_ERROR_NONE)) {
 		log::add('geotrav', 'debug', 'Erreur sur la récupération API ' . $url);
 	}
 	$jsondata = json_decode($data, true);
-	$request_http = new com_http($url2);
-	$data = $request_http->exec(30);
+  $request_http = new com_http($url2);
+  $request_http->setNoReportError(true);
+  $data = $request_http->exec(8);
+  if ($data == '') {
+    return;
+  }
 	//$data = file_get_contents($url2);
 	$jsondata2 = json_decode($data, true);
 	log::add('geotrav', 'debug', 'Travel ' . $url);
@@ -763,9 +794,12 @@ public function refreshStation($param = 'none') {
 				$urldepart .= $key . '=' . $value . '&';
 			}
 		}
-		$request_http = new com_http($urldepart);
-		$data = $request_http->exec(30);
-		//$data = file_get_contents($urldepart);
+    $request_http = new com_http($urldepart);
+    $request_http->setNoReportError(true);
+    $data = $request_http->exec(8);
+    if ($data == '') {
+      return;
+    }
 		$jsondata = json_decode($data, true);
 		log::add('geotrav', 'debug', 'Station:Départs ' . $urldepart . print_r($jsondata, true));
 		if (isset($jsondata['departures'][0])) {
@@ -806,8 +840,12 @@ public function refreshStation($param = 'none') {
 				$urldepart .= $key . '=' . $value . '&';
 			}
 		}
-		$request_http = new com_http($urldepart);
-		$data = $request_http->exec(30);
+    $request_http = new com_http($urldepart);
+    $request_http->setNoReportError(true);
+    $data = $request_http->exec(8);
+    if ($data == '') {
+      return;
+    }
 		//$data = file_get_contents($urldepart);
 		$jsondata = json_decode($data, true);
 		log::add('geotrav', 'debug', 'Station:Arrivées ' . $urldepart . print_r($jsondata, true));
@@ -949,6 +987,10 @@ class geotravCmd extends cmd {
 			case 'station:refreshOptions':
 			$eqLogic->refreshStation($_options['message']);
 			break;
+			case 'location:refreshiCloud':
+			$eqLogic->refreshICloud(true);
+			break;
+      
 		}
 	}
 }
