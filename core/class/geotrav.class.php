@@ -773,7 +773,7 @@ public function refreshStation($param = 'none') {
 	}
 	// code ligne exemple /lines/line:OST:E-1239
 	if ($this->getConfiguration('codeLigne') != '') {
-		$loc .= '/lines/line:'.$this->getConfiguration('codeLigne');
+		$loc .= '/lines/'.$this->getConfiguration('codeLigne');
 	}
 	
 	
