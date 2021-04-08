@@ -771,6 +771,12 @@ public function refreshStation($param = 'none') {
 	if ($param != 'none') {
 		$options = arg2array($param);
 	}
+	// code ligne exemple /lines/line:OST:E-1239
+	if ($this->getConfiguration('codeLigne') != '') {
+		$loc .= '/lines/line:'.getConfiguration('codeLigne');
+	}
+	
+	
 	//log::add('geotrav', 'debug', 'Station:Options ' . print_r($options));
 	$url = 'https://' . trim(config::byKey('keyNavitia', 'geotrav')) . '@api.navitia.io/v1/coverage/' . $loc;
 
