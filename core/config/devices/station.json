@@ -40,6 +40,18 @@
             "logicalId": "station:1direction"
         },
         {
+            "name": "Départ 1 Code Ligne",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:1lineCode"
+        },
+        {
             "name": "Départ 1 heure",
             "type": "info",
             "subtype": "numeric",
@@ -124,6 +136,18 @@
             "logicalId": "station:2stop"
         },
         {
+            "name": "Départ 2 Code Ligne",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:2lineCode"
+        },        
+        {
             "name": "Arrivée 1 direction",
             "type": "info",
             "subtype": "string",
@@ -172,6 +196,18 @@
             "logicalId": "station:arrival1stop"
         },
         {
+            "name": "Arrivée 1 Code Ligne",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:arrival1lineCode"
+        },      
+        {
             "name": "Arrivée 2 direction",
             "type": "info",
             "subtype": "string",
@@ -218,6 +254,18 @@
 				"type": "station"
             },
             "logicalId": "station:arrival2stop"
-        }
+        },
+        {
+            "name": "Arrivée 2 Code Ligne",
+            "type": "info",
+            "subtype": "string",
+            "display": {
+				"generic_type": "DONT"
+            },
+            "configuration": {
+				"type": "station"
+            },
+            "logicalId": "station:arrival2lineCode"
+        }        
     ]
 }
