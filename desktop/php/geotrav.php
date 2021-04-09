@@ -373,9 +373,9 @@ $eqLogics = eqLogic::byType('geotrav');
 										</select>
 									</div>
 								</div>
-								<div class="form-group">
+								<div class="form-group" class="tooltipsered">
 									<label class="col-sm-2 control-label">{{Code ligne}}</label>
-									<div class="tooltipsered" class="col-sm-3">
+									<div  class="col-sm-3">
 										<input title="{{voir code ligne transport dans les commandes - exemple: line:OST:139}}" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="codeLigne" type="text" placeholder="{{Non obligatoire}}">
 				  				</div>
 								</div>								
