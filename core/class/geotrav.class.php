@@ -412,7 +412,7 @@ public static function getDevicesListIos($_id, $_username, $_password) {
 	return $devicelist;
 }
 
-public function refreshGoogle($_force = false) {
+public static function refreshGoogle($_force = false) {
 	if (config::byKey('google_user', 'geotrav', '') == '' || config::byKey('google_password', 'geotrav', '') == '') {
 		return;
 	}
