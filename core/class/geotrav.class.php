@@ -33,7 +33,7 @@ class geotrav extends eqLogic {
 		}
 		geotrav::refreshGoogle();
 	}
-	
+
 	public static function cron15() {
 		foreach (eqLogic::byType('geotrav', true) as $location) {
 			$location->refresh();
@@ -73,7 +73,7 @@ class geotrav extends eqLogic {
 	}
 
 	public function refresh($_force = false) {
-   
+
 		switch ($this->getConfiguration('type')) {
 			case 'station':
 			$this->refreshStation();
@@ -775,8 +775,8 @@ public function refreshStation($param = 'none') {
 	if ($this->getConfiguration('codeLigne') != '') {
 		$loc .= '/lines/'.$this->getConfiguration('codeLigne');
 	}
-	
-	
+
+
 	//log::add('geotrav', 'debug', 'Station:Options ' . print_r($options));
 	$url = 'https://' . trim(config::byKey('keyNavitia', 'geotrav')) . '@api.navitia.io/v1/coverage/' . $loc;
 
@@ -813,14 +813,14 @@ public function refreshStation($param = 'none') {
 			$this->checkAndUpdateCmd('station:1time', substr($jsondata['departures'][0]['stop_date_time']['departure_date_time'], 9, 4));
 			$this->checkAndUpdateCmd('station:1line', $jsondata['departures'][0]['display_informations']['code']);
 			$this->checkAndUpdateCmd('station:1stop', $jsondata['departures'][0]['stop_point']['name']);
-			$this->checkAndUpdateCmd('station:1lineCode', $jsondata['departures'][0]['route']['line']['id']);   			
+			$this->checkAndUpdateCmd('station:1lineCode', $jsondata['departures'][0]['route']['line']['id']);
 		}
 		if (isset($jsondata['departures'][1])) {
 			$this->checkAndUpdateCmd('station:2direction', $jsondata['departures'][1]['display_informations']['direction']);
 			$this->checkAndUpdateCmd('station:2time', substr($jsondata['departures'][1]['stop_date_time']['departure_date_time'], 9, 4));
 			$this->checkAndUpdateCmd('station:2line', $jsondata['departures'][1]['display_informations']['code']);
 			$this->checkAndUpdateCmd('station:2stop', $jsondata['departures'][1]['stop_point']['name']);
-			$this->checkAndUpdateCmd('station:2lineCode', $jsondata['departures'][1]['route']['line']['id']);    			
+			$this->checkAndUpdateCmd('station:2lineCode', $jsondata['departures'][1]['route']['line']['id']);
 		}
 		if ($this->getConfiguration('hideArrivee')) {
 			if (isset($jsondata['departures'][2])) {
@@ -828,14 +828,14 @@ public function refreshStation($param = 'none') {
 				$this->checkAndUpdateCmd('station:arrival1time', substr($jsondata['departures'][2]['stop_date_time']['departure_date_time'], 9, 4));
 				$this->checkAndUpdateCmd('station:arrival1line', $jsondata['departures'][2]['display_informations']['code']);
 				$this->checkAndUpdateCmd('station:arrival1stop', $jsondata['departures'][2]['stop_point']['name']);
-				$this->checkAndUpdateCmd('station:arrival1lineCode', $jsondata['departures'][2]['route']['line']['id']);       				
+				$this->checkAndUpdateCmd('station:arrival1lineCode', $jsondata['departures'][2]['route']['line']['id']);
 			}
 			if (isset($jsondata['departures'][3])) {
 				$this->checkAndUpdateCmd('station:arrival2direction', $jsondata['departures'][3]['display_informations']['direction']);
 				$this->checkAndUpdateCmd('station:arrival2time', substr($jsondata['departures'][3]['stop_date_time']['departure_date_time'], 9, 4));
 				$this->checkAndUpdateCmd('station:arrival2line', $jsondata['departures'][3]['display_informations']['code']);
 				$this->checkAndUpdateCmd('station:arrival2stop', $jsondata['departures'][3]['stop_point']['name']);
-				$this->checkAndUpdateCmd('station:arrival2lineCode', $jsondata['departures'][3]['route']['line']['id']);   				
+				$this->checkAndUpdateCmd('station:arrival2lineCode', $jsondata['departures'][3]['route']['line']['id']);
 			}
 		}
 	}
@@ -864,14 +864,14 @@ public function refreshStation($param = 'none') {
 			$this->checkAndUpdateCmd('station:arrival1time', substr($jsondata['arrivals'][0]['stop_date_time']['departure_date_time'], 9, 4));
 			$this->checkAndUpdateCmd('station:arrival1line', $jsondata['arrivals'][0]['display_informations']['code']);
 			$this->checkAndUpdateCmd('station:arrival1stop', $jsondata['arrivals'][0]['stop_point']['name']);
-            		$this->checkAndUpdateCmd('station:arrival1lineCode', $jsondata['arrivals'][0]['route']['line']['id']);           					
+            		$this->checkAndUpdateCmd('station:arrival1lineCode', $jsondata['arrivals'][0]['route']['line']['id']);
 		}
 		if (isset($jsondata['arrivals'][1])) {
 			$this->checkAndUpdateCmd('station:arrival2direction', $jsondata['arrivals'][1]['display_informations']['direction']);
 			$this->checkAndUpdateCmd('station:arrival2time', substr($jsondata['arrivals'][1]['stop_date_time']['departure_date_time'], 9, 4));
 			$this->checkAndUpdateCmd('station:arrival2line', $jsondata['arrivals'][1]['display_informations']['code']);
 			$this->checkAndUpdateCmd('station:arrival2stop', $jsondata['arrivals'][1]['stop_point']['name']);
-			$this->checkAndUpdateCmd('station:arrival2lineCode', $jsondata['arrivals'][1]['route']['line']['id']);      			
+			$this->checkAndUpdateCmd('station:arrival2lineCode', $jsondata['arrivals'][1]['route']['line']['id']);
 		}
 		if ($this->getConfiguration('hideDepart')) {
 			if (isset($jsondata['arrivals'][2])) {
@@ -879,14 +879,14 @@ public function refreshStation($param = 'none') {
 				$this->checkAndUpdateCmd('station:1time', substr($jsondata['arrivals'][2]['stop_date_time']['departure_date_time'], 9, 4));
 				$this->checkAndUpdateCmd('station:1line', $jsondata['arrivals'][2]['display_informations']['code']);
 				$this->checkAndUpdateCmd('station:1stop', $jsondata['arrivals'][2]['stop_point']['name']);
-				$this->checkAndUpdateCmd('station:1lineCode', $jsondata['arrivals'][2]['route']['line']['id']);         				
+				$this->checkAndUpdateCmd('station:1lineCode', $jsondata['arrivals'][2]['route']['line']['id']);
 			}
 			if (isset($jsondata['arrivals'][3])) {
 				$this->checkAndUpdateCmd('station:2direction', $jsondata['arrivals'][3]['display_informations']['direction']);
 				$this->checkAndUpdateCmd('station:2time', substr($jsondata['arrivals'][3]['stop_date_time']['departure_date_time'], 9, 4));
 				$this->checkAndUpdateCmd('station:2line', $jsondata['arrivals'][3]['display_informations']['code']);
 				$this->checkAndUpdateCmd('station:2stop', $jsondata['arrivals'][3]['stop_point']['name']);
-				$this->checkAndUpdateCmd('station:2lineCode', $jsondata['arrivals'][3]['route']['line']['id']);				
+				$this->checkAndUpdateCmd('station:2lineCode', $jsondata['arrivals'][3]['route']['line']['id']);
 			}
 		}
 	}
@@ -1004,8 +1004,7 @@ class geotravCmd extends cmd {
 			case 'location:refreshiCloud':
 			$eqLogic->refreshICloud(true);
 			break;
-      
+
 		}
 	}
 }
-?>

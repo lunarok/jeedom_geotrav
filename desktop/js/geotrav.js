@@ -15,12 +15,12 @@
 * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
 */
 $('#cmdgeoloc').on('click', function () {
-  jeedom.cmd.getSelectModal({cmd: {type: 'info', subType: 'string'}}, function (result) {
+  jeedom.cmd.getSelectModal({ cmd: { type: 'info', subType: 'string' } }, function (result) {
     $('.eqLogicAttr[data-l2key=cmdgeoloc]').value(result.human);
   });
 });
 
-$("#butCol").click(function(){
+$("#butCol").click(function () {
   $("#hidCol").toggle("slow");
   document.getElementById("listCol").classList.toggle('col-lg-12');
   document.getElementById("listCol").classList.toggle('col-lg-10');
@@ -29,7 +29,7 @@ $("#butCol").click(function(){
 $(".li_eqLogic").on('click', function (event) {
   if (event.ctrlKey) {
     var type = $('body').attr('data-page')
-    var url = '/index.php?v=d&m='+type+'&p='+type+'&id='+$(this).attr('data-eqlogic_id')
+    var url = '/index.php?v=d&m=' + type + '&p=' + type + '&id=' + $(this).attr('data-eqlogic_id')
     window.open(url).focus()
   } else {
     jeedom.eqLogic.cache.getCmd = Array();
@@ -51,14 +51,14 @@ $(".li_eqLogic").on('click', function (event) {
     jeedom.eqLogic.print({
       type: isset($(this).attr('data-eqLogic_type')) ? $(this).attr('data-eqLogic_type') : eqType,
       id: $(this).attr('data-eqLogic_id'),
-      status : 1,
+      status: 1,
       error: function (error) {
         $.hideLoading();
-        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+        $('#div_alert').showAlert({ message: error.message, level: 'danger' });
       },
       success: function (data) {
         $('body .eqLogicAttr').value('');
-        if(isset(data) && isset(data.timeout) && data.timeout == 0){
+        if (isset(data) && isset(data.timeout) && data.timeout == 0) {
           data.timeout = '';
         }
         $('body').setValues(data, '.eqLogicAttr');
@@ -78,19 +78,19 @@ $(".li_eqLogic").on('click', function (event) {
         $('body').delegate('.cmd .cmdAttr[data-l1key=subType]', 'change', function () {
           jeedom.cmd.changeSubType($(this).closest('.cmd'));
         });
-        addOrUpdateUrl('id',data.id);
+        addOrUpdateUrl('id', data.id);
         $.hideLoading();
         modifyWithoutSave = false;
-        setTimeout(function(){
+        setTimeout(function () {
           modifyWithoutSave = false;
-        },1000)
+        }, 1000)
       }
     });
   }
   return false;
 });
 
-$('#typeLoc').change(function(){
+$('#typeLoc').change(function () {
   var text = $("#typeLoc").val();
   if (text == 'coordinate') {
     $('#coordinate').show();
@@ -134,7 +134,7 @@ $('#typeLoc').change(function(){
   }
 });
 
-$( "#typeEq" ).change(function(){
+$("#typeEq").change(function () {
   if ($('#typeEq').value() == 'location') {
     $('#location').show();
     $('#geofence').hide();
@@ -190,49 +190,49 @@ $( "#typeEq" ).change(function(){
   }
 });
 
-$("#searchDevices").on('click', function(event) {
-  searchDevices($(this).attr('data-eqLogic_id'),$('#username_icloud').val(),$('#password_icloud').val());
+$("#searchDevices").on('click', function (event) {
+  searchDevices($(this).attr('data-eqLogic_id'), $('#username_icloud').val(), $('#password_icloud').val());
   return false;
 });
-$("#sel_device").on('change', function() {
+$("#sel_device").on('change', function () {
   $("#device").val(this.value);
   return false;
 });
 
-function searchDevices(_geoloc_iosEq_id,username,password) {
+function searchDevices(_geoloc_iosEq_id, username, password) {
   $.ajax({// fonction permettant de faire de l'ajax
-  type: "POST", // methode de transmission des données au fichier php
-  url: "plugins/geotrav/core/ajax/geotrav.ajax.php", // url du fichier php
-  data: {
-    action: "getDevicesListIos",
-    username: username,
-    password: password
-  },
-  dataType: 'json',
-  error: function(request, status, error) {
-    handleAjaxError(request, status, error);
-  },
-  success: function(data) { // si l'appel a bien fonctionné
-  if (data.state != 'ok') {
-    $('#div_alert').showAlert({message:  data.result,level: 'danger'});
-    return;
-  }
-  $('#sel_device').empty();
-  for (var i in data.result.cmd.devices) {
-    $('#sel_device').prop('disabled', false);
-    $('#sel_device').append(new Option(data.result.cmd.devices[i].name,data.result.cmd.devices[i].id));
-    if($('#device').val() ==""){
-      $('#device').val(data.result.cmd.devices[i].id);
-    }
-  }
+    type: "POST", // methode de transmission des données au fichier php
+    url: "plugins/geotrav/core/ajax/geotrav.ajax.php", // url du fichier php
+    data: {
+      action: "getDevicesListIos",
+      username: username,
+      password: password
+    },
+    dataType: 'json',
+    error: function (request, status, error) {
+      handleAjaxError(request, status, error);
+    },
+    success: function (data) { // si l'appel a bien fonctionné
+      if (data.state != 'ok') {
+        $('#div_alert').showAlert({ message: data.result, level: 'danger' });
+        return;
+      }
+      $('#sel_device').empty();
+      for (var i in data.result.cmd.devices) {
+        $('#sel_device').prop('disabled', false);
+        $('#sel_device').append(new Option(data.result.cmd.devices[i].name, data.result.cmd.devices[i].id));
+        if ($('#device').val() == "") {
+          $('#device').val(data.result.cmd.devices[i].id);
+        }
+      }
 
-}
-});
+    }
+  });
 }
 
 function addCmdToTable(_cmd) {
   if (!isset(_cmd)) {
-    var _cmd = {configuration: {}};
+    var _cmd = { configuration: {} };
   }
 
   var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
