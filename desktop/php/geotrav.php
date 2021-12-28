@@ -23,73 +23,50 @@ $eqLogics = eqLogic::byType('geotrav');
 
 		<legend><i class="fas fa-cog"></i> {{Gestion}}</legend>
 		<div class="eqLogicThumbnailContainer">
-			<div class="cursor eqLogicAction" data-action="add">
+			<div class="cursor eqLogicAction logoSecondary" data-action="add">
 				<i class="fas fa-plus-circle"></i>
 				<br />
 				<span>{{Ajouter}}</span>
 			</div>
-		</div>
-
-		<div class="cursor eqLogicAction" data-action="gotoPluginConf">
-			<i class="fas fa-wrench"></i>
-			<br />
-			<span>{{Configuration}}</span>
-		</div> <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
-
-
-		<legend><i class="fas fa-cog"></i> {{Gestion}}</legend>
-		<div class="eqLogicThumbnailContainer">
-			<div class="cursor eqLogicAction" data-action="gotoPluginConf" style="background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-				<center>
-					<i class="fas fa-wrench" style="font-size : 6em;color:#767676;"></i>
-				</center>
-				<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#767676">
-					<center>{{Configuration}}</center>
-				</span>
+			<div class="cursor eqLogicAction logoSecondary" data-action="gotoPluginConf">
+				<i class="fas fa-wrench"></i>
+				<br />
+				<span>{{Configuration}}</span>
 			</div>
 		</div>
 
-		<legend><i class="fas fa-home" id="butCol"></i> {{Mes Equipements}}</legend>
-		<div class="eqLogicThumbnailContainer">
-			<div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-				<center>
-					<i class="fas fa-plus-circle" style="font-size : 7em;color:#00979c;"></i>
-				</center>
-				<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">
-					<center>Ajouter</center>
-				</span>
+		<legend><i class="fas fa-home" id="butCol"></i> {{Localisations}}</legend>
+		<div class="input-group" style="margin:5px;">
+			<input class="form-control roundedLeft" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
+			<div class="input-group-btn">
+				<a id="bt_resetSearch" class="btn" style="width:30px"><i class="fas fa-times"></i>
+				</a><a class="btn roundedRight hidden" id="bt_pluginDisplayAsTable" data-coreSupport="1" data-state="0"><i class="fas fa-grip-lines"></i></a>
 			</div>
+		</div>
+		<div class="eqLogicThumbnailContainer">
 			<?php
 			foreach ($eqLogics as $eqLogic) {
-				$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
-				echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff ; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
-				echo "<center>";
-				echo '<img src="plugins/geotrav/plugin_info/geotrav_icon.png" height="105" width="95" />';
-				echo "</center>";
-				echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
-				echo '</div>';
+				if ($eqLogic->getConfiguration('type') == 'location') {
+					$opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
+					echo '<div class="eqLogicDisplayCard cursor ' . $opacity . '" data-eqLogic_id="' . $eqLogic->getId() . '">';
+					echo '<img src="' . $eqLogic->getImage() . '" style="max-height: 95px"/>';
+					echo "<br>";
+					echo '<span class="name">' . $eqLogic->getHumanName(true, true) . '</span>';
+					echo '</div>';
+				}
 			}
 			?>
 		</div>
 		<legend><i class="icon nature-planet5"></i> {{Trajets entre localisations}}</legend>
 		<div class="eqLogicThumbnailContainer">
-			<div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-				<center>
-					<i class="fas fa-plus-circle" style="font-size : 7em;color:#00979c;"></i>
-				</center>
-				<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">
-					<center>Ajouter</center>
-				</span>
-			</div>
 			<?php
 			foreach ($eqLogics as $eqLogic) {
 				if ($eqLogic->getConfiguration('type') == 'travel') {
-					$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
-					echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff ; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
-					echo "<center>";
-					echo '<img src="plugins/geotrav/plugin_info/geotrav_travel.png" height="105" width="95" />';
-					echo "</center>";
-					echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
+					$opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
+					echo '<div class="eqLogicDisplayCard cursor ' . $opacity . '" data-eqLogic_id="' . $eqLogic->getId() . '">';
+					echo '<img src="' . $eqLogic->getImage() . '" style="max-height: 95px"/>';
+					echo "<br>";
+					echo '<span class="name">' . $eqLogic->getHumanName(true, true) . '</span>';
 					echo '</div>';
 				}
 			}
@@ -97,23 +74,14 @@ $eqLogics = eqLogic::byType('geotrav');
 		</div>
 		<legend><i class="icon nature-planet5"></i> {{Geofence - distance entre localisations}}</legend>
 		<div class="eqLogicThumbnailContainer">
-			<div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-				<center>
-					<i class="fas fa-plus-circle" style="font-size : 7em;color:#00979c;"></i>
-				</center>
-				<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">
-					<center>Ajouter</center>
-				</span>
-			</div>
 			<?php
 			foreach ($eqLogics as $eqLogic) {
 				if ($eqLogic->getConfiguration('type') == 'geofence') {
-					$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
-					echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff ; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
-					echo "<center>";
-					echo '<img src="plugins/geotrav/plugin_info/geotrav_geofence.png" height="105" width="95" />';
-					echo "</center>";
-					echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
+					$opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
+					echo '<div class="eqLogicDisplayCard cursor ' . $opacity . '" data-eqLogic_id="' . $eqLogic->getId() . '">';
+					echo '<img src="' . $eqLogic->getImage() . '" style="max-height: 95px"/>';
+					echo "<br>";
+					echo '<span class="name">' . $eqLogic->getHumanName(true, true) . '</span>';
 					echo '</div>';
 				}
 			}
@@ -121,23 +89,14 @@ $eqLogics = eqLogic::byType('geotrav');
 		</div>
 		<legend><i class="icon nature-planet5"></i> {{Arrêts de transport en commun}}</legend>
 		<div class="eqLogicThumbnailContainer">
-			<div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-				<center>
-					<i class="fas fa-plus-circle" style="font-size : 7em;color:#00979c;"></i>
-				</center>
-				<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">
-					<center>Ajouter</center>
-				</span>
-			</div>
 			<?php
 			foreach ($eqLogics as $eqLogic) {
 				if ($eqLogic->getConfiguration('type') == 'station') {
-					$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
-					echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff ; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
-					echo "<center>";
-					echo '<img src="plugins/geotrav/plugin_info/geotrav_station.png" height="105" width="95" />';
-					echo "</center>";
-					echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
+					$opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
+					echo '<div class="eqLogicDisplayCard cursor ' . $opacity . '" data-eqLogic_id="' . $eqLogic->getId() . '">';
+					echo '<img src="' . $eqLogic->getImage() . '" style="max-height: 95px"/>';
+					echo "<br>";
+					echo '<span class="name">' . $eqLogic->getHumanName(true, true) . '</span>';
 					echo '</div>';
 				}
 			}
@@ -145,23 +104,14 @@ $eqLogics = eqLogic::byType('geotrav');
 		</div>
 		<legend><i class="icon nature-planet5"></i> {{Devices iCloud}}</legend>
 		<div class="eqLogicThumbnailContainer">
-			<div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-				<center>
-					<i class="fas fa-plus-circle" style="font-size : 7em;color:#00979c;"></i>
-				</center>
-				<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;">
-					<center>Ajouter</center>
-				</span>
-			</div>
 			<?php
 			foreach ($eqLogics as $eqLogic) {
 				if ($eqLogic->getConfiguration('type') == 'iCloud') {
-					$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
-					echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff ; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
-					echo "<center>";
-					echo '<img src="plugins/geotrav/plugin_info/geotrav_icloud.png" height="105" width="95" />';
-					echo "</center>";
-					echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
+					$opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
+					echo '<div class="eqLogicDisplayCard cursor ' . $opacity . '" data-eqLogic_id="' . $eqLogic->getId() . '">';
+					echo '<img src="' . $eqLogic->getImage() . '" style="max-height: 95px"/>';
+					echo "<br>";
+					echo '<span class="name">' . $eqLogic->getHumanName(true, true) . '</span>';
 					echo '</div>';
 				}
 			}
@@ -169,16 +119,21 @@ $eqLogics = eqLogic::byType('geotrav');
 		</div>
 	</div>
 
-	<div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
-		<a class="btn btn-success eqLogicAction pull-right" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</a>
-		<a class="btn btn-danger eqLogicAction pull-right" data-action="remove"><i class="fas fa-minus-circle"></i> {{Supprimer}}</a>
-		<a class="btn btn-default eqLogicAction pull-right" data-action="configure"><i class="fas fa-cogs"></i> {{Configuration avancée}}</a>
+	<div class="col-xs-12 eqLogic" style="display: none;">
+		<div class="input-group pull-right" style="display:inline-flex">
+			<span class="input-group-btn">
+				<a class="btn btn-sm btn-default eqLogicAction roundedLeft" data-action="configure"><i class="fas fa-cogs"></i><span class="hidden-xs"> {{Configuration avancée}}</span>
+				</a><a class="btn btn-sm btn-default eqLogicAction" data-action="copy"><i class="fas fa-copy"></i><span class="hidden-xs"> {{Dupliquer}}</span>
+				</a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}
+				</a><a class="btn btn-sm btn-danger eqLogicAction roundedRight" data-action="remove"><i class="fas fa-minus-circle"></i><span class="hidden-xs"> {{Supprimer}}</span>
+				</a>
+			</span>
+		</div>
 		<ul class="nav nav-tabs" role="tablist">
 			<li role="presentation"><a href="#" class="eqLogicAction" aria-controls="home" role="tab" data-toggle="tab" data-action="returnToThumbnailDisplay"><i class="fas fa-arrow-circle-left"></i></a></li>
 			<li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fas fa-tachometer-alt"></i> {{Equipement}}</a></li>
 			<li role="presentation"><a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fas fa-list-alt"></i> {{Commandes}}</a></li>
 		</ul>
-
 
 		<div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
 			<div role="tabpanel" class="tab-pane active" id="eqlogictab">
@@ -198,9 +153,11 @@ $eqLogics = eqLogic::byType('geotrav');
 								<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
 									<option value="">{{Aucun}}</option>
 									<?php
-									foreach (jeeObject::all() as $object) {
-										echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
+									$options = '';
+									foreach ((jeeObject::buildTree(null, false)) as $object) {
+										$options .= '<option value="' . $object->getId() . '">' . str_repeat('&nbsp;&nbsp;', $object->getConfiguration('parentNumber')) . $object->getName() . '</option>';
 									}
+									echo $options;
 									?>
 								</select>
 							</div>
@@ -488,21 +445,21 @@ $eqLogics = eqLogic::byType('geotrav');
 			</div>
 
 			<div role="tabpanel" class="tab-pane" id="commandtab">
-				<br />
-				<table id="table_cmd" class="table table-bordered table-condensed">
-					<thead>
-						<tr>
-							<th style="width: 50px;">#</th>
-							<th style="width: 200px;">{{Nom}}</th>
-							<th style="width: 200px;">{{Type}}</th>
-							<th style="width: 100px;">{{Paramètres}}</th>
-							<th style="width: 150px;"></th>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
-
+				<div class="table-responsive">
+					<table id="table_cmd" class="table table-bordered table-condensed">
+						<thead>
+							<tr>
+								<th style="width: 50px;">ID</th>
+								<th>{{Nom}}</th>
+								<th style="width: 200px;">{{Type}}</th>
+								<th style="width: 100px;">{{Paramètres}}</th>
+								<th style="width: 150px;">{{Actions}}</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
